@@ -1,0 +1,84 @@
+{
+    "users": [
+        {
+            "id": "FRM71605",
+            "mobile": "9219127363",
+            "fullName": "Abhay sharma",
+            "email": "abhaysharma797979@gmail.com",
+            "dob": "2026-09-03",
+            "gender": "Male",
+            "maritalStatus": "Single",
+            "address": {
+                "houseNo": "34",
+                "street": "nagra",
+                "pincode": "226031",
+                "state": "Uttar Pradesh",
+                "district": "Ballia",
+                "tehsil": "rasra",
+                "village": "tiyara"
+            },
+            "bankDetails": {
+                "bankName": "SBI",
+                "accountNumber": "2345685475",
+                "ifscCode": "wercvxfcg3456",
+                "accountHolder": "abhay sharma"
+            },
+            "registrationDate": "2026-09-09T07:59:41.569Z",
+            "crops": [
+                "Wheat",
+                "Rice",
+                "Mustard"
+            ]
+        },
+        {
+            "id": "FRM17625",
+            "mobile": "9839400427",
+            "fullName": "vinod sharma",
+            "email": "vks51002@gmail.com",
+            "dob": "2026-10-02",
+            "gender": "Male",
+            "maritalStatus": "Married",
+            "address": {
+                "houseNo": "34",
+                "street": "nagra",
+                "pincode": "223445",
+                "state": "Bihar",
+                "district": "Chhapra",
+                "tehsil": "rasra",
+                "village": "tiyara"
+            },
+            "bankDetails": {
+                "bankName": "HDFC",
+                "accountNumber": "5432543543543",
+                "ifscCode": "wercvxfcg3456",
+                "accountHolder": "vinod sharma"
+            },
+            "registrationDate": "2026-09-09T08:07:41.398Z"
+        },
+        {
+            "id": "FRM79266",
+            "mobile": "8423587124",
+            "fullName": "Ajay sharma",
+            "email": "abhaysharma797979@gmail.com",
+            "dob": "2026-09-03",
+            "gender": "Male",
+            "maritalStatus": "Single",
+            "address": {
+                "houseNo": "34",
+                "street": "nagra",
+                "pincode": "226031",
+                "state": "Bihar",
+                "district": "Chhapra",
+                "tehsil": "rasra",
+                "village": "tiyara"
+            },
+            "bankDetails": {
+                "bankName": "SBI",
+                "accountNumber": "86736677776747",
+                "ifscCode": "wercvxfcg3456",
+                "accountHolder": "ajay sharma"
+            },
+            "registrationDate": "2026-09-15T06:19:22.497Z"
+        }
+    ]
+}
