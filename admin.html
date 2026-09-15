@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - KisanQueue</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223' } }
+            }
+        }
+    </script>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- Admin Header -->
+    <header class="bg-gray-900 text-white h-16 flex justify-between items-center px-8 shadow-md">
+        <div class="flex items-center space-x-3">
+            <div class="bg-orange-500 text-white p-2 rounded-lg text-sm"><i class="fa-solid fa-user-shield"></i></div>
+            <h1 class="text-xl font-bold tracking-wide">Agrovision <span class="text-gray-400 font-normal text-sm">|
+                    Admin Panel</span></h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-300">Welcome, Boss</span>
+            <button onclick="logout()"
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-md text-sm font-medium transition">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-8">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Page Top -->
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Registered Farmers</h2>
+                    <p class="text-sm text-gray-500 mt-1">Manage all user data and accounts from here.</p>
+                </div>
+                <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200">
+                    <span class="text-sm text-gray-500 font-medium">Total Users: </span>
+                    <span id="totalUsers" class="text-lg font-bold text-primary">0</span>
+                </div>
+            </div>
+
+            <!-- Data Table Card -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr
+                                class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-wider text-gray-500">
+                                <th class="px-6 py-4 font-semibold">Farmer ID</th>
+                                <th class="px-6 py-4 font-semibold">Full Name</th>
+                                <th class="px-6 py-4 font-semibold">Mobile Number</th>
+                                <th class="px-6 py-4 font-semibold">Location (District)</th>
+                                <th class="px-6 py-4 font-semibold">Bank Name</th>
+                                <th class="px-6 py-4 font-semibold text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTableBody" class="divide-y divide-gray-100">
+                            <!-- Rows will be injected by JavaScript -->
+                            <tr>
+                                <td colspan="6" class="px-6 py-10 text-center text-gray-500">
+                                    <i class="fa-solid fa-spinner fa-spin text-2xl mb-2 text-primary"></i>
+                                    <p>Loading users...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Page load hote hi data fetch karna
+        window.onload = function () {
+            fetchUsers();
+        };
+
+        // Backend se saare users ka data mangwana
+        async function fetchUsers() {
+            const tableBody = document.getElementById('userTableBody');
+
+            try {
+                const response = await fetch('http://127.0.0.1:5001/api/admin/users');
+                const data = await response.json();
+
+                if (response.ok) {
+                    const users = data.users;
+                    document.getElementById('totalUsers').innerText = users.length;
+
+                    if (users.length === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center text-gray-500">No farmers registered yet.</td></tr>`;
+                        return;
+                    }
+
+                    // Table mein data render karna
+                    let rowsHtml = '';
+                    users.forEach(user => {
+                        rowsHtml += `
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900">${user.id}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700 font-semibold">${user.fullName}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">+91 ${user.mobile}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">${user.address ? user.address.district : 'N/A'}, ${user.address ? user.address.state : ''}</td>
+                                <td class="px-6 py-4 text-sm text-gray-600">
+                                    <span class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs border border-blue-100">
+                                        ${user.bankDetails ? user.bankDetails.bankName : 'N/A'}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-center">
+                                    <button onclick="deleteUser('${user.id}', '${user.fullName}')" class="text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-md text-xs font-semibold transition border border-red-100">
+                                        <i class="fa-solid fa-trash-can mr-1"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    tableBody.innerHTML = rowsHtml;
+                } else {
+                    tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center text-red-500">Failed to load data.</td></tr>`;
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-10 text-center text-red-500">Backend is not running. Start node server.js!</td></tr>`;
+            }
+        }
+
+        // Kisi specific user ko delete karna
+        async function deleteUser(userId, userName) {
+            // Confirmation alert
+            if (!confirm(`Are you sure you want to completely delete "${userName}" (ID: ${userId}) from the database?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5001/api/admin/users/${userId}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert(`✅ ${userName} has been removed successfully.`);
+                    fetchUsers(); // Table ko wapas refresh (reload) karo
+                } else {
+                    alert("❌ Error: " + data.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to delete user. Server error.");
+            }
+        }
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

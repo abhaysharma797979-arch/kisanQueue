@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .progress-fill { position: relative; width: 40%; background-color: #22c55e; border-radius: 9999px; overflow: hidden; }
+        .progress-fill::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent); animation: sweep 1.5s infinite linear; }
+        @keyframes sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+        
+        .active-pulse-ring { position: absolute; inset: -4px; border-radius: 50%; background-color: rgba(15, 118, 52, 0.2); animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite; z-index: -1; }
+
+        /* 🌩️ WEATHER CARD 3D TILT & ANIMATIONS 🌩️ */
+        #weatherCard {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            will-change: transform;
+            perspective: 1000px;
+        }
+        .tilt-content {
+            transform: translateZ(30px);
+            transition: transform 0.3s ease;
+        }
+        #weatherCard:hover .tilt-content {
+            transform: translateZ(50px);
+        }
+
+        .rain-bg { background-image: repeating-linear-gradient(-15deg, transparent, transparent 10px, rgba(255,255,255,0.3) 10px, rgba(255,255,255,0.3) 11px); background-size: 20px 40px; animation: rainDrop 0.6s linear infinite; }
+        @keyframes rainDrop { 0% { background-position: 0px 0px; } 100% { background-position: -20px 40px; } }
+        
+        .wind-bg { background-image: repeating-linear-gradient(0deg, transparent, transparent 10px, rgba(168, 162, 158, 0.4) 10px, rgba(168, 162, 158, 0.4) 12px); background-size: 100% 20px; animation: windBlow 1.2s linear infinite; transform: skewX(-20deg) scale(1.5); }
+        @keyframes windBlow { 0% { background-position: 0px 0px; } 100% { background-position: -100px 0px; } }
+        
+        @keyframes floatCloud { 0% { transform: translateX(-50px); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(300px); opacity: 0; } }
+
+        /* 🌟 NEW: Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <a href="./index.html" class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span data-i18n="menu_dashboard" class="local-trans" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                </a>
+                <a href="./book%20new%20slot.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span data-i18n="menu_book_slot" class="local-trans" data-en="Book New Slot" data-hi="नया स्लॉट बुक करें">Book New Slot</span>
+                </a>
+                <a href="./my%20booking.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span data-i18n="menu_my_bookings" class="local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">My Bookings</span>
+                </a>
+                <a href="./my%20token.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span data-i18n="menu_my_token" class="local-trans" data-en="My Token" data-hi="मेरा टोकन">My Token</span>
+                </a>
+                <a href="./live%20queue.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span data-i18n="menu_live_queue" class="local-trans" data-en="Live Queue" data-hi="लाइव कतार">Live Queue</span>
+                </a>
+                <a href="./my%20payments.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span data-i18n="menu_payments" class="local-trans" data-en="My Payments" data-hi="मेरे भुगतान">My Payments</span>
+                </a>
+                <a href="./profile.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span data-i18n="menu_profile" class="local-trans" data-en="Profile" data-hi="प्रोफ़ाइल">Profile</span>
+                </a>
+                <a href="./support.html" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span data-i18n="menu_support" class="local-trans" data-en="Support" data-hi="सहायता">Support</span>
+                </a>
+                
+                <a href="javascript:void(0)" onclick="logout()" class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span data-i18n="menu_logout" class="local-trans" data-en="Logout" data-hi="लॉगआउट">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" alt="Support" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm local-trans" data-i18n="support_title" data-en="Need Help?" data-hi="सहायता चाहिए?">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3 local-trans" data-i18n="support_desc" data-en="Our support team is always with you." data-hi="हमारी सहायता टीम हमेशा आपके साथ है।">हमारी सहायता टीम हमेशा आपके साथ है।</p>
+                <button onclick="window.location.href='support.html'" class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span class="local-trans" data-i18n="support_btn" data-en="Contact Support" data-hi="सपोर्ट से संपर्क करें">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                
+                <!-- 🌟 LANGUAGE BUTTONS (Animated) -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+                
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop" class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-950">
+                        <span data-i18n="greeting" class="local-trans" data-en="Good Morning" data-hi="सुप्रभात">Good Morning</span>, <span id="welcomeName">Farmer</span>! 👋
+                    </h2>
+                    <p class="text-sm text-gray-600 mt-1 local-trans" data-i18n="sub_greeting" data-en="Welcome to KisanQueue. Book your slot and save your time." data-hi="किसान कतार में आपका स्वागत है। अपना स्लॉट बुक करें और समय बचाएं।">Welcome to KisanQueue. Book your slot and save your time.</p>
+                </div>
+                <div class="flex items-center bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm">
+                    <i class="fa-solid fa-location-dot text-primary mr-2"></i>
+                    <span class="text-sm text-gray-700 font-medium mr-4" id="displayLocation">Loading...</span>
+                    <a href="./profile.html" class="text-xs text-primary font-semibold hover:underline local-trans" data-i18n="change_center" data-en="Change Center" data-hi="केंद्र बदलें">Change Center</a>
+                </div>
+            </div>
+
+            <!-- Hero Banner -->
+            <div class="relative w-full rounded-2xl overflow-hidden shadow-sm bg-gray-900">
+                <img src="banner.png" alt="Banner Background" class="absolute inset-0 w-full h-full object-cover opacity-80" onerror="this.src='https://images.unsplash.com/photo-1595841696677-6489ff3f8cd1?q=80&w=1000&auto=format&fit=crop';">
+                <div class="absolute inset-0 bg-gradient-to-r from-[#eef7f1] via-[#eef7f1]/90 to-transparent"></div>
+                
+                <div class="relative z-10 p-8 md:p-10 flex flex-col h-full justify-between">
+                    <div>
+                        <div id="bannerStatusBox" class="inline-flex items-center bg-white rounded-full px-3 py-1 mb-4 shadow-sm border border-gray-100">
+                            <i id="bannerStatusIcon" class="fa-solid fa-circle-exclamation text-amber-500 text-xs mr-2"></i>
+                            <span id="bannerStatusText" class="text-xs font-bold text-gray-700 local-trans" data-en="No slot booked" data-hi="स्लॉट बुक नहीं है">स्लॉट बुक नहीं है</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-primaryDark leading-tight mb-2 local-trans" data-i18n="banner_title" data-en="Save your time and avoid long queues" data-hi="अपना समय बचाएं और लंबी लाइन से छुटकारा पाएं">अपना समय बचाएं और लंबी लाइन से छुटकारा पाएं</h2>
+                        <p class="text-sm text-gray-700 font-medium mb-8 local-trans" data-i18n="banner_desc" data-en="Book your slot and arrive at the procurement center on time" data-hi="स्लॉट बुक करें और निर्धारित समय पर खरीद केंद्र पर आएं">स्लॉट बुक करें और निर्धारित समय पर खरीद केंद्र पर आएं</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-4 mt-auto">
+                        <div class="bg-white/95 backdrop-blur rounded-xl px-5 py-3 flex items-center space-x-3 shadow-sm border border-gray-100 min-w-[140px]">
+                            <div class="text-orange-500 text-xl"><i class="fa-solid fa-wheat-awn"></i></div>
+                            <div><p class="text-[10px] text-gray-500 font-medium local-trans" data-i18n="crop_label" data-en="CROP" data-hi="फ़सल">फ़सल</p><p id="dashBannerCrop" class="text-sm font-bold text-gray-800">-</p></div>
+                        </div>
+                        <div class="bg-white/95 backdrop-blur rounded-xl px-5 py-3 flex items-center space-x-3 shadow-sm border border-gray-100 min-w-[160px]">
+                            <div class="text-primary text-xl"><i class="fa-regular fa-calendar"></i></div>
+                            <div><p class="text-[10px] text-gray-500 font-medium local-trans" data-i18n="date_label" data-en="DATE" data-hi="तारीख">तारीख</p><p id="dashBannerDate" class="text-sm font-bold text-gray-800">-</p></div>
+                        </div>
+                        <div class="bg-white/95 backdrop-blur rounded-xl px-5 py-3 flex items-center space-x-3 shadow-sm border border-gray-100 min-w-[180px]">
+                            <div class="text-primary text-xl"><i class="fa-regular fa-clock"></i></div>
+                            <div><p class="text-[10px] text-gray-500 font-medium local-trans" data-i18n="time_label" data-en="TIME SLOT" data-hi="समय स्लॉट">समय स्लॉट</p><p id="dashBannerTime" class="text-sm font-bold text-gray-800">-</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC QUICK STATS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-primary text-xl shrink-0"><i class="fa-regular fa-calendar-check"></i></div>
+                    <div>
+                        <h4 class="text-xs text-gray-500 font-medium local-trans" data-i18n="stat1_title" data-en="Next Booking" data-hi="अगली बुकिंग">अगली बुकिंग</h4>
+                        <p id="dashStatNextBooking" class="text-base font-bold text-gray-900 mt-0.5 local-trans" data-en="No booking" data-hi="कोई बुकिंग नहीं है">कोई बुकिंग नहीं है</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 text-xl shrink-0"><i class="fa-solid fa-users"></i></div>
+                    <div>
+                        <h4 class="text-xs text-gray-500 font-medium local-trans" data-i18n="stat2_title" data-en="Your Queue Status" data-hi="आपकी कतार स्थिति">आपकी कतार स्थिति</h4>
+                        <p id="dashStatQueue" class="text-base font-bold text-gray-900 mt-0.5">-</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-500 text-xl shrink-0"><i class="fa-solid fa-wallet"></i></div>
+                    <div>
+                        <h4 class="text-xs text-gray-500 font-medium local-trans" data-i18n="stat3_title" data-en="Last Payment" data-hi="आखिरी भुगतान">आखिरी भुगतान</h4>
+                        <p id="dashStatPayment" class="text-base font-bold text-gray-900 mt-0.5 local-trans" data-en="No payment made" data-hi="कोई भुगतान नहीं हुआ है">कोई भुगतान नहीं हुआ है</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WEATHER & ALERTS SECTION -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                
+                <div id="weatherCard" class="rounded-xl border shadow-sm p-6 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 cursor-pointer">
+                    <div id="weatherAnimBg" class="absolute inset-0 z-0 pointer-events-none rounded-xl overflow-hidden"></div>
+                    <i id="weatherBgIcon" class="fa-solid fa-cloud text-6xl text-black/5 absolute -bottom-4 -right-2 z-0 transition-all duration-700"></i>
+
+                    <div class="flex justify-between items-start relative z-10 tilt-content">
+                        <div>
+                            <h3 id="weatherTitle" class="text-sm font-bold text-blue-900 mb-1 flex items-center"><i class="fa-solid fa-cloud-sun-rain mr-2"></i> <span class="local-trans" data-en="Weather Updates" data-hi="मौसम की जानकारी">मौसम की जानकारी</span></h3>
+                            <p id="weatherLocation" class="text-xs text-blue-700 font-medium mb-3">Loading...</p>
+                            <div class="flex items-center gap-3">
+                                <div>
+                                    <p id="weatherTemp" class="text-3xl font-bold text-blue-900 leading-none">--°C</p>
+                                    <p id="weatherDesc" class="text-xs text-blue-800 font-medium mt-1 capitalize local-trans" data-en="Loading..." data-hi="लोड हो रहा है...">लोड हो रहा है...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="weatherIconBox" class="w-12 h-12 bg-white/60 backdrop-blur rounded-full flex items-center justify-center text-blue-500 text-xl shadow-sm transition-colors duration-700 tilt-content">
+                            <i id="weatherIcon" class="fa-solid fa-temperature-half"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col justify-center">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i class="fa-solid fa-bullhorn text-red-500 animate-pulse"></i>
+                        <h3 class="text-sm font-bold text-gray-900 local-trans" data-en="Important Alert" data-hi="महत्वपूर्ण सूचना (Alert)">महत्वपूर्ण सूचना (Alert)</h3>
+                    </div>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-3 rounded-r-lg">
+                        <p class="text-xs text-red-800 font-semibold mb-1 leading-relaxed local-trans" data-en="Wheat MSP has been increased to ₹2,275/Quintal. All payments will be processed in 48 hours." data-hi="गेहूं की MSP बढ़ाकर ₹2,275/क्विंटल कर दी गई है। सभी भुगतान 48 घंटों में किए जाएंगे।">गेहूं की MSP बढ़ाकर ₹2,275/क्विंटल कर दी गई है। सभी भुगतान 48 घंटों में किए जाएंगे।</p>
+                        <p class="text-[10px] text-red-600 font-medium mt-1"><i class="fa-regular fa-clock mr-1"></i> <span class="local-trans" data-en="2 hours ago" data-hi="2 घंटे पहले">2 घंटे पहले</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CROP TRENDS SECTION -->
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 local-trans" data-i18n="trends_title" data-en="Mandi Rates & Crop Trends" data-hi="मंडी भाव और फसल रुझान">मंडी भाव और फसल रुझान</h3>
+                        <p class="text-xs text-gray-500 mt-1 local-trans" data-i18n="trends_desc" data-en="Which month is best to sell your crop?" data-hi="किस महीने में कौन सी फसल बेचना सबसे सही है?">किस महीने में कौन सी फसल बेचना सबसे सही है?</p>
+                    </div>
+                    <button class="text-xs text-primary font-semibold hover:underline local-trans" data-en="View Full List <i class='fa-solid fa-arrow-right ml-1'></i>" data-hi="पूरी लिस्ट देखें <i class='fa-solid fa-arrow-right ml-1'></i>">पूरी लिस्ट देखें <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <div class="border border-green-100 bg-green-50/50 rounded-xl p-5 hover:shadow-md transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-green-600 shadow-sm"><i class="fa-solid fa-seedling"></i></div>
+                            <span class="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-arrow-trend-up mr-1"></i> High Demand</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-base local-trans" data-en="Paddy" data-hi="धान (Paddy)">धान (Paddy)</h4>
+                        <p class="text-xs text-gray-500 mb-3 local-trans" data-en="Best time to sell: <span class='font-semibold text-gray-700'>Oct - Nov</span>" data-hi="बेचने का सही समय: <span class='font-semibold text-gray-700'>अक्टूबर - नवंबर</span>">बेचने का सही समय: <span class="font-semibold text-gray-700">अक्टूबर - नवंबर</span></p>
+                        <div class="flex justify-between items-center border-t border-green-200/50 pt-3 mt-1">
+                            <span class="text-xs text-gray-500 local-trans" data-en="Est. Price" data-hi="अनुमानित भाव">अनुमानित भाव</span>
+                            <span class="text-sm font-bold text-primaryDark">₹2,200 - ₹2,400 / Qtl</span>
+                        </div>
+                    </div>
+                    
+                    <div class="border border-blue-100 bg-blue-50/50 rounded-xl p-5 hover:shadow-md transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shadow-sm"><i class="fa-solid fa-wheat-awn"></i></div>
+                            <span class="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-full">Upcoming</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-base local-trans" data-en="Wheat" data-hi="गेहूं (Wheat)">गेहूं (Wheat)</h4>
+                        <p class="text-xs text-gray-500 mb-3 local-trans" data-en="Best time to sell: <span class='font-semibold text-gray-700'>April - May</span>" data-hi="बेचने का सही समय: <span class='font-semibold text-gray-700'>अप्रैल - मई</span>">बेचने का सही समय: <span class="font-semibold text-gray-700">अप्रैल - मई</span></p>
+                        <div class="flex justify-between items-center border-t border-blue-200/50 pt-3 mt-1">
+                            <span class="text-xs text-gray-500 local-trans" data-en="MSP (Minimum)" data-hi="MSP (न्यूनतम)">MSP (न्यूनतम)</span>
+                            <span class="text-sm font-bold text-blue-900">₹2,275 / Qtl</span>
+                        </div>
+                    </div>
+
+                    <div class="border border-orange-100 bg-orange-50/50 rounded-xl p-5 hover:shadow-md transition">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-orange-600 shadow-sm"><i class="fa-solid fa-leaf"></i></div>
+                            <span class="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-1 rounded-full"><i class="fa-solid fa-arrow-trend-up mr-1"></i> Trending</span>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-base local-trans" data-en="Mustard" data-hi="सरसों (Mustard)">सरसों (Mustard)</h4>
+                        <p class="text-xs text-gray-500 mb-3 local-trans" data-en="Best time to sell: <span class='font-semibold text-gray-700'>Mar - April</span>" data-hi="बेचने का सही समय: <span class='font-semibold text-gray-700'>मार्च - अप्रैल</span>">बेचने का सही समय: <span class="font-semibold text-gray-700">मार्च - अप्रैल</span></p>
+                        <div class="flex justify-between items-center border-t border-orange-200/50 pt-3 mt-1">
+                            <span class="text-xs text-gray-500 local-trans" data-en="Est. Price" data-hi="अनुमानित भाव">अनुमानित भाव</span>
+                            <span class="text-sm font-bold text-orange-900">₹5,400 - ₹5,700 / Qtl</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOW IT WORKS / LIVE TRACKING -->
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 id="sectionDynamicTitle" class="text-lg font-bold text-gray-900 local-trans" data-i18n="how_title" data-en="How it works" data-hi="यह कैसे काम करता है">यह कैसे काम करता है</h3>
+                    <a id="viewTokenBtn" href="./my%20token.html" class="hidden text-xs font-semibold text-primary border border-primary px-3 py-1.5 rounded-lg hover:bg-green-50 transition local-trans" data-en="View Token" data-hi="टोकन देखें">टोकन देखें</a>
+                </div>
+                
+                <div id="staticHowItWorks" class="grid grid-cols-1 md:grid-cols-5 gap-6 text-center">
+                    <!-- Static steps hidden via JS when token is active -->
+                </div>
+
+                <div id="liveTrackingFlow" class="hidden relative">
+                    <!-- Dynamic Progress injected via JS -->
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-8 bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                    <div class="space-y-3">
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे में">About Us</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                    </div>
+                    <div class="space-y-3">
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                        <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                    </div>
+                    <div>
+                        <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                        <div class="flex space-x-5 text-xl text-gray-400">
+                            <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                    <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                    <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                </div>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- External script keeping it intact -->
+    <script src="language.js"></script>
+    <script>
+        // 🌟 CUSTOM DUAL LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            // 1. Text Fade & Slide Animation Trigger
+            document.querySelectorAll('.local-trans, [data-i18n]').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow
+                
+                if(el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // If external script exists, call it to not break anything
+            if(typeof changeLanguage === "function") {
+                try { changeLanguage(lang); } catch(e) {}
+            }
+            
+            // 2. Buttons Visual State Switch
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+            
+            // Re-render JS dynamic blocks
+            updateDashboardData();
+        }
+
+        const wCardElem = document.getElementById('weatherCard');
+        wCardElem.addEventListener('mousemove', e => {
+            let rect = wCardElem.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+            let rotateX = ((y / rect.height) - 0.5) * -20; 
+            let rotateY = ((x / rect.width) - 0.5) * 20;
+            wCardElem.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        wCardElem.addEventListener('mouseleave', () => {
+            wCardElem.style.transform = `rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+        });
+
+        const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') && window.location.port !== '5001' ? 'http://127.0.0.1:5001' : '';
+
+        // 🌟 LIVE QUEUE EXACT TIMING LOGIC IMPORTED HERE 🌟
+        function calculateQueueData(booking, state, myNum) {
+            const elapsedSec = (Date.now() - state.startTime) / 1000;
+            let serving = Math.min(myNum + 1, state.initialServing + Math.floor(elapsedSec / 4));
+            let position = Math.max(myNum - serving, 0);
+
+            let timeStr = booking.time;
+            let dateStr = booking.date;
+            let isFutureSlot = false;
+            let diffMins = 0;
+
+            if (timeStr && dateStr) {
+                try {
+                    let startStr = timeStr.split('-')[0].trim(); 
+                    let match = startStr.match(/(\d+):(\d+)\s*(AM|PM)/i);
+                    if(match) {
+                        let hours = parseInt(match[1], 10);
+                        let minutes = parseInt(match[2], 10);
+                        let modifier = match[3].toUpperCase();
+                        
+                        if (modifier === 'PM' && hours < 12) hours += 12;
+                        if (modifier === 'AM' && hours === 12) hours = 0;
+                        
+                        let dStr = dateStr;
+                        if (!/\d{4}/.test(dStr)) dStr += " " + new Date().getFullYear();
+                        
+                        let targetDate = new Date(dStr);
+                        if (!isNaN(targetDate.getTime())) {
+                            targetDate.setHours(hours, minutes, 0, 0);
+                            let now = new Date();
+                            diffMins = Math.floor((targetDate - now) / 60000);
+                            isFutureSlot = diffMins > 0;
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            if (isFutureSlot && position <= 0) position = 1;
+            let waitMins = isFutureSlot ? diffMins + (position * 2) : position * 3;
+            let yourTurn = (position <= 0) && (!isFutureSlot);
+
+            let waitStr = waitMins + " मिनट";
+            let currentLang = localStorage.getItem("kisanLanguage") || "hi";
+
+            if (yourTurn) {
+                waitStr = currentLang === 'en' ? "0 Mins" : "0 मिनट";
+            } else if (waitMins > 1440) { 
+                let days = Math.floor(waitMins / 1440);
+                let hrs = Math.floor((waitMins % 1440) / 60);
+                waitStr = currentLang === 'en' ? `${days} Day ${hrs > 0 ? hrs + " Hr" : ""}` : `${days} दिन ${hrs > 0 ? hrs + " घंटे" : ""}`;
+            } else if (waitMins > 59) {
+                let hrs = Math.floor(waitMins / 60);
+                let mins = waitMins % 60;
+                waitStr = currentLang === 'en' ? `${hrs} Hr ${mins > 0 ? mins + " Min" : ""}` : `${hrs} घंटा ${mins > 0 ? mins + " मिनट" : ""}`;
+            } else {
+                waitStr = currentLang === 'en' ? `${waitMins} Mins` : `${waitMins} मिनट`;
+            }
+
+            return { position, waitStr, yourTurn };
+        }
+
+        async function checkBackendForScan(tokenNumber) {
+            try {
+                const response = await fetch(`${API_BASE}/api/check-token-status?token=${tokenNumber}`);
+                const data = await response.json();
+                if (data.isScanned) {
+                    let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                    let activeIndex = bookings.findIndex(b => b.token === tokenNumber);
+                    if (activeIndex !== -1 && !bookings[activeIndex].isCheckedIn) {
+                        bookings[activeIndex].isCheckedIn = true;
+                        localStorage.setItem('kisanBookings', JSON.stringify(bookings));
+                        updateDashboardData(); 
+                    }
+                }
+            } catch (err) {}
+        }
+
+        function updateDashboardData() {
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+            let upcoming = bookings.find(b => b.status === "upcoming");
+            let completed = bookings.slice().reverse().find(b => b.status === "completed");
+            let currentLang = localStorage.getItem("kisanLanguage") || "hi";
+
+            if(upcoming) {
+                document.getElementById("bannerStatusBox").classList.replace("border-gray-100", "border-primary");
+                document.getElementById("bannerStatusBox").classList.add("bg-green-50");
+                document.getElementById("bannerStatusIcon").className = "fa-solid fa-circle-check text-primary text-xs mr-2";
+                
+                document.getElementById("bannerStatusText").innerText = currentLang === 'en' ? "Token Generated: " + upcoming.token : "टोकन जनरेटेड: " + upcoming.token;
+                document.getElementById("dashBannerCrop").innerText = upcoming.crop + " (" + upcoming.quantity + " Qtl)";
+                document.getElementById("dashBannerDate").innerText = upcoming.date;
+                document.getElementById("dashBannerTime").innerText = upcoming.time;
+                document.getElementById("dashStatNextBooking").innerText = upcoming.date;
+                
+                document.getElementById("staticHowItWorks").classList.add("hidden");
+                document.getElementById("liveTrackingFlow").classList.remove("hidden");
+                
+                document.getElementById("sectionDynamicTitle").innerText = currentLang === 'en' ? "Your Booking Status (Live Tracking)" : "आपकी बुकिंग की स्थिति (Live Tracking)";
+                document.getElementById("sectionDynamicTitle").removeAttribute("data-i18n");
+                document.getElementById("viewTokenBtn").classList.remove("hidden"); 
+
+                if (!upcoming.isCheckedIn) {
+                    checkBackendForScan(upcoming.token);
+                    document.getElementById("dashStatQueue").innerText = currentLang === 'en' ? "Check-in Pending" : "चेक-इन बाकी";
+                    document.getElementById("dashStatQueue").className = "text-base font-bold text-amber-600 mt-0.5";
+                    
+                    document.getElementById("liveTrackingFlow").innerHTML = `
+                        <div class="hidden md:block absolute top-6 left-12 right-12 h-1.5 bg-gray-100 z-0 rounded-full overflow-hidden">
+                            <div class="h-full progress-fill" style="width: 40%;"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 text-center relative z-10">
+                            <div>
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl mx-auto mb-3 shadow-md border-4 border-white"><i class="fa-solid fa-check"></i></div>
+                                <h4 class="text-xs font-bold text-gray-900 mb-1">${currentLang === 'en' ? 'Slot Booked' : 'स्लॉट बुक हुआ'}</h4>
+                                <p class="text-[10px] text-gray-500">${currentLang === 'en' ? 'Successfully booked' : 'सफलतापूर्वक बुक हो गया'}</p>
+                            </div>
+                            <div>
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl mx-auto mb-3 shadow-md border-4 border-white"><i class="fa-solid fa-check"></i></div>
+                                <h4 class="text-xs font-bold text-gray-900 mb-1">${currentLang === 'en' ? 'Token Generated' : 'टोकन जनरेटेड'}</h4>
+                                <p class="text-[10px] text-gray-500 font-semibold">${upcoming.token}</p>
+                            </div>
+                            <div class="relative">
+                                <div class="w-12 h-12 bg-white border-2 border-primary rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3 shadow-sm relative">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <div class="active-pulse-ring"></div>
+                                </div>
+                                <h4 class="text-xs font-bold text-primary mb-1">${currentLang === 'en' ? 'Reach Center' : 'केंद्र पर पहुंचें'}</h4>
+                                <p class="text-[10px] font-semibold text-primary">${currentLang === 'en' ? 'Date: ' : 'दिनांक: '}${upcoming.date}</p>
+                            </div>
+                            <div class="opacity-40">
+                                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 text-xl mx-auto mb-3 border-4 border-white"><i class="fa-solid fa-weight-scale"></i></div>
+                                <h4 class="text-xs font-bold text-gray-500 mb-1">${currentLang === 'en' ? 'Check & Weight' : 'जांच और वजन'}</h4>
+                                <p class="text-[10px] text-gray-400">${currentLang === 'en' ? 'Pending' : 'लंबित (Pending)'}</p>
+                            </div>
+                            <div class="opacity-40">
+                                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 text-xl mx-auto mb-3 border-4 border-white"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                                <h4 class="text-xs font-bold text-gray-500 mb-1">${currentLang === 'en' ? 'Payment' : 'भुगतान'}</h4>
+                                <p class="text-[10px] text-gray-400">${currentLang === 'en' ? 'Pending' : 'लंबित (Pending)'}</p>
+                            </div>
+                        </div>`;
+                } else {
+                    const myNum = parseInt(String(upcoming.token).replace(/\D/g, ""), 10) || 0;
+                    let allStates = JSON.parse(localStorage.getItem("kisan_queue_state")) || {};
+                    let waitStr = currentLang === 'en' ? "In Queue" : "कतार में";
+                    
+                    if(allStates[upcoming.centerName]) {
+                        let state = allStates[upcoming.centerName];
+                        // 🌟 EXACT SYNC WITH LIVE QUEUE LOGIC 🌟
+                        const qData = calculateQueueData(upcoming, state, myNum);
+                        waitStr = qData.waitStr;
+                        if (qData.yourTurn) {
+                            waitStr = currentLang === 'en' ? "Your Turn!" : "आपकी बारी!";
+                        }
+                    }
+
+                    document.getElementById("dashStatQueue").innerText = waitStr;
+                    document.getElementById("dashStatQueue").className = "text-base font-bold text-orange-500 mt-0.5 animate-pulse";
+
+                    document.getElementById("liveTrackingFlow").innerHTML = `
+                        <div class="hidden md:block absolute top-6 left-12 right-12 h-1.5 bg-gray-100 z-0 rounded-full overflow-hidden">
+                            <div class="h-full progress-fill" style="width: 70%;"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-5 gap-6 text-center relative z-10">
+                            <div>
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl mx-auto mb-3 shadow-md border-4 border-white"><i class="fa-solid fa-check"></i></div>
+                                <h4 class="text-xs font-bold text-gray-900 mb-1">${currentLang === 'en' ? 'Slot Booked' : 'स्लॉट बुक हुआ'}</h4>
+                                <p class="text-[10px] text-gray-500">${currentLang === 'en' ? 'Successfully booked' : 'सफलतापूर्वक बुक हो गया'}</p>
+                            </div>
+                            <div>
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl mx-auto mb-3 shadow-md border-4 border-white"><i class="fa-solid fa-check"></i></div>
+                                <h4 class="text-xs font-bold text-gray-900 mb-1">${currentLang === 'en' ? 'Token Generated' : 'टोकन जनरेटेड'}</h4>
+                                <p class="text-[10px] text-gray-500 font-semibold">${upcoming.token}</p>
+                            </div>
+                            <div>
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl mx-auto mb-3 shadow-md border-4 border-white"><i class="fa-solid fa-check"></i></div>
+                                <h4 class="text-xs font-bold text-gray-900 mb-1">${currentLang === 'en' ? 'Reach Center' : 'केंद्र पर पहुंचें'}</h4>
+                                <p class="text-[10px] font-semibold text-gray-500">${currentLang === 'en' ? 'Check-in Success' : 'चेक-इन सफल'}</p>
+                            </div>
+                            <div class="relative">
+                                <div class="w-12 h-12 bg-white border-2 border-primary rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3 shadow-sm relative">
+                                    <i class="fa-solid fa-weight-scale"></i>
+                                    <div class="active-pulse-ring"></div>
+                                </div>
+                                <h4 class="text-xs font-bold text-primary mb-1">${currentLang === 'en' ? 'Check & Weight' : 'जांच और वजन'}</h4>
+                                <p class="text-[10px] font-bold text-orange-500">${waitStr}</p>
+                            </div>
+                            <div class="opacity-40">
+                                <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 text-xl mx-auto mb-3 border-4 border-white"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                                <h4 class="text-xs font-bold text-gray-500 mb-1">${currentLang === 'en' ? 'Payment' : 'भुगतान'}</h4>
+                                <p class="text-[10px] text-gray-400">${currentLang === 'en' ? 'Pending' : 'लंबित (Pending)'}</p>
+                            </div>
+                        </div>`;
+                }
+            } else {
+                document.getElementById("dashBannerCrop").innerText = "-";
+                document.getElementById("dashBannerDate").innerText = "-";
+                document.getElementById("dashBannerTime").innerText = "-";
+                document.getElementById("dashStatQueue").innerText = "-";
+                
+                document.getElementById("staticHowItWorks").innerHTML = `
+                    <div>
+                        <div class="w-12 h-12 bg-[#eef8f0] rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3"><i class="fa-regular fa-calendar"></i></div>
+                        <h4 class="text-xs font-bold text-primaryDark mb-1 local-trans" data-en="1. Book Slot" data-hi="1. स्लॉट बुक करें">1. स्लॉट बुक करें</h4>
+                        <p class="text-[10px] text-gray-500 local-trans" data-en="Choose crop, qty, and time." data-hi="फ़सल, मात्रा और समय चुनें.">फ़सल, मात्रा और समय चुनें.</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-[#eef8f0] rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3"><i class="fa-solid fa-qrcode"></i></div>
+                        <h4 class="text-xs font-bold text-primaryDark mb-1 local-trans" data-en="2. Get QR Token" data-hi="2. QR टोकन प्राप्त करें">2. QR टोकन प्राप्त करें</h4>
+                        <p class="text-[10px] text-gray-500 local-trans" data-en="Get token for appointment." data-hi="अपॉइंटमेंट के लिए टोकन पाएं.">अपॉइंटमेंट के लिए टोकन पाएं.</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-[#eef8f0] rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3"><i class="fa-solid fa-users"></i></div>
+                        <h4 class="text-xs font-bold text-primaryDark mb-1 local-trans" data-en="3. Reach Center" data-hi="3. केंद्र पर आएं">3. केंद्र पर आएं</h4>
+                        <p class="text-[10px] text-gray-500 local-trans" data-en="Check-in by scanning QR." data-hi="क्यूआर स्कैन करके चेक-इन करें.">क्यूआर स्कैन करके चेक-इन करें.</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-[#eef8f0] rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3"><i class="fa-solid fa-weight-scale"></i></div>
+                        <h4 class="text-xs font-bold text-primaryDark mb-1 local-trans" data-en="4. Check & Weigh" data-hi="4. जांच और वजन">4. जांच और वजन</h4>
+                        <p class="text-[10px] text-gray-500 local-trans" data-en="Quality check and weighing." data-hi="गुणवत्ता जांच और फसल तौल.">गुणवत्ता जांच और फसल तौल.</p>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 bg-[#eef8f0] rounded-full flex items-center justify-center text-primary text-xl mx-auto mb-3"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        <h4 class="text-xs font-bold text-primaryDark mb-1 local-trans" data-en="5. Get Paid" data-hi="5. भुगतान प्राप्त करें">5. भुगतान प्राप्त करें</h4>
+                        <p class="text-[10px] text-gray-500 local-trans" data-en="Money directly to bank." data-hi="सीधे बैंक खाते में पैसे पाएं.">सीधे बैंक खाते में पैसे पाएं.</p>
+                    </div>
+                `;
+                document.getElementById("staticHowItWorks").classList.remove("hidden");
+                document.getElementById("liveTrackingFlow").classList.add("hidden");
+                document.getElementById("viewTokenBtn").classList.add("hidden");
+                
+                // Keep translations for static mode title
+                document.getElementById("sectionDynamicTitle").setAttribute("data-i18n", "how_title");
+                if (currentLang === 'en') {
+                    document.getElementById("sectionDynamicTitle").innerText = "How it works";
+                } else {
+                    document.getElementById("sectionDynamicTitle").innerText = "यह कैसे काम करता है";
+                }
+            }
+
+            if(completed) {
+                document.getElementById("dashStatPayment").innerText = "₹ " + (completed.quantity * 2275).toLocaleString("en-IN");
+            }
+        }
+
+        async function fetchRealTimeWeather(city) {
+            const apiKey = "32d60c85327004ea6832bc043f960ce4";
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=hi`);
+                if(response.ok) {
+                    const data = await response.json();
+                    const weatherMain = data.weather[0].main.toLowerCase();
+                    
+                    const wCard = document.getElementById("weatherCard");
+                    const wTitle = document.getElementById("weatherTitle");
+                    const wLoc = document.getElementById("weatherLocation");
+                    const wTemp = document.getElementById("weatherTemp");
+                    const wDesc = document.getElementById("weatherDesc");
+                    const wAnimBg = document.getElementById("weatherAnimBg");
+                    const wBgIcon = document.getElementById("weatherBgIcon");
+                    const wIconBox = document.getElementById("weatherIconBox");
+                    const iconElem = document.getElementById("weatherIcon");
+
+                    wTemp.innerText = Math.round(data.main.temp) + "°C";
+                    wDesc.innerText = data.weather[0].description;
+                    wLoc.innerText = data.name + ", " + data.sys.country;
+                    
+                    wAnimBg.innerHTML = "";
+                    wBgIcon.className = "text-6xl absolute -bottom-4 -right-2 z-0 transition-all duration-700 opacity-10 ";
+
+                    if(weatherMain.includes("rain") || weatherMain.includes("drizzle") || weatherMain.includes("thunderstorm")) {
+                        wCard.className = "rounded-xl border shadow-sm p-6 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-slate-700 to-slate-800 border-slate-600 cursor-pointer";
+                        wTitle.className = "text-sm font-bold text-blue-100 mb-1 flex items-center";
+                        wLoc.className = "text-xs text-blue-200 font-medium mb-3";
+                        wTemp.className = "text-3xl font-bold text-white leading-none";
+                        wDesc.className = "text-xs text-blue-200 font-medium mt-1 capitalize";
+                        wIconBox.className = "w-12 h-12 bg-white/20 backdrop-blur rounded-full flex items-center justify-center text-white text-xl shadow-sm transition-colors duration-700";
+                        wBgIcon.classList.add("fa-solid", "fa-cloud-showers-heavy", "text-white");
+                        iconElem.className = "fa-solid fa-cloud-showers-heavy";
+                        wAnimBg.innerHTML = '<div class="absolute inset-0 opacity-40 rain-bg"></div>';
+                    } else if(weatherMain.includes("cloud")) {
+                        wCard.className = "rounded-xl border shadow-sm p-6 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-gray-100 to-gray-300 border-gray-300 cursor-pointer";
+                        wTitle.className = "text-sm font-bold text-gray-800 mb-1 flex items-center";
+                        wLoc.className = "text-xs text-gray-600 font-medium mb-3";
+                        wTemp.className = "text-3xl font-bold text-gray-900 leading-none";
+                        wDesc.className = "text-xs text-gray-700 font-medium mt-1 capitalize";
+                        wIconBox.className = "w-12 h-12 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-600 text-xl shadow-sm transition-colors duration-700";
+                        wBgIcon.classList.add("fa-solid", "fa-cloud", "text-gray-500");
+                        iconElem.className = "fa-solid fa-cloud";
+                        wAnimBg.innerHTML = `
+                            <div class="absolute top-4 w-20 h-6 bg-white/60 rounded-full blur-[2px] animate-[floatCloud_8s_infinite_linear]"></div>
+                            <div class="absolute top-10 w-24 h-8 bg-white/50 rounded-full blur-[3px] animate-[floatCloud_12s_infinite_linear] delay-1000"></div>`;
+                    } else if(weatherMain.includes("clear")) {
+                        wCard.className = "rounded-xl border shadow-sm p-6 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-blue-300 to-blue-500 border-blue-400 cursor-pointer";
+                        wTitle.className = "text-sm font-bold text-white mb-1 flex items-center";
+                        wLoc.className = "text-xs text-blue-100 font-medium mb-3";
+                        wTemp.className = "text-3xl font-bold text-white leading-none";
+                        wDesc.className = "text-xs text-blue-100 font-medium mt-1 capitalize";
+                        wIconBox.className = "w-12 h-12 bg-white/30 backdrop-blur rounded-full flex items-center justify-center text-yellow-300 text-xl shadow-sm transition-colors duration-700";
+                        wBgIcon.classList.add("fa-solid", "fa-sun", "text-yellow-200");
+                        iconElem.className = "fa-solid fa-sun";
+                        wAnimBg.innerHTML = `
+                            <div class="absolute -top-10 -right-10 w-40 h-40 bg-yellow-300 rounded-full blur-2xl opacity-40 animate-pulse"></div>
+                            <div class="absolute -top-8 -right-8 text-8xl text-yellow-300/30 animate-[spin_20s_infinite_linear]"><i class="fa-solid fa-certificate"></i></div>`;
+                    } else {
+                        wCard.className = "rounded-xl border shadow-sm p-6 relative overflow-hidden transition-all duration-700 bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 cursor-pointer";
+                        wTitle.className = "text-sm font-bold text-blue-900 mb-1 flex items-center";
+                        wLoc.className = "text-xs text-blue-700 font-medium mb-3";
+                        wTemp.className = "text-3xl font-bold text-blue-900 leading-none";
+                        wDesc.className = "text-xs text-blue-800 font-medium mt-1 capitalize";
+                        wIconBox.className = "w-12 h-12 bg-white/60 backdrop-blur rounded-full flex items-center justify-center text-blue-500 text-xl shadow-sm transition-colors duration-700";
+                        wBgIcon.classList.add("fa-solid", "fa-cloud-sun-rain", "text-blue-500");
+                        iconElem.className = "fa-solid fa-temperature-half";
+                    }
+                } else {
+                    document.getElementById("weatherDesc").innerText = localStorage.getItem("kisanLanguage") === 'en' ? "Weather unavailable" : "मौसम की जानकारी नहीं मिली";
+                }
+            } catch(error) {
+                console.error("Weather API Error:", error);
+                document.getElementById("weatherDesc").innerText = localStorage.getItem("kisanLanguage") === 'en' ? "Offline" : "ऑफ़लाइन";
+            }
+        }
+
+        window.onload = function() {
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma"; 
+            document.getElementById("headerName").innerText = savedName;
+            document.getElementById("welcomeName").innerText = savedName;
+            
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            let rawLocation = localStorage.getItem("farmerLocation") || "";
+            let districtName = "Lucknow"; 
+            
+            rawLocation = rawLocation.replace(/undefined/g, "").trim();
+            
+            if (rawLocation && rawLocation !== ",") {
+                if (rawLocation.includes(',')) {
+                    let parts = rawLocation.split(',');
+                    let lastPart = parts[parts.length - 1].trim(); 
+                    let firstPart = parts[0].trim(); 
+                    
+                    districtName = lastPart ? lastPart : (firstPart ? firstPart : "Lucknow");
+                } else {
+                    districtName = rawLocation;
+                }
+            }
+
+            document.getElementById("displayLocation").innerText = districtName + " Region";
+            fetchRealTimeWeather(districtName);
+
+            if(!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
+
+            // 🌟 Initialize Language and Render Dashboard 🌟
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+            
+            setInterval(updateDashboardData, 3000);
+        };
+
+        function logout() {
+            let currentLang = localStorage.getItem("kisanLanguage") || "hi";
+            let msg = currentLang === 'en' ? "Are you sure you want to logout?" : "क्या आप वाकई लॉगआउट करना चाहते हैं?";
+            if(confirm(msg)) { 
+                sessionStorage.clear(); 
+                window.location.href = "index.html"; 
+            }
+        }
+    </script>
+</body>
+</html>

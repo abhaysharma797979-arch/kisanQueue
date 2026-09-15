@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#288842', primaryDark: '#1b5e20', textDark: '#1e3a29' } }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-gray-200 h-20 flex justify-between items-center px-8 relative z-20">
+        <div class="flex items-center space-x-3">
+            <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-xl"><i class="fa-solid fa-wheat-awn"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-textDark leading-tight">KisanQueue</h1>
+                <p class="text-xs text-gray-500" data-key="subtitle">Smart Procurement Platform</p>
+            </div>
+        </div>
+        <div class="flex space-x-4 items-center">
+            <div class="relative">
+                <button onclick="toggleLangMenu()"
+                    class="border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:bg-gray-50 focus:outline-none">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="currentLang">English</span>
+                    <i class="fa-solid fa-chevron-down text-xs ml-2"></i>
+                </button>
+                <div id="langMenu"
+                    class="absolute hidden right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+                    <button onclick="setLanguage('en')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">English</button>
+                    <button onclick="setLanguage('hi')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">हिंदी</button>
+                </div>
+            </div>
+            <button
+                class="border border-green-600 rounded-md px-4 py-2 text-sm text-green-700 flex items-center space-x-2 hover:bg-green-50">
+                <i class="fa-regular fa-circle-question"></i> <span data-key="help">Help</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col md:flex-row relative z-10">
+
+        <div class="w-full md:w-1/2 relative overflow-hidden bg-gray-900">
+            <img src="login.png" alt="Banner Background" class="absolute inset-0 w-full h-full object-cover opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent"></div>
+
+            <div class="relative z-10 p-12 lg:p-20 pb-32">
+                <h2 class="text-4xl font-bold text-textDark mb-4" data-key="heroTitle">Smart Procurement<br>for Farmers
+                </h2>
+                <p class="text-gray-800 mb-10 text-lg font-medium" data-key="heroDesc">Book your slot, track your
+                    queue,<br>and get timely payments.</p>
+
+                <div class="space-y-6">
+                    <div
+                        class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-white/50 shadow-sm">
+                        <div class="bg-primaryDark text-white p-3 rounded-full shadow-sm shrink-0"><i
+                                class="fa-regular fa-calendar-check w-5 h-5 flex items-center justify-center"></i></div>
+                        <div class="mt-1">
+                            <h3 class="font-bold text-gray-900 leading-none" data-key="f1Title">Book Procurement Slots
+                            </h3>
+                            <p class="text-xs text-gray-700 mt-1 font-medium" data-key="f1Desc">Book your preferred date
+                                & time</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-white/50 shadow-sm">
+                        <div class="bg-primaryDark text-white p-3 rounded-full shadow-sm shrink-0"><i
+                                class="fa-solid fa-users w-5 h-5 flex items-center justify-center"></i></div>
+                        <div class="mt-1">
+                            <h3 class="font-bold text-gray-900 leading-none" data-key="f2Title">Live Queue Tracking</h3>
+                            <p class="text-xs text-gray-700 mt-1 font-medium" data-key="f2Desc">Track your token and
+                                waiting time</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-white/50 shadow-sm">
+                        <div class="bg-primaryDark text-white p-3 rounded-full shadow-sm shrink-0"><i
+                                class="fa-regular fa-bell w-5 h-5 flex items-center justify-center"></i></div>
+                        <div class="mt-1">
+                            <h3 class="font-bold text-gray-900 leading-none" data-key="f3Title">Real-time Notifications
+                            </h3>
+                            <p class="text-xs text-gray-700 mt-1 font-medium" data-key="f3Desc">Receive updates on every
+                                step</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-start space-x-4 bg-white/60 backdrop-blur-sm p-3 rounded-xl border border-white/50 shadow-sm">
+                        <div class="bg-primaryDark text-white p-3 rounded-full shadow-sm shrink-0"><i
+                                class="fa-solid fa-file-invoice-dollar w-5 h-5 flex items-center justify-center"></i>
+                        </div>
+                        <div class="mt-1">
+                            <h3 class="font-bold text-gray-900 leading-none" data-key="f4Title">Track Payments</h3>
+                            <p class="text-xs text-gray-700 mt-1 font-medium" data-key="f4Desc">Get transparency in
+                                payments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="absolute bottom-0 w-full bg-[#1b4326]/95 backdrop-blur-md text-white py-6 px-4 flex justify-around border-t-4 border-green-500 z-20">
+                <div class="text-center">
+                    <div class="font-bold text-xl"><i class="fa-solid fa-user-group mr-2"></i>10L+</div>
+                    <div class="text-xs text-green-200" data-key="stat1">Farmers Registered</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-bold text-xl"><i class="fa-solid fa-warehouse mr-2"></i>6200+</div>
+                    <div class="text-xs text-green-200" data-key="stat2">Procurement Centres</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-bold text-xl"><i class="fa-solid fa-cart-shopping mr-2"></i>5Cr+</div>
+                    <div class="text-xs text-green-200" data-key="stat3">Transactions</div>
+                </div>
+                <div class="text-center">
+                    <div class="font-bold text-xl"><i class="fa-solid fa-shield-halved mr-2"></i>100%</div>
+                    <div class="text-xs text-green-200" data-key="stat4">Secure & Reliable</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-gray-50">
+            <div
+                class="bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 p-10 w-full max-w-md text-center relative z-10 min-h-[450px]">
+
+                <div id="loginSection" class="transition-all duration-300">
+                    <div
+                        class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-primaryDark text-3xl">
+                        <i class="fa-solid fa-user-leaf"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-1" data-key="welcome">Welcome Back!</h2>
+                    <p class="text-gray-500 text-sm mb-6" data-key="loginToAcct">Login to your account</p>
+                    <div class="w-12 h-1 bg-primary mx-auto rounded-full mb-8"></div>
+
+                    <div class="text-left mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-key="mobileLabel">Mobile
+                            Number</label>
+                        <div
+                            class="flex border border-gray-300 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+                            <div class="bg-gray-50 px-3 py-3 border-r border-gray-300 flex items-center text-gray-600">
+                                <i class="fa-solid fa-phone mr-2 text-sm"></i>
+                                <select class="bg-transparent text-sm outline-none cursor-pointer">
+                                    <option>+91</option>
+                                </select>
+                            </div>
+                            <input type="tel" id="mobileInput" data-key="mobileInput"
+                                class="w-full px-4 py-3 outline-none text-gray-700"
+                                placeholder="Enter your mobile number" maxlength="10">
+                        </div>
+                    </div>
+
+                    <button onclick="handleSendOTP()"
+                        class="w-full bg-primary hover:bg-green-700 text-white font-medium py-3 rounded-lg flex justify-center items-center space-x-2 transition-colors mb-6 shadow-md shadow-green-200">
+                        <span data-key="sendOtpBtn">Send OTP</span>
+                        <i class="fa-regular fa-paper-plane text-sm"></i>
+                    </button>
+
+                    <div class="flex items-center mb-6">
+                        <div class="flex-grow border-t border-gray-200"></div>
+                        <span class="px-4 text-xs text-gray-400" data-key="or">OR</span>
+                        <div class="flex-grow border-t border-gray-200"></div>
+                    </div>
+
+                    <p class="text-sm text-gray-600"><span data-key="noAcct">Don't have an account?</span>
+                        <a href="phone-verification.html" class="text-primary font-semibold hover:underline"
+                            data-key="registerHere">Register here</a>
+                    </p>
+                </div>
+
+                <div id="otpSection" class="hidden transition-all duration-300">
+                    <div class="text-left mb-2">
+                        <button onclick="goBackToLogin()" class="text-gray-400 hover:text-gray-700 transition">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> <span data-key="backBtn">Back</span>
+                        </button>
+                    </div>
+
+                    <div
+                        class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-primaryDark text-3xl">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-1" data-key="verifyTitle">Verify OTP</h2>
+                    <p class="text-gray-500 text-sm mb-6">
+                        <span data-key="verifyDesc">We have sent a verification code to</span> <br>
+                        <span id="displayMobile" class="font-semibold text-gray-800"></span>
+                    </p>
+                    <div class="w-12 h-1 bg-primary mx-auto rounded-full mb-8"></div>
+
+                    <div class="flex justify-between space-x-2 mb-8" id="otp-container">
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input">
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                    </div>
+
+                    <button onclick="handleVerifyOTP()"
+                        class="w-full bg-primary hover:bg-green-700 text-white font-medium py-3 rounded-lg flex justify-center items-center space-x-2 transition-colors mb-6 shadow-md shadow-green-200">
+                        <span data-key="verifyBtn">Verify & Login</span>
+                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+
+                    <p class="text-sm text-gray-600">
+                        <span data-key="didntReceive">Didn't receive the code?</span>
+                        <button id="resendBtn" class="text-gray-400 font-semibold cursor-not-allowed ml-1" disabled
+                            onclick="resendOTP()">
+                            <span data-key="resendTxt">Resend OTP</span> <span id="timer">(00:30)</span>
+                        </button>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer
+        class="bg-white border-t border-gray-200 py-4 text-center text-xs text-gray-500 flex justify-center space-x-4">
+        <span>© 2026 KisanQueue. <span data-key="rights">All rights reserved.</span></span>
+        <span class="border-l border-gray-300 pl-4"><a href="#" class="hover:text-primary" data-key="privacy">Privacy
+                Policy</a></span>
+        <span class="border-l border-gray-300 pl-4"><a href="#" class="hover:text-primary" data-key="terms">Terms &
+                Conditions</a></span>
+    </footer>
+
+    <script>
+        // --- Translations ---
+        const translations = {
+            en: {
+                subtitle: "Smart Procurement Platform", help: "Help",
+                heroTitle: "Smart Procurement<br>for Farmers", heroDesc: "Book your slot, track your queue,<br>and get timely payments.",
+                f1Title: "Book Procurement Slots", f1Desc: "Book your preferred date & time",
+                f2Title: "Live Queue Tracking", f2Desc: "Track your token and waiting time",
+                f3Title: "Real-time Notifications", f3Desc: "Receive updates on every step",
+                f4Title: "Track Payments", f4Desc: "Get transparency in payments",
+                stat1: "Farmers Registered", stat2: "Procurement Centres", stat3: "Transactions", stat4: "Secure & Reliable",
+                welcome: "Welcome Back!", loginToAcct: "Login to your account",
+                mobileLabel: "Mobile Number", mobileInput: "Enter your mobile number", sendOtpBtn: "Send OTP",
+                or: "OR", noAcct: "Don't have an account?", registerHere: "Register here",
+                backBtn: "Back", verifyTitle: "Verify OTP", verifyDesc: "We have sent a verification code to",
+                verifyBtn: "Verify & Login", didntReceive: "Didn't receive the code?", resendTxt: "Resend OTP",
+                rights: "All rights reserved.", privacy: "Privacy Policy", terms: "Terms & Conditions"
+            },
+            hi: {
+                subtitle: "स्मार्ट खरीद मंच", help: "सहायता",
+                heroTitle: "किसानों के लिए<br>स्मार्ट खरीद", heroDesc: "अपना स्लॉट बुक करें, अपनी कतार ट्रैक करें,<br>और समय पर भुगतान प्राप्त करें।",
+                f1Title: "खरीद स्लॉट बुक करें", f1Desc: "अपनी पसंदीदा तिथि और समय बुक करें",
+                f2Title: "लाइव कतार ट्रैकिंग", f2Desc: "अपना टोकन और प्रतीक्षा समय ट्रैक करें",
+                f3Title: "रीयल-टाइम सूचनाएं", f3Desc: "हर कदम पर अपडेट प्राप्त करें",
+                f4Title: "भुगतान ट्रैक करें", f4Desc: "भुगतान में पारदर्शिता प्राप्त करें",
+                stat1: "पंजीकृत किसान", stat2: "खरीद केंद्र", stat3: "लेनदेन", stat4: "सुरक्षित और विश्वसनीय",
+                welcome: "वापसी पर स्वागत है!", loginToAcct: "अपने खाते में लॉग इन करें",
+                mobileLabel: "मोबाइल नंबर", mobileInput: "अपना मोबाइल नंबर दर्ज करें", sendOtpBtn: "OTP भेजें",
+                or: "या", noAcct: "क्या आपके पास खाता नहीं है?", registerHere: "यहाँ रजिस्टर करें",
+                backBtn: "पीछे जाएं", verifyTitle: "OTP दर्ज करें", verifyDesc: "हमने इस नंबर पर सत्यापन कोड भेजा है",
+                verifyBtn: "सत्यापित करें और लॉग इन करें", didntReceive: "क्या आपको कोड नहीं मिला?", resendTxt: "फिर से OTP भेजें",
+                rights: "सर्वाधिकार सुरक्षित।", privacy: "गोपनीयता नीति", terms: "नियम एवं शर्तें"
+            }
+        };
+
+        function toggleLangMenu() { document.getElementById('langMenu').classList.toggle('hidden'); }
+        function setLanguage(lang) {
+            document.getElementById('currentLang').innerText = lang === 'en' ? 'English' : 'हिंदी';
+            document.getElementById('langMenu').classList.add('hidden');
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (elem.tagName === 'INPUT') elem.placeholder = translations[lang][key];
+                    else elem.innerHTML = translations[lang][key];
+                }
+            });
+        }
+        window.onclick = function (event) { if (!event.target.closest('.relative')) document.getElementById('langMenu').classList.add('hidden'); }
+
+        // --- Timer and UI Navigation ---
+        let timerId;
+        let timeLeft = 30;
+
+        function goBackToLogin() {
+            document.getElementById('otpSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            clearTimeout(timerId);
+            inputs.forEach(input => { input.value = ''; input.disabled = true; });
+            inputs[0].disabled = false;
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            let btn = document.getElementById('resendBtn');
+            btn.disabled = true;
+            btn.classList.add('text-gray-400', 'cursor-not-allowed');
+            btn.classList.remove('text-primary', 'hover:underline');
+            clearInterval(timerId);
+            timerId = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    btn.disabled = false;
+                    btn.classList.remove('text-gray-400', 'cursor-not-allowed');
+                    btn.classList.add('text-primary', 'hover:underline');
+                    document.getElementById('timer').innerText = "";
+                } else {
+                    let seconds = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+                    document.getElementById('timer').innerText = `(00:${seconds})`;
+                    timeLeft--;
+                }
+            }, 1000);
+        }
+
+        function resendOTP() { handleSendOTP(true); }
+
+        // --- OTP Box Logic ---
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                if (e.target.value !== '' && index < inputs.length - 1) {
+                    inputs[index + 1].disabled = false;
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                    inputs[index - 1].value = '';
+                }
+            });
+        });
+
+        // 🚀 SMART API ROUTER FOR ALL DEVICES
+        const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') && window.location.port !== '5001' ? 'http://127.0.0.1:5001' : '';
+
+        // --- API Integration (Login Flow) ---
+        async function handleSendOTP(isResend = false) {
+            const mobile = document.getElementById('mobileInput').value;
+            if (mobile.length !== 10) { alert("Please enter a valid 10-digit mobile number."); return; }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/send-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile: mobile })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert(`✅ Demo OTP generated!\n\nYour OTP is: ${data.demoOtp}\n\nPlease enter this to login.`);
+
+                    document.getElementById('loginSection').classList.add('hidden');
+                    document.getElementById('otpSection').classList.remove('hidden');
+                    document.getElementById('displayMobile').innerText = '+91 ' + mobile;
+                    inputs[0].disabled = false;
+                    setTimeout(() => inputs[0].focus(), 100);
+
+                    startTimer();
+                } else {
+                    alert("❌ " + data.message);
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                alert("Backend is not running. Check Ngrok/Server.");
+            }
+        }
+
+        async function handleVerifyOTP() {
+            const mobile = document.getElementById('mobileInput').value;
+            let otpValue = "";
+            inputs.forEach(input => otpValue += input.value);
+
+            if (otpValue.length < 6) { alert("Please enter the complete 6-digit OTP"); return; }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile: mobile, otp: otpValue })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("farmerName", data.userData.name);
+                    localStorage.setItem("farmerLocation", data.userData.location);
+                    localStorage.setItem("farmerID", data.userData.id);
+
+                    alert("✅ Login Successful!");
+                    window.location.href = "index.html";
+                } else {
+                    alert("❌ Error: " + data.message);
+                    inputs.forEach(input => input.value = '');
+                    inputs[0].focus();
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                alert("Backend is not running. Check Ngrok/Server.");
+            }
+        }
+    </script>
+</body>
+
+</html>

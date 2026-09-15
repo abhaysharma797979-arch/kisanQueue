@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Aadhaar Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .input-icon-box {
+            background-color: #f9fafb;
+        }
+
+        /* Hide number input arrows */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } }
+            }
+        }
+    </script>
+</head>
+
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-gray-200 h-20 flex justify-between items-center px-8 shrink-0 z-20">
+        <div class="flex items-center space-x-3">
+            <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-xl"><i class="fa-solid fa-wheat-awn"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-textDark leading-tight">KisanQueue</h1>
+                <p class="text-xs text-gray-500" data-key="subtitle">Smart Procurement Platform</p>
+            </div>
+        </div>
+        <div class="flex space-x-4 items-center">
+            <div class="relative">
+                <button onclick="toggleLangMenu()"
+                    class="border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:bg-gray-50 focus:outline-none">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="currentLang">English</span>
+                    <i class="fa-solid fa-chevron-down text-xs ml-2"></i>
+                </button>
+                <div id="langMenu"
+                    class="absolute hidden right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+                    <button onclick="setLanguage('en')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">English</button>
+                    <button onclick="setLanguage('hi')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">हिंदी</button>
+                </div>
+            </div>
+            <button
+                class="border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:bg-gray-50">
+                <i class="fa-regular fa-circle-question text-primary"></i> <span data-key="help">Help</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col lg:flex-row overflow-hidden">
+
+        <div
+            class="w-full lg:w-1/3 xl:w-4/12 relative overflow-hidden bg-gray-900 flex flex-col justify-between hidden lg:flex">
+            <img src="aadhaar-verification.png" alt="Banner Background"
+                class="absolute inset-0 w-full h-full object-cover opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent"></div>
+
+            <div class="relative z-10 p-12 pt-16">
+                <h2 class="text-4xl font-bold text-textDark mb-4 leading-tight" data-key="heroTitle">Smart
+                    Procurement<br>for Farmers</h2>
+                <p class="text-gray-800 font-medium mb-10 text-lg" data-key="heroDesc">Book your slot, track your
+                    queue,<br>and get timely payments.</p>
+            </div>
+
+            <div class="relative z-10 w-full bg-[#155d27] text-white py-8 px-6 flex justify-around">
+                <div class="text-center flex flex-col items-center"><i
+                        class="fa-regular fa-shield-check text-2xl mb-2 text-green-200"></i>
+                    <div class="text-xs" data-key="feat1">Secure &<br>Trusted</div>
+                </div>
+                <div class="text-center flex flex-col items-center"><i
+                        class="fa-regular fa-clock text-2xl mb-2 text-green-200"></i>
+                    <div class="text-xs" data-key="feat2">Save Time &<br>Skip Queues</div>
+                </div>
+                <div class="text-center flex flex-col items-center"><i
+                        class="fa-regular fa-bell text-2xl mb-2 text-green-200"></i>
+                    <div class="text-xs" data-key="feat3">Real-time<br>Updates</div>
+                </div>
+                <div class="text-center flex flex-col items-center"><i
+                        class="fa-solid fa-indian-rupee-sign text-2xl mb-2 text-green-200"></i>
+                    <div class="text-xs" data-key="feat4">Track<br>Payments</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-2/3 xl:w-8/12 bg-gray-50 flex justify-center py-10 px-4 sm:px-8 overflow-y-auto">
+            <div class="w-full max-w-5xl bg-white border border-gray-100 rounded-xl shadow-sm p-8 sm:p-10">
+
+                <div class="w-full max-w-3xl mx-auto mb-10 relative">
+                    <div class="absolute top-4 left-10 right-10 h-[2px] bg-gray-200 z-0"></div>
+                    <div class="absolute top-4 left-10 w-[50%] h-[2px] bg-primary z-0"></div>
+
+                    <div class="flex justify-between relative z-10">
+                        <div class="flex flex-col items-center w-36">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold mb-2 ring-4 ring-white">
+                                <i class="fa-solid fa-check"></i></div>
+                            <span class="text-xs text-gray-500 font-medium" data-key="step1">Phone Verification</span>
+                        </div>
+                        <div class="flex flex-col items-center w-36">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold mb-2 ring-4 ring-white">
+                                2</div>
+                            <span class="text-xs text-primary font-bold" data-key="step2">Aadhaar Verification</span>
+                        </div>
+                        <div class="flex flex-col items-center w-36">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-sm font-bold mb-2 ring-4 ring-white">
+                                3</div>
+                            <span class="text-xs text-gray-400 font-medium" data-key="step3">Basic Information</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="aadhaarForm" onsubmit="saveAndContinue(event)">
+
+                    <div class="mb-8 max-w-3xl">
+                        <h3 class="text-xl font-bold text-primaryDark mb-2" data-key="aadhaarTitle">Aadhaar Verification
+                        </h3>
+                        <p class="text-xs text-gray-500 mb-6 flex items-center"><i
+                                class="fa-solid fa-shield-halved mr-2"></i> <span data-key="aadhaarSecure">Your Aadhaar
+                                information is secure and used only for verification purposes.</span></p>
+
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-1.5"><span
+                                        data-key="aadhaarNo">Aadhaar Number</span> <span
+                                        class="text-red-500">*</span></label>
+                                <div
+                                    class="flex border border-gray-300 rounded-md overflow-hidden focus-within:border-primary transition-all">
+                                    <div
+                                        class="input-icon-box px-4 py-2.5 border-r border-gray-300 flex items-center text-gray-500">
+                                        <i class="fa-regular fa-user text-sm"></i></div>
+                                    <input type="text" id="aadhaarNumber"
+                                        class="w-full px-4 py-2.5 text-sm outline-none bg-white disabled:bg-gray-50"
+                                        placeholder="XXXX XXXX XXXX" maxlength="14" required>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1.5" data-key="aadhaarHint">Enter your 12 digit
+                                    Aadhaar number</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-1.5"><span
+                                        data-key="enterOtp">Enter OTP</span> <span class="text-red-500">*</span></label>
+                                <div
+                                    class="flex border border-gray-300 rounded-md overflow-hidden focus-within:border-primary transition-all">
+                                    <div
+                                        class="input-icon-box px-4 py-2.5 border-r border-gray-300 flex items-center text-gray-500">
+                                        <i class="fa-solid fa-lock text-sm"></i></div>
+                                    <input type="number" id="aadhaarOtp" data-key="otpPlaceholder"
+                                        class="w-full px-4 py-2.5 text-sm outline-none bg-white disabled:bg-gray-50"
+                                        placeholder="Enter 6 digit OTP" required>
+
+                                    <button type="button" id="aadhaarActionBtn" onclick="handleAadhaarAction()"
+                                        class="bg-white border-l border-gray-300 text-primary px-6 font-semibold text-sm hover:bg-gray-50 transition min-w-[120px]"
+                                        data-key="sendOtpBtn">Send OTP</button>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1.5" data-key="otpHint">OTP will be sent to your
+                                    Aadhaar registered mobile number</p>
+                            </div>
+
+                            <div
+                                class="bg-[#eef8f0] rounded-lg p-4 flex items-start space-x-4 border border-[#c3e6cb] mt-2">
+                                <i class="fa-regular fa-circle-check text-primary text-xl mt-0.5"></i>
+                                <div>
+                                    <h4 class="text-sm font-semibold text-primaryDark mb-1" data-key="otpSentAuto">OTP
+                                        will be sent automatically</h4>
+                                    <p class="text-xs text-gray-700 leading-relaxed" data-key="otpSentDesc">An OTP will
+                                        be sent to your Aadhaar registered mobile number<br><span
+                                            class="font-medium text-gray-500" id="maskedMobile">(xxxx xxx 3210)</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="border-gray-200 mb-8">
+
+                    <div class="mb-10">
+                        <h3 class="text-lg font-bold text-primary mb-5" data-key="landTitle">Land Information</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="recordType">Land / Record Type</span> <span
+                                        class="text-red-500">*</span></label>
+                                <select id="recordType"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm outline-none focus:border-primary bg-white text-gray-600"
+                                    required>
+                                    <option value="" data-key="selectType">Select Type</option>
+                                    <option value="Agriculture">Agriculture</option>
+                                    <option value="Commercial">Commercial</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="khasraNo">Khasra / Khatuni Number</span> <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" id="khasra" data-key="khasraPl"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary"
+                                    placeholder="Enter Khasra / Khatuni number" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="landArea">Land Area (in Acre)</span> <span
+                                        class="text-red-500">*</span></label>
+                                <input type="number" step="0.01" id="landArea" data-key="areaPl"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary"
+                                    placeholder="Enter land area" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="state">State</span> <span class="text-red-500">*</span></label>
+                                <select id="state" onchange="updateDistricts()"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm outline-none focus:border-primary bg-white text-gray-600"
+                                    required>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="district">District</span> <span class="text-red-500">*</span></label>
+                                <select id="district"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm outline-none focus:border-primary bg-white text-gray-600 disabled:bg-gray-50"
+                                    required disabled>
+                                    <option value="" data-key="districtPl">Select State First</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="tehsil">Tehsil / Block</span> <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" id="tehsil"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary"
+                                    placeholder="Enter Tehsil / Block" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="village">Village</span> <span class="text-red-500">*</span></label>
+                                <input type="text" id="village"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm outline-none focus:border-primary"
+                                    placeholder="Enter Village" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1.5"><span
+                                        data-key="landOwnership">Land Ownership</span> <span
+                                        class="text-red-500">*</span></label>
+                                <select id="ownership"
+                                    class="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm outline-none focus:border-primary bg-white text-gray-600"
+                                    required>
+                                    <option value="" data-key="ownershipPl">Select Ownership Type</option>
+                                    <option value="Self">Self</option>
+                                    <option value="Joint">Joint</option>
+                                    <option value="Leased">Leased</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center border-t border-gray-200 pt-6">
+                        <button type="button" onclick="window.history.back()"
+                            class="border border-gray-300 text-gray-700 px-6 py-2.5 rounded-md text-sm font-semibold hover:bg-gray-50 flex items-center transition">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> <span data-key="back">Back</span>
+                        </button>
+                        <button type="submit"
+                            class="bg-[#0f7634] hover:bg-[#0a5223] text-white px-8 py-2.5 rounded-md text-sm font-semibold flex items-center transition shadow-md">
+                            <span data-key="saveCont">Save & Continue</span> <i
+                                class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <footer
+        class="bg-white border-t border-gray-200 py-5 text-center text-xs text-gray-500 flex justify-center space-x-6 items-center shrink-0">
+        <span>© 2026 KisanQueue. <span data-key="rights">All rights reserved.</span></span>
+        <div class="h-4 w-px bg-gray-300"></div>
+        <a href="#" class="hover:text-primary transition" data-key="privacy">Privacy Policy</a>
+        <div class="h-4 w-px bg-gray-300"></div>
+        <a href="#" class="hover:text-primary transition" data-key="terms">Terms & Conditions</a>
+    </footer>
+
+    <script>
+        // State variables
+        let aadhaarVerified = false;
+        let otpSent = false;
+
+        // Location Data for Dependent Dropdown
+        const locationData = {
+            "Uttar Pradesh": ["Agra", "Aligarh", "Ambedkar Nagar", "Ayodhya", "Azamgarh", "Bahraich", "Ballia", "Banda", "Bareilly", "Basti", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Ghazipur", "Gonda", "Gorakhpur", "Hardoi", "Jaunpur", "Jhansi", "Kanpur Nagar", "Kushinagar", "Lakhimpur Kheri", "Lucknow", "Mathura", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pratapgarh", "Prayagraj", "Saharanpur", "Shahjahanpur", "Sitapur", "Varanasi"],
+            "Bihar": ["Araria", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran (Chhapra)", "Sitamarhi", "Siwan", "Vaishali", "West Champaran"],
+            "Madhya Pradesh": ["Bhopal", "Indore", "Jabalpur", "Gwalior", "Ujjain", "Sagar", "Rewa", "Satna"],
+            "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Jalgaon", "Kolhapur", "Mumbai", "Nagpur", "Nashik", "Pune", "Thane"]
+        };
+
+        window.onload = function () {
+            // Masked Mobile load
+            const savedMobile = sessionStorage.getItem("verifiedMobile");
+            if (savedMobile && savedMobile.length === 10) {
+                const masked = "(xxxx xxx " + savedMobile.slice(6) + ")";
+                document.getElementById('maskedMobile').innerText = masked;
+            }
+
+            // Populate States
+            const stateSelect = document.getElementById("state");
+            stateSelect.innerHTML = `<option value="" data-key="statePl">Select State</option>`;
+            for (let state in locationData) {
+                let option = document.createElement("option");
+                option.value = state;
+                option.text = state;
+                stateSelect.appendChild(option);
+            }
+        };
+
+        // Format Aadhaar Number
+        document.getElementById('aadhaarNumber').addEventListener('input', function (e) {
+            let target = e.target;
+            let val = target.value.replace(/\D/g, '').match(/(\d{0,4})(\d{0,4})(\d{0,4})/);
+            target.value = !val[2] ? val[1] : val[1] + ' ' + val[2] + (val[3] ? ' ' + val[3] : '');
+        });
+
+        // Update Districts based on State
+        function updateDistricts() {
+            const stateSelect = document.getElementById("state");
+            const districtSelect = document.getElementById("district");
+            const selectedState = stateSelect.value;
+            const currentLang = document.getElementById("currentLang").innerText;
+
+            districtSelect.innerHTML = `<option value="" data-key="districtPl">${currentLang === 'English' ? 'Select District' : 'ज़िला चुनें'}</option>`;
+
+            if (selectedState !== "") {
+                const districts = locationData[selectedState].sort();
+                districts.forEach(district => {
+                    let option = document.createElement("option");
+                    option.value = district;
+                    option.text = district;
+                    districtSelect.appendChild(option);
+                });
+                districtSelect.disabled = false;
+                districtSelect.classList.remove("disabled:bg-gray-50");
+            } else {
+                districtSelect.disabled = true;
+                districtSelect.classList.add("disabled:bg-gray-50");
+                districtSelect.innerHTML = `<option value="" data-key="districtPl">${currentLang === 'English' ? 'Select State First' : 'पहले राज्य चुनें'}</option>`;
+            }
+        }
+
+        // Handle Aadhaar OTP & Verification
+        function handleAadhaarAction() {
+            if (aadhaarVerified) return;
+
+            const aadhaar = document.getElementById('aadhaarNumber').value.replace(/\s/g, '');
+            const btn = document.getElementById('aadhaarActionBtn');
+            const otpInput = document.getElementById('aadhaarOtp');
+            const currentLang = document.getElementById('currentLang').innerText;
+
+            if (!otpSent) {
+                if (aadhaar.length !== 12) {
+                    alert(currentLang === 'English' ? "Please enter a valid 12-digit Aadhaar Number first." : "कृपया पहले एक मान्य 12-अंकीय आधार नंबर दर्ज करें।");
+                    return;
+                }
+
+                alert(currentLang === 'English' ? "Aadhaar OTP sent successfully! (Use 123456 to test)" : "आधार OTP सफलतापूर्वक भेज दिया गया! (टेस्ट करने के लिए 123456 का उपयोग करें)");
+
+                otpSent = true;
+                btn.innerText = currentLang === 'English' ? "Verify OTP" : "OTP जांचें";
+                btn.setAttribute("data-key", "verifyOtpBtn");
+
+            } else {
+                if (otpInput.value === '123456') {
+                    alert(currentLang === 'English' ? "✅ Aadhaar Verified Successfully!" : "✅ आधार सफलतापूर्वक सत्यापित हो गया!");
+
+                    aadhaarVerified = true;
+                    btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> ' + (currentLang === 'English' ? 'Verified' : 'सत्यापित');
+                    btn.setAttribute("data-key", "verifiedBtn");
+                    btn.className = "bg-green-600 text-white px-6 font-semibold text-sm transition min-w-[120px] rounded-r-md cursor-default";
+
+                    otpInput.disabled = true;
+                    document.getElementById('aadhaarNumber').disabled = true;
+
+                } else {
+                    alert(currentLang === 'English' ? "❌ Incorrect OTP. Please try again." : "❌ गलत OTP। कृपया पुनः प्रयास करें।");
+                }
+            }
+        }
+
+        // Form Submit
+        function saveAndContinue(event) {
+            event.preventDefault();
+            const currentLang = document.getElementById('currentLang').innerText;
+
+            if (!aadhaarVerified) {
+                alert(currentLang === 'English' ? "Please verify your Aadhaar Number before continuing." : "कृपया आगे बढ़ने से पहले अपना आधार नंबर सत्यापित करें।");
+                return;
+            }
+
+            // Registration progress ko storage me save kar lete hain agar aage zaroorat pade
+            sessionStorage.setItem("aadhaarVerified", "true");
+
+            // Move to Step 3 (Basic Information)
+            window.location.href = "basic-information.html";
+        }
+
+        // --- Translation Dictionary ---
+        const translations = {
+            en: {
+                subtitle: "Smart Procurement Platform", help: "Help",
+                heroTitle: "Smart Procurement<br>for Farmers", heroDesc: "Book your slot, track your queue,<br>and get timely payments.",
+                feat1: "Secure &<br>Trusted", feat2: "Save Time &<br>Skip Queues", feat3: "Real-time<br>Updates", feat4: "Track<br>Payments",
+                step1: "Phone Verification", step2: "Aadhaar Verification", step3: "Basic Information",
+                aadhaarTitle: "Aadhaar Verification", aadhaarSecure: "Your Aadhaar information is secure and used only for verification purposes.",
+                aadhaarNo: "Aadhaar Number", aadhaarHint: "Enter your 12 digit Aadhaar number",
+                enterOtp: "Enter OTP", otpPlaceholder: "Enter 6 digit OTP",
+                sendOtpBtn: "Send OTP", verifyOtpBtn: "Verify OTP", verifiedBtn: "Verified",
+                otpHint: "OTP will be sent to your Aadhaar registered mobile number",
+                otpSentAuto: "OTP will be sent automatically", otpSentDesc: "An OTP will be sent to your Aadhaar registered mobile number",
+                landTitle: "Land Information",
+                recordType: "Land / Record Type", selectType: "Select Type",
+                khasraNo: "Khasra / Khatuni Number", khasraPl: "Enter Khasra / Khatuni number",
+                landArea: "Land Area (in Acre)", areaPl: "Enter land area",
+                state: "State", statePl: "Select State",
+                district: "District", districtPl: "Select District",
+                tehsil: "Tehsil / Block", tehsilPl: "Select Tehsil / Block",
+                village: "Village", villagePl: "Select Village",
+                landOwnership: "Land Ownership", ownershipPl: "Select Ownership Type",
+                back: "Back", saveCont: "Save & Continue",
+                rights: "All rights reserved.", privacy: "Privacy Policy", terms: "Terms & Conditions"
+            },
+            hi: {
+                subtitle: "स्मार्ट खरीद मंच", help: "सहायता",
+                heroTitle: "किसानों के लिए<br>स्मार्ट खरीद", heroDesc: "अपना स्लॉट बुक करें, अपनी कतार ट्रैक करें,<br>और समय पर भुगतान प्राप्त करें।",
+                feat1: "सुरक्षित और<br>विश्वसनीय", feat2: "समय बचाएं और<br>कतार छोड़ें", feat3: "रीयल-टाइम<br>अपडेट", feat4: "भुगतान<br>ट्रैक करें",
+                step1: "फ़ोन सत्यापन", step2: "आधार सत्यापन", step3: "मूल जानकारी",
+                aadhaarTitle: "आधार सत्यापन", aadhaarSecure: "आपकी आधार जानकारी सुरक्षित है और इसका उपयोग केवल सत्यापन के लिए किया जाता है।",
+                aadhaarNo: "आधार संख्या", aadhaarHint: "अपनी 12 अंकों की आधार संख्या दर्ज करें",
+                enterOtp: "OTP दर्ज करें", otpPlaceholder: "6 अंकों का OTP दर्ज करें",
+                sendOtpBtn: "OTP भेजें", verifyOtpBtn: "OTP जांचें", verifiedBtn: "सत्यापित",
+                otpHint: "OTP आपके आधार से पंजीकृत मोबाइल नंबर पर भेजा जाएगा",
+                otpSentAuto: "OTP स्वचालित रूप से भेजा जाएगा", otpSentDesc: "आपके आधार से पंजीकृत मोबाइल नंबर पर एक OTP भेजा जाएगा",
+                landTitle: "भूमि की जानकारी",
+                recordType: "भूमि / रिकॉर्ड का प्रकार", selectType: "प्रकार चुनें",
+                khasraNo: "खसरा / खतौनी नंबर", khasraPl: "खसरा / खतौनी नंबर दर्ज करें",
+                landArea: "भूमि क्षेत्र (एकड़ में)", areaPl: "भूमि क्षेत्र दर्ज करें",
+                state: "राज्य", statePl: "राज्य चुनें",
+                district: "ज़िला", districtPl: "ज़िला चुनें",
+                tehsil: "तहसील / ब्लॉक", tehsilPl: "तहसील / ब्लॉक चुनें",
+                village: "गाँव", villagePl: "गाँव चुनें",
+                landOwnership: "भूमि स्वामित्व", ownershipPl: "स्वामित्व का प्रकार चुनें",
+                back: "पीछे जाएं", saveCont: "सहेजें और जारी रखें",
+                rights: "सर्वाधिकार सुरक्षित।", privacy: "गोपनीयता नीति", terms: "नियम एवं शर्तें"
+            }
+        };
+
+        function toggleLangMenu() { document.getElementById('langMenu').classList.toggle('hidden'); }
+
+        function setLanguage(lang) {
+            document.getElementById('currentLang').innerText = lang === 'en' ? 'English' : 'हिंदी';
+            document.getElementById('langMenu').classList.add('hidden');
+
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (elem.tagName === 'INPUT' || (elem.tagName === 'SELECT' && elem.options[0].disabled)) {
+                        elem.placeholder = translations[lang][key];
+                    } else if (elem.tagName === 'OPTION') {
+                        elem.innerText = translations[lang][key];
+                    } else if (elem.id === 'aadhaarActionBtn' && aadhaarVerified) {
+                        elem.innerHTML = '<i class="fa-solid fa-check-circle"></i> ' + translations[lang][key];
+                    } else {
+                        elem.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+
+            // Re-trigger district translation
+            const stateSelect = document.getElementById("state");
+            if (stateSelect.value === "") {
+                const distSelect = document.getElementById("district");
+                distSelect.innerHTML = `<option value="" data-key="districtPl">${lang === 'en' ? 'Select State First' : 'पहले राज्य चुनें'}</option>`;
+            }
+        }
+
+        window.onclick = function (event) {
+            if (!event.target.closest('.relative')) document.getElementById('langMenu').classList.add('hidden');
+        }
+    </script>
+</body>
+
+</html>
