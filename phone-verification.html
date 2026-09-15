@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Phone Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 h-20 flex justify-between items-center px-8 shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-xl"><i class="fa-solid fa-wheat-awn"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-textDark leading-tight">KisanQueue</h1>
+                <p class="text-xs text-gray-500" data-key="subtitle">Smart Procurement Platform</p>
+            </div>
+        </div>
+        <div class="flex space-x-4 items-center">
+
+            <div class="relative">
+                <button onclick="toggleLangMenu()"
+                    class="border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:bg-gray-50 focus:outline-none">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="currentLang">English</span>
+                    <i class="fa-solid fa-chevron-down text-xs ml-2"></i>
+                </button>
+                <div id="langMenu"
+                    class="absolute hidden right-0 mt-2 w-32 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+                    <button onclick="setLanguage('en')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">English</button>
+                    <button onclick="setLanguage('hi')"
+                        class="w-full text-left px-4 py-2 text-sm hover:bg-green-50 text-gray-700 transition">हिंदी</button>
+                </div>
+            </div>
+
+            <button
+                class="border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-700 flex items-center space-x-2 hover:bg-gray-50">
+                <i class="fa-regular fa-circle-question text-primary"></i> <span data-key="help">Help</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col md:flex-row overflow-hidden">
+
+        <!-- Left Section -->
+        <div class="w-full md:w-5/12 relative overflow-hidden bg-gray-900 flex flex-col justify-between">
+            <img src="phone-verification.png" alt="Banner Background"
+                class="absolute inset-0 w-full h-full object-cover opacity-80">
+            <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent"></div>
+
+            <div class="relative z-10 p-12 lg:p-16 pt-20">
+                <h2 class="text-4xl font-bold text-textDark mb-4 leading-tight" data-key="heroTitle">Smart
+                    Procurement<br>for Farmers</h2>
+                <p class="text-gray-800 font-medium mb-10 text-lg max-w-sm" data-key="heroDesc">Book your slot, track
+                    your queue, and get timely payments.</p>
+            </div>
+
+            <div class="relative z-10 w-full bg-[#155d27] text-white py-8 px-6 flex justify-around">
+                <div class="text-center flex flex-col items-center">
+                    <i class="fa-regular fa-shield-check text-3xl mb-2 text-green-200"></i>
+                    <div class="text-xs text-white" data-key="feat1">Secure &<br>Trusted</div>
+                </div>
+                <div class="text-center flex flex-col items-center">
+                    <i class="fa-regular fa-clock text-3xl mb-2 text-green-200"></i>
+                    <div class="text-xs text-white" data-key="feat2">Save Time &<br>Skip Queues</div>
+                </div>
+                <div class="text-center flex flex-col items-center">
+                    <i class="fa-regular fa-bell text-3xl mb-2 text-green-200"></i>
+                    <div class="text-xs text-white" data-key="feat3">Real-time<br>Updates</div>
+                </div>
+                <div class="text-center flex flex-col items-center">
+                    <i class="fa-solid fa-indian-rupee-sign text-3xl mb-2 text-green-200"></i>
+                    <div class="text-xs text-white" data-key="feat4">Track<br>Payments</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section -->
+        <div class="w-full md:w-7/12 bg-white flex flex-col items-center py-10 px-6 overflow-y-auto">
+            <div
+                class="w-full max-w-2xl bg-white border border-gray-100 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] p-10 pt-12 min-h-[500px]">
+
+                <!-- Stepper -->
+                <div class="w-full max-w-lg mx-auto mb-12 relative">
+                    <div class="absolute top-4 left-10 right-10 h-[2px] bg-gray-200 z-0"></div>
+                    <div class="absolute top-4 left-10 w-[20%] h-[2px] bg-primary z-0"></div>
+
+                    <div class="flex justify-between relative z-10">
+                        <!-- Step 1 (Active) -->
+                        <div class="flex flex-col items-center w-32">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-bold mb-3 shadow-md shadow-green-200 ring-4 ring-white">
+                                1</div>
+                            <span class="text-xs text-primary font-semibold text-center" data-key="step1">Phone
+                                Verification</span>
+                        </div>
+                        <!-- Step 2 (Inactive) -->
+                        <div class="flex flex-col items-center w-32">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-sm font-bold mb-3 ring-4 ring-white">
+                                2</div>
+                            <span class="text-xs text-gray-400 text-center" data-key="step2">Aadhaar Details</span>
+                        </div>
+                        <!-- Step 3 (Inactive) -->
+                        <div class="flex flex-col items-center w-32">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-sm font-bold mb-3 ring-4 ring-white">
+                                3</div>
+                            <span class="text-xs text-gray-400 text-center" data-key="step3">Basic Information</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1. Phone Input Section -->
+                <div id="phoneSection" class="w-full max-w-md mx-auto text-center transition-all duration-300">
+                    <div
+                        class="bg-[#eef8f0] w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 text-primary relative">
+                        <i class="fa-solid fa-mobile-screen text-4xl"></i>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2" data-key="verifyTitle">Verify Your Mobile Number
+                    </h2>
+                    <p class="text-gray-500 text-sm mb-10" data-key="verifyDesc">Enter your mobile number to receive an
+                        OTP<br>for verification</p>
+
+                    <div class="text-left mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2" data-key="mobileLabel">Mobile
+                            Number</label>
+                        <div
+                            class="flex border border-gray-300 rounded-lg overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary transition-all">
+                            <div class="bg-gray-50 px-4 py-3 border-r border-gray-300 flex items-center text-gray-600">
+                                <i class="fa-solid fa-phone text-sm mr-2 opacity-70"></i>
+                                <select class="bg-transparent text-sm outline-none cursor-pointer">
+                                    <option>+91</option>
+                                </select>
+                            </div>
+                            <input type="tel" id="mobileInput" data-key="mobileInput"
+                                class="w-full px-4 py-3 outline-none text-gray-700 bg-white"
+                                placeholder="Enter your mobile number" maxlength="10">
+                        </div>
+                    </div>
+
+                    <button onclick="handleSendOTP()"
+                        class="w-full bg-[#0a6c33] hover:bg-primaryDark text-white font-medium py-3.5 rounded-lg flex justify-center items-center transition-colors mb-6">
+                        <span data-key="sendOtpBtn">Send OTP</span>
+                    </button>
+
+                    <div class="bg-[#f2f9f4] rounded-lg p-4 flex items-center justify-center space-x-3 text-left">
+                        <i class="fa-solid fa-lock text-[#0a6c33]"></i>
+                        <p class="text-xs text-gray-700 leading-tight" data-key="infoBox">We will send a One Time
+                            Password (OTP)<br>to verify your mobile number</p>
+                    </div>
+
+                    <p class="mt-6 text-sm text-gray-600">Already registered? <a href="login.html"
+                            class="text-primary font-semibold hover:underline">Login here</a></p>
+                </div>
+
+                <!-- 2. OTP Verification Section (Hidden by Default) -->
+                <div id="otpSection" class="w-full max-w-md mx-auto text-center hidden transition-all duration-300">
+                    <div class="text-left mb-2">
+                        <button onclick="goBackToPhone()" class="text-gray-400 hover:text-gray-700 transition">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> <span data-key="backBtn">Back</span>
+                        </button>
+                    </div>
+
+                    <div
+                        class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-primaryDark text-3xl">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-gray-900 mb-1" data-key="otpTitle">Enter Verification Code</h2>
+                    <p class="text-gray-500 text-sm mb-8">
+                        <span data-key="otpDesc">We have sent a verification code to</span> <br>
+                        <span id="displayMobile" class="font-semibold text-gray-800"></span>
+                    </p>
+
+                    <div class="flex justify-between space-x-2 mb-8" id="otp-container">
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input">
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                        <input type="number" maxlength="1"
+                            class="w-12 h-14 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:border-primary focus:ring-2 focus:ring-green-200 outline-none transition otp-input"
+                            disabled>
+                    </div>
+
+                    <button id="verifyBtnContainer" onclick="handleVerifyOTP()"
+                        class="w-full bg-primary hover:bg-green-700 text-white font-medium py-3 rounded-lg flex justify-center items-center space-x-2 transition-colors mb-6">
+                        <span id="verifyBtnText" data-key="verifyBtn">Verify & Proceed</span>
+                        <i id="verifyBtnIcon" class="fa-solid fa-arrow-right text-sm"></i>
+                    </button>
+
+                    <p class="text-sm text-gray-600">
+                        <span data-key="didntReceive">Didn't receive the code?</span>
+                        <button id="resendBtn" class="text-gray-400 font-semibold cursor-not-allowed ml-1" disabled
+                            onclick="resendOTP()">
+                            <span data-key="resendTxt">Resend OTP</span> <span id="timer">(00:30)</span>
+                        </button>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer
+        class="bg-white border-t border-gray-200 py-5 text-center text-xs text-gray-500 flex justify-center space-x-6 items-center shrink-0">
+        <span>© 2026 KisanQueue. <span data-key="rights">All rights reserved.</span></span>
+        <div class="h-4 w-px bg-gray-300"></div>
+        <a href="#" class="hover:text-primary transition" data-key="privacy">Privacy Policy</a>
+        <div class="h-4 w-px bg-gray-300"></div>
+        <a href="#" class="hover:text-primary transition" data-key="terms">Terms & Conditions</a>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- Translation Dictionary ---
+        const translations = {
+            en: {
+                subtitle: "Smart Procurement Platform", help: "Help",
+                heroTitle: "Smart Procurement<br>for Farmers", heroDesc: "Book your slot, track your queue, and get timely payments.",
+                feat1: "Secure &<br>Trusted", feat2: "Save Time &<br>Skip Queues", feat3: "Real-time<br>Updates", feat4: "Track<br>Payments",
+                step1: "Phone Verification", step2: "Aadhaar Details", step3: "Basic Information",
+                verifyTitle: "Verify Your Mobile Number", verifyDesc: "Enter your mobile number to receive an OTP<br>for verification",
+                mobileLabel: "Mobile Number", mobileInput: "Enter your mobile number", sendOtpBtn: "Send OTP",
+                infoBox: "We will send a One Time Password (OTP)<br>to verify your mobile number",
+                rights: "All rights reserved.", privacy: "Privacy Policy", terms: "Terms & Conditions",
+                backBtn: "Back", otpTitle: "Enter Verification Code", otpDesc: "We have sent a verification code to",
+                verifyBtn: "Verify & Proceed", didntReceive: "Didn't receive the code?", resendTxt: "Resend OTP"
+            },
+            hi: {
+                subtitle: "स्मार्ट खरीद मंच", help: "सहायता",
+                heroTitle: "किसानों के लिए<br>स्मार्ट खरीद", heroDesc: "अपना स्लॉट बुक करें, अपनी कतार ट्रैक करें, और समय पर भुगतान प्राप्त करें।",
+                feat1: "सुरक्षित और<br>विश्वसनीय", feat2: "समय बचाएं और<br>कतार छोड़ें", feat3: "रीयल-टाइम<br>अपडेट", feat4: "भुगतान<br>ट्रैक करें",
+                step1: "फ़ोन सत्यापन", step2: "आधार विवरण", step3: "मूल जानकारी",
+                verifyTitle: "अपना मोबाइल नंबर सत्यापित करें", verifyDesc: "सत्यापन के लिए OTP प्राप्त करने हेतु<br>अपना मोबाइल नंबर दर्ज करें",
+                mobileLabel: "मोबाइल नंबर", mobileInput: "अपना मोबाइल नंबर दर्ज करें", sendOtpBtn: "OTP भेजें",
+                infoBox: "हम आपके मोबाइल नंबर को सत्यापित करने के लिए<br>एक वन टाइम पासवर्ड (OTP) भेजेंगे",
+                rights: "सर्वाधिकार सुरक्षित।", privacy: "गोपनीयता नीति", terms: "नियम एवं शर्तें",
+                backBtn: "पीछे जाएं", otpTitle: "सत्यापन कोड दर्ज करें", otpDesc: "हमने इस नंबर पर सत्यापन कोड भेजा है",
+                verifyBtn: "सत्यापित करें और आगे बढ़ें", didntReceive: "क्या आपको कोड नहीं मिला?", resendTxt: "फिर से OTP भेजें"
+            }
+        };
+
+        function toggleLangMenu() { document.getElementById('langMenu').classList.toggle('hidden'); }
+        function setLanguage(lang) {
+            document.getElementById('currentLang').innerText = lang === 'en' ? 'English' : 'हिंदी';
+            document.getElementById('langMenu').classList.add('hidden');
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    if (elem.tagName === 'INPUT') elem.placeholder = translations[lang][key];
+                    else elem.innerHTML = translations[lang][key];
+                }
+            });
+        }
+        window.onclick = function (event) {
+            if (!event.target.closest('.relative')) document.getElementById('langMenu').classList.add('hidden');
+        }
+
+        // --- UI Switching ---
+        let timerId;
+        let timeLeft = 30;
+
+        function goBackToPhone() {
+            document.getElementById('otpSection').classList.add('hidden');
+            document.getElementById('phoneSection').classList.remove('hidden');
+            clearTimeout(timerId);
+            inputs.forEach(input => { input.value = ''; input.disabled = true; });
+            inputs[0].disabled = false;
+        }
+
+        // --- OTP Timer Logic ---
+        function startTimer() {
+            timeLeft = 30;
+            let btn = document.getElementById('resendBtn');
+            btn.disabled = true;
+            btn.classList.add('text-gray-400', 'cursor-not-allowed');
+            btn.classList.remove('text-primary', 'hover:underline');
+            clearInterval(timerId);
+            timerId = setInterval(countdown, 1000);
+        }
+
+        function countdown() {
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                let btn = document.getElementById('resendBtn');
+                btn.disabled = false;
+                btn.classList.remove('text-gray-400', 'cursor-not-allowed');
+                btn.classList.add('text-primary', 'hover:underline');
+                document.getElementById('timer').innerText = "";
+            } else {
+                let seconds = timeLeft < 10 ? '0' + timeLeft : timeLeft;
+                document.getElementById('timer').innerText = `(00:${seconds})`;
+                timeLeft--;
+            }
+        }
+
+        function resendOTP() { handleSendOTP(true); }
+
+        // --- OTP Input Auto-Focus Logic ---
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length > 1) e.target.value = e.target.value.slice(0, 1);
+                if (e.target.value !== '' && index < inputs.length - 1) {
+                    inputs[index + 1].disabled = false;
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
+                    inputs[index - 1].focus();
+                    inputs[index - 1].value = '';
+                }
+            });
+        });
+
+        // --- API Integration ---
+        const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') && window.location.port !== '5001' ? 'http://127.0.0.1:5001' : '';
+
+        async function handleSendOTP(isResend = false) {
+            const mobile = document.getElementById('mobileInput').value;
+            if (mobile.length !== 10) { alert("Please enter a valid 10-digit mobile number."); return; }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/register/send-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile: mobile })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    if (isResend) {
+                        alert("✅ OTP Resent Successfully! (Use 123456 to test)");
+                    }
+                    else {
+                        alert("✅ OTP Sent Successfully!\n\n(Use 123456 to test)");
+                        document.getElementById('phoneSection').classList.add('hidden');
+                        document.getElementById('otpSection').classList.remove('hidden');
+                        document.getElementById('displayMobile').innerText = '+91 ' + mobile;
+                        inputs[0].disabled = false;
+                        setTimeout(() => inputs[0].focus(), 100);
+                    }
+                    startTimer();
+                } else {
+                    alert("❌ " + data.message);
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                alert("Backend is not running. Make sure your server is running!");
+            }
+        }
+
+        async function handleVerifyOTP() {
+            let otpValue = "";
+            inputs.forEach(input => otpValue += input.value);
+            if (otpValue.length < 6) { alert("Please enter the complete 6-digit OTP"); return; }
+
+            const btnText = document.getElementById('verifyBtnText');
+            const btnIcon = document.getElementById('verifyBtnIcon');
+            const btnContainer = document.getElementById('verifyBtnContainer');
+
+            btnText.innerText = "Verifying...";
+            btnIcon.className = "fa-solid fa-spinner fa-spin text-sm";
+
+            try {
+                const response = await fetch(`${API_BASE}/api/register/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        mobile: localStorage.getItem("verifiedMobile") || document.getElementById('mobileInput').value,
+                        otp: otpValue
+                    })
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    btnText.innerText = "Verification Successful!";
+                    btnIcon.className = "fa-solid fa-check-circle text-sm";
+                    btnContainer.classList.replace('bg-primary', 'bg-green-600');
+
+                    localStorage.setItem("verifiedMobile", document.getElementById('mobileInput').value);
+
+                    alert("✅ Verification Successful! Taking you to Step 2 (Verification)...");
+
+                    setTimeout(() => {
+                        window.location.href = "aadhaar-verification.html";
+                    }, 500);
+
+                } else {
+                    btnText.innerText = "Verify & Proceed";
+                    btnIcon.className = "fa-solid fa-arrow-right text-sm";
+
+                    alert("❌ Error: " + data.message);
+                    inputs.forEach(input => input.value = '');
+                    inputs[0].focus();
+                }
+            } catch (error) {
+                console.error("Backend Error:", error);
+                alert("Backend is not running!");
+
+                btnText.innerText = "Verify & Proceed";
+                btnIcon.className = "fa-solid fa-arrow-right text-sm";
+            }
+        }
+    </script>
+</body>
+
+</html>.

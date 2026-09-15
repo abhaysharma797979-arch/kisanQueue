@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - My Token</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dash {
+            border-top: 2px dashed #d1d5db;
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar Exact Match -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i
+                        class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <a href="./index.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span data-i18n="menu_dashboard">Dashboard</span>
+                </a>
+                <a href="./book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span data-i18n="menu_book_slot">Book New
+                        Slot</span>
+                </a>
+                <a href="./my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span data-i18n="menu_my_bookings">My
+                        Bookings</span>
+                </a>
+
+                <!-- ACTIVE LINK for My Token -->
+                <a href="./my%20token.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span data-i18n="menu_my_token">My Token</span>
+                </a>
+
+                <a href="./live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span data-i18n="menu_live_queue">Live Queue</span>
+                </a>
+                <a href="./my%20payments.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span data-i18n="menu_payments">My Payments</span>
+                </a>
+                <a href="./profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span data-i18n="menu_profile">Profile</span>
+                </a>
+                <a href="./support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span data-i18n="menu_support">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span
+                        data-i18n="menu_logout">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm" data-i18n="support_title">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3" data-i18n="support_desc">हमारी सहायता टीम हमेशा आपके
+                    साथ है।</p>
+                <button
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span data-i18n="support_btn">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header with Language Toggles -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i
+                    class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1">
+                    <button onclick="changeLanguage('hi')"
+                        class="text-xs font-bold px-3 py-1.5 rounded bg-white shadow-sm text-primary">अ</button>
+                    <button onclick="changeLanguage('en')"
+                        class="text-xs font-bold px-3 py-1.5 rounded hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900 mb-1" data-i18n="my_token_title">मेरा टोकन</h2>
+                <p class="text-sm text-gray-600 mb-6" data-i18n="my_token_desc">केंद्र पर पहुंचकर यह QR कोड दिखाकर
+                    चेक-इन करें।</p>
+
+                <div id="tokenWrap"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="language.js"></script>
+
+    <script>
+        // 🚀 SMART API ROUTER ADDED HERE
+        const API_BASE = window.location.port === '5500' || window.location.port === '5501' ? 'http://127.0.0.1:5001' : '';
+
+        let syncTimer; // Auto-sync timer variable
+
+        function render() {
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+            let booking = bookings.find(b => b.status === "upcoming");
+
+            const wrap = document.getElementById("tokenWrap");
+
+            if (!booking) {
+                wrap.innerHTML = `
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center mt-8">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-qrcode text-4xl text-gray-300"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-700 text-lg" data-i18n="no_active_token">कोई सक्रिय टोकन नहीं है</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6" data-i18n="no_active_token_desc">नया स्लॉट बुक करने पर आपका QR टोकन यहां दिखेगा।</p>
+                    <a href="./book%20new%20slot.html" class="bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-primaryDark transition shadow-sm" data-i18n="book_slot_now">अभी स्लॉट बुक करें</a>
+                </div>`;
+                if (syncTimer) clearInterval(syncTimer);
+            } else {
+                const farmerName = localStorage.getItem("farmerName") || "Abhay Sharma";
+                const farmerID = localStorage.getItem("farmerID") || "FRM10245";
+
+                const qrData = encodeURIComponent(`KisanQueue|Token:${booking.token}|ID:${farmerID}|Date:${booking.date}|Time:${booking.time}`);
+
+                wrap.innerHTML = `
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative">
+                    
+                    <div class="bg-primary p-6 text-center text-white relative">
+                        <p class="text-xs uppercase tracking-wide opacity-80" data-i18n="token_number_label">आपका टोकन नंबर</p>
+                        <h1 class="text-4xl font-bold mt-1 tracking-wider">${booking.token}</h1>
+                    </div>
+                    
+                    <div class="p-8 flex flex-col items-center relative">
+                        <div id="scanLineAnim" class="absolute w-[220px] h-[3px] bg-green-500 shadow-[0_0_15px_#22c55e] hidden z-10" style="top: 32px; animation: scanAnim 2s infinite linear;"></div>
+                        <style>@keyframes scanAnim { 0% { transform: translateY(0); } 50% { transform: translateY(220px); } 100% { transform: translateY(0); } }</style>
+
+                        <div class="p-2 bg-white border border-gray-100 rounded-xl shadow-sm relative">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${qrData}" alt="QR Token" class="w-[220px] h-[220px]">
+                        </div>
+                        <p class="text-xs font-medium text-gray-500 mt-4 bg-gray-50 px-3 py-1 rounded-full"><i class="fa-solid fa-expand mr-1"></i> <span data-i18n="scan_qr_help">केंद्र पर काउंटर पर यह कोड स्कैन करवाएं</span></p>
+                        
+                        <p id="syncStatus" class="text-[10px] font-bold text-amber-500 mt-4 animate-pulse"><i class="fa-solid fa-satellite-dish mr-1"></i> स्कैनर का इंतज़ार हो रहा है...</p>
+                    </div>
+
+                    <div class="dash mx-8"></div>
+                    <div class="p-8 grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="farmer_name_label">किसान का नाम</p><p class="font-bold text-gray-800 mt-1">${farmerName}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="farmer_id_label">किसान आईडी</p><p class="font-bold text-gray-800 mt-1">${farmerID}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="crop_label">फ़सल</p><p class="font-bold text-gray-800 mt-1">${booking.crop} · ${booking.quantity} क्विंटल</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="center_label">खरीद केंद्र</p><p class="font-bold text-gray-800 mt-1 leading-tight">${booking.centerName}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="date_label">तारीख</p><p class="font-bold text-gray-800 mt-1">${booking.date}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider" data-i18n="time_label">समय स्लॉट</p><p class="font-bold text-gray-800 mt-1">${booking.time}</p></div>
+                    </div>
+                    <div class="bg-[#f8faf9] p-4 flex items-center justify-between px-8 border-t border-gray-100">
+                        <a href="./live%20queue.html" class="text-xs font-bold text-primary hover:underline flex items-center"><i class="fa-solid fa-users-line mr-1.5 text-lg"></i> <span data-i18n="view_live_queue">लाइव कतार देखें</span></a>
+                        <button onclick="cancelToken('${booking.id}')" class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline px-3 py-1.5 rounded transition"><span data-i18n="cancel_booking_btn">बुकिंग रद्द करें</span></button>
+                    </div>
+                </div>`;
+
+                // Auto Sync Function Call
+                if (!booking.isCheckedIn) {
+                    startAutoSync(booking.token);
+                } else {
+                    document.getElementById('syncStatus').innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> स्कैन सफल! आप कतार में हैं।';
+                    document.getElementById('syncStatus').className = "text-[12px] font-bold text-green-600 mt-4";
+                }
+            }
+
+            if (typeof applyLanguage === "function") {
+                applyLanguage(localStorage.getItem("kisanLanguage") || "hi");
+            }
+        }
+
+        function startAutoSync(tokenNumber) {
+            if (syncTimer) clearInterval(syncTimer);
+
+            syncTimer = setInterval(async () => {
+                try {
+                    // API_BASE added here
+                    const response = await fetch(`${API_BASE}/api/check-token-status?token=${tokenNumber}`);
+                    const data = await response.json();
+
+                    if (data.isScanned) {
+                        clearInterval(syncTimer);
+
+                        let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                        let activeIndex = bookings.findIndex(b => b.token === tokenNumber);
+
+                        if (activeIndex !== -1) {
+                            bookings[activeIndex].isCheckedIn = true;
+                            localStorage.setItem('kisanBookings', JSON.stringify(bookings));
+                        }
+
+                        document.getElementById('syncStatus').innerHTML = '<i class="fa-solid fa-circle-check mr-1"></i> स्कैन सफल! लाइव कतार खुल रही है...';
+                        document.getElementById('syncStatus').className = "text-[12px] font-bold text-green-600 mt-4";
+                        document.getElementById('scanLineAnim').style.display = "block";
+
+                        setTimeout(() => {
+                            alert("✅ अधिकारी द्वारा आपका QR स्कैन हो गया है!\n\nअब आप अपनी लाइव कतार स्थिति देख सकते हैं।");
+                            window.location.href = "live queue.html";
+                        }, 1000);
+                    }
+                } catch (err) {
+                    // Backend Error Logging hidden from UI
+                }
+            }, 2000);
+        }
+
+        function cancelToken(id) {
+            let isEnglish = localStorage.getItem("kisanLanguage") === "en";
+            let msg = isEnglish ? "Are you sure you want to cancel this booking?" : "क्या आप वाकई इस बुकिंग को रद्द करना चाहते हैं?";
+
+            if (confirm(msg)) {
+                let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                const index = bookings.findIndex(b => b.id === id);
+                if (index > -1) {
+                    bookings[index].status = "cancelled";
+                    localStorage.setItem("kisanBookings", JSON.stringify(bookings));
+                    render();
+                }
+            }
+        }
+
+        window.onload = function () {
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            if (!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
+
+            render();
+        };
+
+        function logout() {
+            if (confirm("क्या आप लॉगआउट करना चाहते हैं? / Are you sure you want to logout?")) {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

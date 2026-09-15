@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - My Payments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar Exact Match -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i
+                        class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement Platform</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <a href="./index.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span data-i18n="menu_dashboard">Dashboard</span>
+                </a>
+                <a href="./book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span data-i18n="menu_book_slot">Book New
+                        Slot</span>
+                </a>
+                <a href="./my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span data-i18n="menu_my_bookings">My
+                        Bookings</span>
+                </a>
+                <a href="./my%20token.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span data-i18n="menu_my_token">My Token</span>
+                </a>
+                <a href="./live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span data-i18n="menu_live_queue">Live Queue</span>
+                </a>
+
+                <!-- ACTIVE LINK for My Payments -->
+                <a href="./my%20payments.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span data-i18n="menu_payments">My Payments</span>
+                </a>
+
+                <a href="./profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span data-i18n="menu_profile">Profile</span>
+                </a>
+                <a href="./support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span data-i18n="menu_support">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span
+                        data-i18n="menu_logout">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm" data-i18n="support_title">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3" data-i18n="support_desc">हमारी सहायता टीम हमेशा आपके
+                    साथ है।</p>
+                <button
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span data-i18n="support_btn">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i
+                    class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1">
+                    <button onclick="changeLanguage('hi')"
+                        class="text-xs font-bold px-3 py-1.5 rounded bg-white shadow-sm text-primary">अ</button>
+                    <button onclick="changeLanguage('en')"
+                        class="text-xs font-bold px-3 py-1.5 rounded hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <!-- Photo ID added here -->
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-gray-900" data-i18n="menu_payments">मेरे भुगतान</h2>
+                <p class="text-sm text-gray-600 mt-1 mb-6" data-i18n="payments_subtitle">अपनी सभी फसल बिक्री और भुगतान
+                    का इतिहास देखें।</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="summaryCards"></div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#f8faf9] text-gray-500 text-xs uppercase">
+                                <tr>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="pay_id">भुगतान आईडी</th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="crop_label">फ़सल</th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="quantity_label">मात्रा</th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="rate_label">दर / क्विंटल
+                                    </th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="amount_label">राशि</th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="date_label">तारीख</th>
+                                    <th class="text-left font-semibold px-5 py-3" data-i18n="status_label">स्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsBody" class="divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                    <div id="emptyPayments" class="hidden p-10 text-center">
+                        <i class="fa-solid fa-wallet text-4xl text-gray-300 mb-3"></i>
+                        <h4 class="font-bold text-gray-700" data-i18n="no_payments_title">अभी तक कोई भुगतान नहीं हुआ
+                        </h4>
+                        <p class="text-sm text-gray-500 mt-1" data-i18n="no_payments_desc">बुकिंग पूर्ण होने पर भुगतान
+                            यहां दिखेगा।</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        function renderPayments() {
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+
+            let paymentList = bookings.filter(b => b.status === "completed" || b.status === "upcoming").map(b => {
+                let ratePerQtl = 2275;
+                return {
+                    id: "PAY-" + b.id.replace("BKG", ""),
+                    crop: b.crop,
+                    quantity: b.quantity,
+                    rate: ratePerQtl,
+                    amount: b.quantity * ratePerQtl,
+                    date: b.date,
+                    status: b.status === "completed" ? "सफल (Success)" : "प्रक्रिया में (Processing)"
+                };
+            });
+
+            const total = paymentList.reduce((s, p) => s + p.amount, 0);
+
+            document.getElementById("summaryCards").innerHTML = `
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                    <p class="text-xs text-gray-500 font-medium" data-i18n="total_payment">कुल भुगतान</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">₹${total.toLocaleString("en-IN")}</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                    <p class="text-xs text-gray-500 font-medium" data-i18n="total_transactions">कुल लेनदेन</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">${paymentList.length}</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm">
+                    <p class="text-xs text-gray-500 font-medium" data-i18n="last_payment">आखिरी भुगतान</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">${paymentList[0] ? "₹" + paymentList[0].amount.toLocaleString("en-IN") : "-"}</p>
+                </div>`;
+
+            const body = document.getElementById("paymentsBody");
+            const empty = document.getElementById("emptyPayments");
+
+            if (!paymentList.length) {
+                body.innerHTML = "";
+                empty.classList.remove("hidden");
+                return;
+            }
+
+            empty.classList.add("hidden");
+            body.innerHTML = paymentList.map(p => `
+                <tr class="hover:bg-gray-50/50 transition">
+                    <td class="px-5 py-3 font-semibold text-gray-700">${p.id}</td>
+                    <td class="px-5 py-3 font-medium text-gray-800">${p.crop}</td>
+                    <td class="px-5 py-3 text-gray-600">${p.quantity} क्विंटल</td>
+                    <td class="px-5 py-3 text-gray-600">₹${p.rate.toLocaleString("en-IN")}</td>
+                    <td class="px-5 py-3 font-bold text-primary">₹${p.amount.toLocaleString("en-IN")}</td>
+                    <td class="px-5 py-3 text-gray-500">${p.date}</td>
+                    <td class="px-5 py-3"><span class="text-[11px] font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-full border border-green-100">${p.status}</span></td>
+                </tr>
+            `).join("");
+
+            if (typeof applyLanguage === "function") {
+                applyLanguage(localStorage.getItem("kisanLanguage") || "hi");
+            }
+        }
+
+        window.onload = function () {
+            // Fetch Profile Data
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            if (!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
+
+            renderPayments();
+        };
+
+        function logout() {
+            if (confirm("Are you sure you want to logout?")) {
+                sessionStorage.clear();
+                window.location.href = "index.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

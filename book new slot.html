@@ -38,6 +38,13 @@
             color: white;
             border-color: #0f7634;
         }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
     </style>
     <script>
         tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
@@ -108,11 +115,11 @@
 
         <div class="p-5 shrink-0 border-t border-gray-50">
             <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
-                <img src="support.png" class="w-full h-24 object-cover">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
                 <h4 class="font-bold text-gray-800 mt-3 text-sm" data-i18n="support_title">सहायता चाहिए?</h4>
                 <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3" data-i18n="support_desc">हमारी सहायता टीम हमेशा आपके
                     साथ है।</p>
-                <button
+                <button onclick="window.location.href='support.html'"
                     class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
                     <i class="fa-solid fa-headset mr-2"></i> <span data-i18n="support_btn">Contact Support</span>
                 </button>
@@ -128,11 +135,11 @@
             <div class="hidden md:block"></div>
 
             <div class="flex items-center space-x-4">
-                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1">
-                    <button onclick="changeLanguage('hi')"
-                        class="text-xs font-bold px-3 py-1.5 rounded bg-white shadow-sm text-primary">अ</button>
-                    <button onclick="changeLanguage('en')"
-                        class="text-xs font-bold px-3 py-1.5 rounded hover:bg-gray-200 text-gray-600">A</button>
+                
+                <!-- 🌟 LANGUAGE BUTTONS (Animated active state) -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
                 </div>
 
                 <button class="relative text-gray-500 hover:text-primary transition ml-2">
@@ -142,7 +149,6 @@
                 </button>
 
                 <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
-                    <!-- Added Header Profile Img ID here -->
                     <img id="headerProfileImg"
                         src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
                         class="w-10 h-10 rounded-full object-cover border border-gray-200">
@@ -155,7 +161,7 @@
         </header>
 
         <main class="flex-1 overflow-y-auto p-6 md:p-8">
-            <div class="max-w-3xl mx-auto relative">
+            <div class="max-w-4xl mx-auto relative">
 
                 <!-- Warning if already booked -->
                 <div id="alreadyBooked"
@@ -234,6 +240,39 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-8 bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
 
             </div>
         </main>
@@ -243,6 +282,43 @@
     <script src="language.js"></script>
 
     <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            // Text Fade & Slide Animation Trigger for both [data-i18n] and .local-trans
+            document.querySelectorAll('[data-i18n], .local-trans').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow to restart animation
+                
+                if(el.classList.contains('local-trans') && el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // Buttons Visual State Switch
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+
+            // Trigger the main translation logic if it exists in language.js
+            if(typeof applyLanguage === "function") {
+                try { applyLanguage(lang); } catch(e) {}
+            } else if (typeof changeLanguage === "function") {
+                try { changeLanguage(lang); } catch(e) {}
+            }
+        }
+
         let selectedCrop = null;
         let finalSelectedDate = null;
         let finalSelectedTime = null;
@@ -264,7 +340,6 @@
         ];
 
         function initData() {
-            // Profile & Header Logic Match
             const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
             document.getElementById("headerName").innerText = savedName;
 
@@ -274,7 +349,6 @@
             if (!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
             document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
 
-            // Setup Crops
             const cropEl = document.getElementById("cropOptions");
             cropEl.innerHTML = cropList.map(c => `
                 <button type="button" data-crop="${c}" class="crop-btn border border-gray-200 rounded-lg py-3 text-sm font-semibold text-gray-700 hover:border-primary hover:text-primary transition bg-gray-50">
@@ -289,12 +363,10 @@
                 });
             });
 
-            // STRICT District Filtering
             const userDistrict = localStorage.getItem("farmerDistrict") || "Ballia";
             document.getElementById("userDistrict").innerText = userDistrict;
 
             const filteredCenters = allCenters.filter(c => c.district.toLowerCase() === userDistrict.toLowerCase());
-
             const centerEl = document.getElementById("center");
 
             if (filteredCenters.length > 0) {
@@ -315,7 +387,6 @@
             }
         }
 
-        // STEP 1 -> STEP 2 Transition
         function searchSlots() {
             if (!selectedCrop) { alert("कृपया फ़सल चुनें।"); return; }
             const quantity = parseFloat(document.getElementById("quantity").value);
@@ -334,7 +405,6 @@
             finalSelectedTime = null;
         }
 
-        // Smart Searching Logic
         function generateSlotGrid() {
             const container = document.getElementById("slotsContainer");
             container.innerHTML = "";
@@ -434,15 +504,14 @@
                 document.getElementById("alreadyBooked").classList.remove("hidden");
             }
 
-            if (typeof applyLanguage === "function") {
-                applyLanguage(localStorage.getItem("kisanLanguage") || "hi");
-            }
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
         };
 
         function logout() {
-            if (confirm("Are you sure you want to logout?")) {
+            if (confirm("Are you sure you want to logout? / क्या आप वाकई लॉगआउट करना चाहते हैं?")) {
                 sessionStorage.clear();
-                window.location.href = "index.html";
+                window.location.href = "login.html";
             }
         }
     </script>
