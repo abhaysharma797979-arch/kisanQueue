@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - My Payments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- 🌟 SIDEBAR -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <!-- 🌟 FIXED DASHBOARD LINK TO dashbord.html -->
+                <a href="dashbord.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span class="local-trans" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                </a>
+                <a href="book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span class="local-trans" data-en="Book New Slot" data-hi="नया स्लॉट बुक करें">Book New Slot</span>
+                </a>
+                <a href="my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span class="local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">My Bookings</span>
+                </a>
+                <a href="my%20token.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span class="local-trans" data-en="My Token" data-hi="मेरा टोकन">My Token</span>
+                </a>
+                <a href="live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span class="local-trans" data-en="Live Queue" data-hi="लाइव कतार">Live Queue</span>
+                </a>
+
+                <!-- ACTIVE LINK for My Payments -->
+                <a href="procurement%20centers.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-warehouse w-5 mr-2"></i> <span data-i18n="menu_centers" class="local-trans" data-en="Procurement Centers" data-hi="खरीद केंद्र">Procurement Centers</span>
+                </a>
+                <a href="my%20payments.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span class="local-trans" data-en="My Payments" data-hi="मेरे भुगतान">My Payments</span>
+                </a>
+
+                <a href="profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span class="local-trans" data-en="Profile" data-hi="प्रोफ़ाइल">Profile</span>
+                </a>
+                <a href="support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span class="local-trans" data-en="Support" data-hi="सहायता">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span class="local-trans" data-en="Logout" data-hi="लॉगआउट">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm local-trans" data-en="Need Help?" data-hi="सहायता चाहिए?">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3 local-trans" data-en="Our support team is always with you." data-hi="हमारी सहायता टीम हमेशा आपके साथ है।">हमारी सहायता टीम हमेशा आपके साथ है।</p>
+                <button onclick="window.location.href='support.html'"
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span class="local-trans" data-en="Contact Support" data-hi="सपोर्ट से संपर्क करें">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- 🌟 HEADER with Language Toggles -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <!-- LANGUAGE BUTTONS -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 🌟 MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col">
+            <div class="max-w-4xl mx-auto w-full flex-1">
+                <h2 class="text-2xl font-bold text-gray-900 local-trans" data-en="My Payments" data-hi="मेरे भुगतान">मेरे भुगतान</h2>
+                <p class="text-sm text-gray-600 mt-1 mb-6 local-trans" data-en="View all your crop sales and payment history." data-hi="अपनी सभी फसल बिक्री और भुगतान का इतिहास देखें।">अपनी सभी फसल बिक्री और भुगतान का इतिहास देखें।</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" id="summaryCards"></div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden mb-12">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-[#f8faf9] text-gray-500 text-xs uppercase">
+                                <tr>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Payment ID" data-hi="भुगतान आईडी">भुगतान आईडी</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Crop" data-hi="फ़सल">फ़सल</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Quantity" data-hi="मात्रा">मात्रा</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Rate / Qtl" data-hi="दर / क्विंटल">दर / क्विंटल</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Amount" data-hi="राशि">राशि</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Date" data-hi="तारीख">तारीख</th>
+                                    <th class="text-left font-semibold px-5 py-3 local-trans" data-en="Status" data-hi="स्थिति">स्थिति</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentsBody" class="divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                    <div id="emptyPayments" class="hidden p-10 text-center">
+                        <i class="fa-solid fa-wallet text-4xl text-gray-300 mb-3"></i>
+                        <h4 class="font-bold text-gray-700 local-trans" data-en="No Payments Yet" data-hi="अभी तक कोई भुगतान नहीं हुआ">अभी तक कोई भुगतान नहीं हुआ</h4>
+                        <p class="text-sm text-gray-500 mt-1 local-trans" data-en="Verified mandi procurements and payment status will appear here." data-hi="मंडी में सत्यापित खरीद और भुगतान की स्थिति यहां दिखेगी।">मंडी में सत्यापित खरीद और भुगतान की स्थिति यहां दिखेगी।</p>
+                    </div>
+                </div>
+
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-auto bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            document.querySelectorAll('.local-trans').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow
+                
+                if(el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // Buttons Active State
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+        }
+
+        const LOCAL_BACKEND_PORTS = new Set(['3000', '4173', '5000', '5173', '5500', '5501', '8000', '8080', '8081']);
+        const isLocalPage = window.location.protocol === 'file:' ||
+            ['127.0.0.1', 'localhost'].includes(window.location.hostname) ||
+            LOCAL_BACKEND_PORTS.has(window.location.port);
+        const API_BASE = isLocalPage
+            ? window.location.port === '5100'
+                ? window.location.origin
+                : `http://${['127.0.0.1', 'localhost'].includes(window.location.hostname) || !window.location.hostname ? '127.0.0.1' : window.location.hostname}:5100`
+            : window.location.origin;
+        const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[char]));
+        const localToken = token => String(token || '').trim().toUpperCase();
+        const localMobile = mobile => String(mobile || '').replace(/\D/g, '').slice(-10);
+        const money = amount => Number(amount).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        let paymentList = [];
+        let paymentSyncInFlight = false;
+
+        async function loadPayments() {
+            if (paymentSyncInFlight) return;
+            paymentSyncInFlight = true;
+            try {
+                const response = await fetch(`${API_BASE}/api/mandi/scans`);
+                const data = await response.json();
+                if (!response.ok || !data.success) throw new Error(data.message || 'Payment details could not be loaded.');
+                const bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                const bookingTokens = new Set(bookings.map(booking => localToken(booking.token)).filter(Boolean));
+                const farmerId = String(localStorage.getItem('farmerID') || '').trim().toUpperCase();
+                const farmerPhone = localMobile(localStorage.getItem('farmerMobile') || localStorage.getItem('verifiedMobile'));
+                paymentList = (data.scans || []).filter(scan => {
+                    const tokenMatch = bookingTokens.has(localToken(scan.token));
+                    const idMatch = farmerId && String(scan.farmer?.id || '').trim().toUpperCase() === farmerId;
+                    const mobileMatch = farmerPhone && localMobile(scan.farmer?.mobile || scan.mobile) === farmerPhone;
+                    return tokenMatch || idMatch || mobileMatch;
+                }).filter(scan =>
+                    ['Pending', 'Paid'].includes(scan.status) &&
+                    scan.crop &&
+                    Number(scan.quantity) > 0 &&
+                    scan.amount !== null &&
+                    scan.amount !== undefined &&
+                    Number.isFinite(Number(scan.amount)) &&
+                    Number(scan.amount) >= 0
+                ).map(scan => ({
+                    id: scan.token || '—',
+                    crop: scan.crop,
+                    quantity: Number(scan.quantity),
+                    rate: Number(scan.rate) || 0,
+                    amount: Number(scan.amount),
+                    date: scan.status === 'Paid' ? (scan.paidAt || scan.updatedAt || scan.date) : (scan.updatedAt || scan.date),
+                    status: scan.status
+                })).sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+                renderPayments();
+            } catch (error) {
+                console.error('My payments load failed:', error);
+                document.getElementById('paymentsBody').innerHTML =
+                    `<tr><td colspan="7" class="px-5 py-4 text-center text-red-600">${escapeHTML(error.message || 'Payment records could not be loaded.')}</td></tr>`;
+                document.getElementById('emptyPayments').classList.add('hidden');
+            } finally {
+                paymentSyncInFlight = false;
+            }
+        }
+
+        function renderPayments() {
+            const total = paymentList.filter(payment => payment.status === 'Paid').reduce((sum, payment) => sum + payment.amount, 0);
+            const latestPaid = paymentList.find(payment => payment.status === 'Paid');
+
+            document.getElementById("summaryCards").innerHTML = `
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-xs text-gray-500 font-medium local-trans" data-en="Total Paid" data-hi="कुल भुगतान">कुल भुगतान</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">₹${money(total)}</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-xs text-gray-500 font-medium local-trans" data-en="Total Transactions" data-hi="कुल लेनदेन">कुल लेनदेन</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">${paymentList.length}</p>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-gray-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-xs text-gray-500 font-medium local-trans" data-en="Last Payment" data-hi="आखिरी भुगतान">आखिरी भुगतान</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">${latestPaid ? "₹" + money(latestPaid.amount) : "-"}</p>
+                </div>`;
+
+            const body = document.getElementById("paymentsBody");
+            const empty = document.getElementById("emptyPayments");
+
+            if (!paymentList.length) {
+                body.innerHTML = "";
+                empty.classList.remove("hidden");
+                // Re-apply language to empty state immediately
+                switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+                return;
+            }
+
+            empty.classList.add("hidden");
+            
+            body.innerHTML = paymentList.map(p => {
+                let cropHi = p.crop === 'Wheat' ? 'गेहूं' : p.crop === 'Paddy' ? 'धान' : p.crop === 'Mustard' ? 'सरसों' : p.crop;
+                let statusEn = p.status === 'Paid' ? 'Paid' : 'Payment Pending';
+                let statusHi = p.status === 'Paid' ? 'भुगतान हो गया' : 'भुगतान बाकी';
+                let statusColor = p.status === 'Paid' ? 'text-green-700 bg-green-50 border-green-100' : 'text-blue-700 bg-blue-50 border-blue-100';
+                const date = p.date ? new Date(p.date).toLocaleDateString('en-IN') : '—';
+
+                return `
+                <tr class="hover:bg-gray-50/50 transition border-b border-gray-50 last:border-0">
+                    <td class="px-5 py-4 font-semibold text-gray-700">${escapeHTML(p.id)}</td>
+                    <td class="px-5 py-4 font-medium text-gray-800"><span class="local-trans" data-en="${escapeHTML(p.crop)}" data-hi="${escapeHTML(cropHi)}">${escapeHTML(cropHi)}</span></td>
+                    <td class="px-5 py-4 text-gray-600">${money(p.quantity)} <span class="local-trans" data-en="Qtl" data-hi="क्विंटल">क्विंटल</span></td>
+                    <td class="px-5 py-4 text-gray-600">₹${money(p.rate)}</td>
+                    <td class="px-5 py-4 font-bold text-primary">₹${money(p.amount)}</td>
+                    <td class="px-5 py-4 text-gray-500">${escapeHTML(date)}</td>
+                    <td class="px-5 py-4">
+                        <span class="text-[11px] font-bold ${statusColor} px-2.5 py-1 rounded-full border local-trans" data-en="${statusEn}" data-hi="${statusHi}">${statusHi}</span>
+                    </td>
+                </tr>
+                `;
+            }).join("");
+
+            // Re-apply language to dynamically generated HTML elements
+            switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+        }
+
+        window.onload = function () {
+            // Fetch Profile Data
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID") || "—";
+
+            loadPayments();
+            setInterval(loadPayments, 10000);
+            
+            // Initial language load
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+        };
+
+        function logout() {
+            let isEnglish = localStorage.getItem("kisanLanguage") === "en";
+            if (confirm(isEnglish ? "Are you sure you want to logout?" : "क्या आप वाकई लॉगआउट करना चाहते हैं?")) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

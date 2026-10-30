@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KisanQueue | Mandi Admin</title>
+<style>
+:root{--green:#0b7a3e;--dark:#0b4d34;--light:#e6f7ed;--text:#16233a;--muted:#667489;--line:#e8edf3;--bg:#f7f9fc}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:flex}
+.sidebar{width:262px;flex-shrink:0;background:#fff;border-right:1px solid var(--line);display:flex;flex-direction:column}
+.brand{background:linear-gradient(135deg,#0d5a3b,#074430);color:#fff;height:92px;display:flex;align-items:center;gap:13px;padding:0 24px}
+.brand-mark{font-size:36px}.brand strong{font-size:23px;display:block}.brand small{font-size:15px;opacity:.9}
+.nav{padding:16px 15px;display:grid;gap:8px}.nav button{border:0;background:transparent;color:#1f2d44;text-align:left;padding:14px 16px;border-radius:10px;display:flex;gap:16px;align-items:center;font-size:15px;line-height:1.35}
+.nav button svg{flex-shrink:0;color:#334155}.nav button.active{background:var(--light);color:#075b36}.nav button.active svg{color:var(--green)}.nav button:hover{background:#f0f5f2}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{height:83px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 38px 0 38px;gap:16px}
+.topbar h1{margin:0;font-size:27px}.topbar p{margin:5px 0 0;color:var(--muted);font-size:15px}
+.profile{display:flex;align-items:center;gap:24px}.bell{position:relative;font-size:22px}.badge{position:absolute;top:-8px;right:-9px;background:#e11d2e;color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:grid;place-items:center}
+.admin{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:600}.avatar{width:40px;height:40px;border-radius:50%;background:#cbd5e1;color:#475569;display:grid;place-items:center;font-size:18px;font-weight:700}
+.content{padding:26px 28px 14px;flex:1}
+.datebar{display:flex;justify-content:flex-end;margin-bottom:14px}.datebox{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 16px;font-size:14px;box-shadow:0 2px 6px #13243a08}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-bottom:22px}
+.stat{border-radius:14px;padding:20px;display:flex;gap:18px;border:1px solid var(--line)}
+.stat.g{background:linear-gradient(135deg,#f1fbf5,#f7fcf9)}.stat.b{background:linear-gradient(135deg,#f0f7ff,#f7fbff)}.stat.o{background:linear-gradient(135deg,#fff6ec,#fffaf4)}.stat.p{background:linear-gradient(135deg,#f6f1ff,#faf7ff)}
+.sicon{width:62px;height:62px;border-radius:13px;display:grid;place-items:center;flex-shrink:0;font-size:30px}
+.g .sicon{background:#d6f3e2;color:#0b7a3e}.b .sicon{background:#dcebff;color:#1a73d8}.o .sicon{background:#ffe6cc;color:#e07a0c}.p .sicon{background:#e8dcff;color:#6d2fc7}
+.slabel{font-size:15px;color:#2b3a52}.sval{font-size:32px;font-weight:750;margin:6px 0 10px}.snote{font-size:14px;color:#4b5b72}.up{color:#0b7a3e;font-weight:600}.down{color:#d92d20;font-weight:600}.dot{color:#16a34a}
+.layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(320px,.85fr);gap:20px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 2px 8px #13243a05;padding:18px}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.card-head h2{margin:0;font-size:20px}
+.btn{border:0;border-radius:8px;padding:12px 17px;font-weight:650;font-size:14px}.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:#066334}.btn-light{background:#edf2f7;color:#26364c}.btn-danger{background:#fde8e8;color:#b42318}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13.5px;white-space:nowrap}
+th{background:#f3f6fa;text-align:left;color:#3d4d66;font-weight:600;padding:14px 12px;font-size:13px}th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}
+td{padding:14px 12px;border-bottom:1px solid #eef2f6}tbody tr.row{cursor:pointer}tbody tr.row:hover{background:#f8fcfa}
+.pill{display:inline-block;border-radius:6px;padding:6px 12px;font-size:13px;font-weight:500}.p-act{background:#dff7e9;color:#0b7a3e}.p-in{background:#fde4e4;color:#e11d2e}
+.empty{text-align:center;color:var(--muted);padding:30px!important}
+.alist{display:grid;gap:4px}.act{display:flex;align-items:center;gap:13px;padding:9px 0;border-bottom:1px solid #f0f3f7}.act:last-child{border:0}
+.aic{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;font-size:19px}
+.aic.ok{background:#dff7e9;color:#0b7a3e}.aic.otp{background:#e9eef4;color:#475569}.aic.info{background:#e1f1ff;color:#0866c2}
+.act strong{display:block;font-size:14px}.act small{font-size:13px;color:var(--muted)}.act time{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap;align-self:flex-start}
+.view{display:none}.view.on{display:block}
+.search{width:100%;padding:11px 13px;border:1px solid #dbe4ec;border-radius:8px;outline:none;margin-bottom:12px}.search:focus,input:focus,select:focus{border-color:#3ca66b;box-shadow:0 0 0 3px #08783e14;outline:none}
+.tabs{display:flex;gap:20px;border-bottom:1px solid var(--line);margin-bottom:6px}.tab{border:0;background:transparent;padding:10px 2px;color:#5b6c82;font-size:14px}.tab.active{color:var(--green);border-bottom:3px solid var(--green);font-weight:700}
+.field label{display:block;font-size:12px;color:#586a80;margin-bottom:6px}.field input,.field select{width:100%;padding:11px;border:1px solid #dbe4ec;border-radius:8px;background:#fff;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}.sec{font-size:13px;font-weight:700;margin:20px 0 10px;color:#334155}
+.modal{position:fixed;inset:0;background:#0f172a66;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}.modal.show{display:flex}
+.mbox{background:#fff;border-radius:14px;width:100%;max-width:560px;max-height:92vh;overflow:auto;padding:22px}.mbox h2{margin:0 0 16px;font-size:20px}.mact{display:flex;gap:10px;margin-top:20px}.mact .btn{flex:1}
+.toast{position:fixed;right:24px;top:96px;z-index:40;background:#e4f9ec;border:1px solid #9ad8b1;color:#075c35;padding:13px 17px;border-radius:10px;box-shadow:0 8px 30px #0001;display:none;max-width:350px}.toast.show{display:block}
+.footer{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:24px 38px;border-top:1px solid var(--line);color:#6b7a90;font-size:14px;background:#fff}
+@media(max-width:1150px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}}
+@media(max-width:850px){.sidebar{width:68px}.brand{padding:0;justify-content:center}.brand-copy,.nav-label{display:none}.nav{padding:12px 8px}.nav button{justify-content:center;padding:14px 8px}.topbar{padding:0 16px}.topbar h1{font-size:21px}.content{padding:16px}.footer{padding:18px 16px}.admin span{display:none}}
+@media(max-width:560px){.stats{grid-template-columns:1fr}.sidebar{width:56px}.topbar p{display:none}.profile{gap:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">🌾</div><div class="brand-copy"><strong>KisanQueue</strong><small>Mandi Admin</small></div></div>
+    <nav class="nav">
+      <button class="active" data-page="dash"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/></svg><span class="nav-label">Dashboard</span></button>
+      <button data-page="mandis"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4 21V3h12v6h4v12h-6v-4h-2v4zM7 6v2h2V6zm4 0v2h2V6zM7 10v2h2v-2zm4 0v2h2v-2zM7 14v2h2v-2zm4 0v2h2v-2z"/></svg><span class="nav-label">Mandis (Procurement Centres)</span></button>
+      <button data-page="logs"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h7v7H3zm2 2v3h3V5zm9-2h7v7h-7zm2 2v3h3V5zM3 14h7v7H3zm2 2v3h3v-3zm9-2h3v3h-3zm4 0h3v3h-3zm-4 4h3v3h-3zm4 0h3v3h-3z"/></svg><span class="nav-label">Scan &amp; OTP Logs</span></button>
+      <button data-page="set"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.4 13a7.600 7.600 0 0 0 0-2l2.100-1.600-2-3.500-2.500 1a7.500 7.500 0 0 0-1.700-1L15 3.200h-4l-.4 2.700a7.500 7.500 0 0 0-1.700 1l-2.500-1-2 3.500L6.600 11a7.600 7.600 0 0 0 0 2l-2.100 1.600 2 3.500 2.500-1a7.500 7.500 0 0 0 1.700 1l.4 2.700h4l.4-2.700a7.500 7.500 0 0 0 1.700-1l2.500 1 2-3.500zM13 15.500a3.500 3.500 0 1 1 0-7 3.500 3.500 0 0 1 0 7z" transform="translate(-1 0)"/></svg><span class="nav-label">Settings</span></button>
+    </nav>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><h1 id="pageTitle">Dashboard</h1><p id="pageSub">Overview of all procurement mandis</p></div>
+      <div class="profile"><div class="bell">🔔<span class="badge" id="bellBadge" style="display:none">0</span></div><div class="admin"><div class="avatar" id="avatar">A</div><span id="adminName">Admin</span><span>⌄</span></div></div>
+    </header>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="view on" id="v-dash">
+        <div class="datebar"><div class="datebox">📅 <span id="todayLabel"></span> <span>⌄</span></div></div>
+        <section class="stats">
+          <div class="stat g"><div class="sicon"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M4 21V3h12v6h4v12h-6v-4h-2v4zM7 6v2h2V6zm4 0v2h2V6zM7 10v2h2v-2zm4 0v2h2v-2zM7 14v2h2v-2zm4 0v2h2v-2z"/></svg></div><div><div class="slabel">Total Mandis</div><div class="sval" id="stMandis">0</div><div class="snote"><span class="dot">●</span> Active: <span id="stAct">0</span> &nbsp;|&nbsp; Inactive: <span id="stIn">0</span></div></div></div>
+          <div class="stat b"><div class="sicon"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="3.500"/><circle cx="5" cy="9" r="2.500"/><circle cx="19" cy="9" r="2.500"/><path d="M12 13c-3.500 0-6 2-6 4.500V20h12v-2.500c0-2.500-2.500-4.500-6-4.500zM5 13c-2 0-4 1.200-4 3v2h4v-2.500c0-1 .4-1.900 1-2.600zM19 13c.6.7 1 1.600 1 2.600V18h4v-2c0-1.800-2-3-4-3z"/></svg></div><div><div class="slabel">Total Farmers Registered</div><div class="sval" id="stFarmers">0</div><div class="snote" id="stGrowth">—</div></div></div>
+          <div class="stat o"><div class="sicon">🌾</div><div><div class="slabel">Total Quantity Purchased</div><div class="sval" id="stQty">0 Qtl</div><div class="snote">Today: <span id="stToday">0 Qtl</span></div></div></div>
+          <div class="stat p"><div class="sicon"><svg width="34" height="34" viewBox="0 0 24 24" fill="currentColor"><path d="M3 8.500 12 3l9 5.500V21H3zm4 3.500v6h10v-6zm2 1.500h6V16H9z"/></svg></div><div><div class="slabel">Total Storage (Current)</div><div class="sval" id="stStore">0 Qtl</div><div class="snote">Remaining Capacity: <span id="stRem">0 Qtl</span></div></div></div>
+        </section>
+        <div class="layout">
+          <section class="card">
+            <div class="card-head"><h2>Your Procurement Centres (Mandis)</h2><button class="btn btn-primary" data-add>＋ &nbsp;Add New Mandi</button></div>
+            <div class="table-wrap"><table><thead><tr><th>#</th><th>Mandi Name</th><th>Daily Slot Limit</th><th>Today Booked</th><th>Total Purchased</th><th>Storage Capacity</th><th>Available Storage</th><th>Status</th></tr></thead><tbody id="rowsDash"></tbody></table></div>
+          </section>
+          <section class="card">
+            <div class="card-head"><h2>Recent Activity (OTP &amp; Scan)</h2></div>
+            <div class="alist" id="activity"></div>
+          </section>
+        </div>
+      </div>
+
+      <!-- MANDIS -->
+      <div class="view" id="v-mandis">
+        <section class="card">
+          <div class="card-head"><h2 id="mTitle">All Mandis (0)</h2><button class="btn btn-primary" data-add>＋ &nbsp;Add New Mandi</button></div>
+          <input class="search" id="mSearch" placeholder="⌕  Search mandi by name...">
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Mandi Name</th><th>Daily Slot Limit</th><th>Today Booked</th><th>Total Purchased</th><th>Storage Capacity</th><th>Available Storage</th><th>Status</th></tr></thead><tbody id="rowsMandis"></tbody></table></div>
+        </section>
+      </div>
+
+      <!-- LOGS -->
+      <div class="view" id="v-logs">
+        <section class="card">
+          <div class="card-head"><h2 id="lTitle">Scan &amp; OTP Logs (0)</h2></div>
+          <input class="search" id="lSearch" placeholder="⌕  Search logs...">
+          <div class="tabs"><button class="tab active" data-lf="all">All</button><button class="tab" data-lf="scan">Scan</button><button class="tab" data-lf="otp">OTP</button><button class="tab" data-lf="info">Admin</button></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Date</th><th>Time</th><th>Event</th><th>Details</th></tr></thead><tbody id="logRows"></tbody></table></div>
+        </section>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="view" id="v-set">
+        <section class="card" style="max-width:640px">
+          <form id="setForm">
+            <div class="field"><label>Admin Name</label><input id="sAdmin" required></div>
+            <div class="mact"><button type="button" class="btn btn-danger" id="resetAll">Reset All Data</button><button type="submit" class="btn btn-primary">✓ &nbsp;Save Settings</button></div>
+          </form>
+        </section>
+      </div>
+    </div>
+    <div class="footer"><span>KisanQueue - Mandi Admin Portal</span><span>© <span id="yr"></span> KisanQueue. All rights reserved.</span></div>
+  </main>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal" id="modal"><div class="mbox">
+  <h2 id="mHead">Add New Mandi</h2>
+  <form id="mForm">
+    <div class="grid">
+      <div class="field" style="grid-column:1/-1"><label>Mandi Name *</label><input id="fName" required placeholder="e.g. Lucknow Mandi (Main)"></div>
+      <div class="field"><label>Daily Slot Limit *</label><input id="fSlots" type="number" min="1" required></div>
+      <div class="field"><label>Storage Capacity (Qtl) *</label><input id="fCap" type="number" min="1" required></div>
+      <div class="field"><label>Status</label><select id="fStatus"><option value="Active">Active</option><option value="Inactive">Inactive</option></select></div>
+    </div>
+    <div class="sec">Current figures (optional)</div>
+    <div class="grid">
+      <div class="field"><label>Today Booked</label><input id="fBooked" type="number" min="0" value="0"></div>
+      <div class="field"><label>Today Purchased (Qtl)</label><input id="fTodayQty" type="number" min="0" step="0.1" value="0"></div>
+      <div class="field"><label>Total Purchased (Qtl)</label><input id="fPurch" type="number" min="0" step="0.1" value="0"></div>
+      <div class="field"><label>Current Stock (Qtl)</label><input id="fStock" type="number" min="0" step="0.1" value="0"></div>
+      <div class="field"><label>Farmers Registered</label><input id="fFarmers" type="number" min="0" value="0"></div>
+    </div>
+    <div class="mact"><button type="button" class="btn btn-danger" id="delBtn" style="display:none">Delete</button><button type="button" class="btn btn-light" id="cancelBtn">Cancel</button><button type="submit" class="btn btn-primary">Save</button></div>
+  </form>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const KEY="kisanqueue_admin_v1";
+const DEF={mandis:[],logs:[],snap:{},seq:0,admin:"Admin"};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const num=n=>Number(n).toLocaleString("en-IN");
+const qtl=n=>num(+Number(n).toFixed(2))+" Qtl";
+const today=()=>new Date().toLocaleDateString("en-CA");
+const fmtTime=ts=>new Date(ts).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+const fmtDate=ts=>new Date(ts).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return{...DEF,...s}}catch(e){}return JSON.parse(JSON.stringify(DEF))}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+let D=load(),editId=null,logFilter="all";
+
+function toast(m){$("toast").textContent=m;$("toast").classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>$("toast").classList.remove("show"),3500)}
+/* addLog(type,title,detail): type = "scan" | "otp" | "info"  (other apps/backend can call this) */
+function addLog(type,title,detail){D.logs.unshift({ts:Date.now(),type,title,detail});D.logs=D.logs.slice(0,500);save()}
+const booked=m=>m.day===today()?m.booked:0, tqty=m=>m.day===today()?m.todayQty:0;
+const avail=m=>Math.max(0,m.cap-m.stock);
+
+/* ---------- render ---------- */
+function rowsHtml(list){
+  return list.map((m,i)=>`<tr class="row" data-id="${m.id}"><td>${i+1}</td><td>${esc(m.name)}</td><td>${num(m.slots)}</td><td>${num(booked(m))}</td><td>${qtl(m.purchased)}</td><td>${qtl(m.cap)}</td><td>${qtl(avail(m))}</td><td><span class="pill ${m.status==="Active"?"p-act":"p-in"}">${m.status}</span></td></tr>`).join("")
+  ||'<tr><td colspan="8" class="empty">Abhi koi mandi register nahi hui. "Add New Mandi" dabakar pehli mandi add karein.</td></tr>';
+}
+function renderStats(){
+  const M=D.mandis,act=M.filter(m=>m.status==="Active").length;
+  const farmers=M.reduce((a,m)=>a+m.farmers,0),purch=M.reduce((a,m)=>a+m.purchased,0),stock=M.reduce((a,m)=>a+m.stock,0),cap=M.reduce((a,m)=>a+m.cap,0);
+  $("stMandis").textContent=M.length;$("stAct").textContent=act;$("stIn").textContent=M.length-act;
+  $("stFarmers").textContent=num(farmers);$("stQty").textContent=qtl(purch);$("stToday").textContent=qtl(M.reduce((a,m)=>a+tqty(m),0));
+  $("stStore").textContent=qtl(stock);$("stRem").textContent=qtl(Math.max(0,cap-stock));
+  D.snap[today()]=farmers;
+  const prevDay=Object.keys(D.snap).filter(d=>d<today()).sort().pop();
+  if(prevDay&&D.snap[prevDay]>0){
+    const p=(farmers-D.snap[prevDay])/D.snap[prevDay]*100;
+    $("stGrowth").innerHTML=`<span class="${p>=0?"up":"down"}">${p>=0?"↗ +":"↘ "}${p.toFixed(0)}%</span> from yesterday`;
+  }else $("stGrowth").textContent="No data from yesterday";
+  const inact=M.length-act;$("bellBadge").style.display=inact?"grid":"none";$("bellBadge").textContent=inact;
+  save();
+}
+function renderActivity(){
+  const ic={scan:["ok","✓"],otp:["otp","☎"],info:["info","🏢"]};
+  $("activity").innerHTML=D.logs.slice(0,10).map(l=>{const [c,i]=ic[l.type]||ic.info;return`<div class="act"><div class="aic ${c}">${i}</div><div><strong>${esc(l.title)}</strong><small>${esc(l.detail)}</small></div><time>${fmtTime(l.ts)}</time></div>`}).join("")||'<div class="empty" style="padding:20px">No activity yet</div>';
+}
+function renderMandis(){
+  const q=$("mSearch").value.toLowerCase();
+  const list=D.mandis.filter(m=>m.name.toLowerCase().includes(q));
+  $("rowsMandis").innerHTML=rowsHtml(list);$("mTitle").textContent=`All Mandis (${list.length})`;
+}
+function renderLogs(){
+  const q=$("lSearch").value.toLowerCase();
+  const list=D.logs.filter(l=>(logFilter==="all"||l.type===logFilter)&&(l.title+" "+l.detail).toLowerCase().includes(q));
+  $("logRows").innerHTML=list.map((l,i)=>`<tr><td>${i+1}</td><td>${fmtDate(l.ts)}</td><td>${fmtTime(l.ts)}</td><td>${esc(l.title)}</td><td>${esc(l.detail)}</td></tr>`).join("")||'<tr><td colspan="5" class="empty">No logs found</td></tr>';
+  $("lTitle").textContent=`Scan & OTP Logs (${list.length})`;
+}
+function renderAll(){
+  $("adminName").textContent=D.admin;$("avatar").textContent=(D.admin[0]||"A").toUpperCase();
+  $("rowsDash").innerHTML=rowsHtml(D.mandis);renderStats();renderActivity();renderMandis();renderLogs();
+}
+
+/* ---------- navigation ---------- */
+const TITLES={dash:["Dashboard","Overview of all procurement mandis"],mandis:["Mandis (Procurement Centres)","Manage all registered mandis"],logs:["Scan & OTP Logs","Complete activity history"],set:["Settings","Admin preferences"]};
+function show(p){
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+p));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+  $("pageTitle").textContent=TITLES[p][0];$("pageSub").textContent=TITLES[p][1];
+  if(p==="set")$("sAdmin").value=D.admin;
+  renderAll();
+}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.page)));
+$("mSearch").addEventListener("input",renderMandis);$("lSearch").addEventListener("input",renderLogs);
+document.querySelectorAll(".tab[data-lf]").forEach(t=>t.addEventListener("click",()=>{logFilter=t.dataset.lf;document.querySelectorAll(".tab[data-lf]").forEach(x=>x.classList.toggle("active",x===t));renderLogs()}));
+
+/* ---------- add / edit / delete mandi ---------- */
+function openModal(id){
+  editId=id||null;const m=D.mandis.find(x=>x.id===id);
+  $("mHead").textContent=m?"Edit Mandi":"Add New Mandi";$("delBtn").style.display=m?"block":"none";
+  $("fName").value=m?m.name:"";$("fSlots").value=m?m.slots:"";$("fCap").value=m?m.cap:"";$("fStatus").value=m?m.status:"Active";
+  $("fBooked").value=m?booked(m):0;$("fTodayQty").value=m?tqty(m):0;$("fPurch").value=m?m.purchased:0;$("fStock").value=m?m.stock:0;$("fFarmers").value=m?m.farmers:0;
+  $("modal").classList.add("show");
+}
+const closeModal=()=>{$("modal").classList.remove("show");editId=null};
+document.querySelectorAll("[data-add]").forEach(b=>b.addEventListener("click",()=>openModal()));
+$("cancelBtn").addEventListener("click",closeModal);
+$("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+document.addEventListener("click",e=>{const r=e.target.closest("tr.row");if(r)openModal(Number(r.dataset.id))});
+$("mForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("fName").value.trim();
+  if(D.mandis.some(m=>m.name.toLowerCase()===name.toLowerCase()&&m.id!==editId)){toast("Is naam ki mandi pehle se registered hai.");return}
+  const v={name,slots:Number($("fSlots").value),cap:Number($("fCap").value),status:$("fStatus").value,booked:Number($("fBooked").value)||0,todayQty:Number($("fTodayQty").value)||0,purchased:Number($("fPurch").value)||0,stock:Number($("fStock").value)||0,farmers:Number($("fFarmers").value)||0,day:today()};
+  if(editId){Object.assign(D.mandis.find(m=>m.id===editId),v);addLog("info","Mandi Updated",name)}
+  else{D.mandis.push({id:++D.seq,...v});addLog("info","Mandi Added",name)}
+  save();renderAll();closeModal();toast(editId?"Mandi updated.":"Mandi registered.");
+});
+$("delBtn").addEventListener("click",()=>{
+  const m=D.mandis.find(x=>x.id===editId);
+  if(m&&confirm(m.name+" ko delete karna hai?")){D.mandis=D.mandis.filter(x=>x.id!==editId);addLog("info","Mandi Removed",m.name);save();renderAll();closeModal();toast("Mandi deleted.")}
+});
+
+/* ---------- settings ---------- */
+$("setForm").addEventListener("submit",e=>{e.preventDefault();D.admin=$("sAdmin").value.trim()||"Admin";save();renderAll();toast("Settings saved.")});
+$("resetAll").addEventListener("click",()=>{if(confirm("Saari mandis aur logs delete ho jayenge. Pakka?")){localStorage.removeItem(KEY);D=load();renderAll();toast("All data reset.")}});
+
+$("todayLabel").textContent="Today: "+new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"});
+$("yr").textContent=new Date().getFullYear();
+renderAll();
+</script>
+</body>
+</html>

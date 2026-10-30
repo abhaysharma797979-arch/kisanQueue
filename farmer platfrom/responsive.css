@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+img,
+video,
+svg {
+    max-width: 100%;
+}
+
+@media (max-width: 767px) {
+    body.flex.h-screen,
+    body.min-h-screen {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    body > .flex-1.flex.flex-col.h-screen.overflow-hidden {
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+    }
+
+    header {
+        min-height: 64px;
+        height: auto;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        gap: 0.5rem;
+    }
+
+    main {
+        overflow: visible !important;
+        padding: 1rem !important;
+    }
+
+    header > .flex.items-center.space-x-4 {
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    header .border-l {
+        margin-left: 0;
+        padding-left: 0.5rem;
+    }
+
+    .overflow-x-auto {
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .p-12 {
+        padding: 1.5rem !important;
+    }
+
+    .lg\:p-20 {
+        padding: 1.5rem !important;
+    }
+
+    .text-4xl {
+        font-size: 2rem;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        max-width: 100%;
+    }
+}

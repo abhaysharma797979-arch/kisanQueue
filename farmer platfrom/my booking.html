@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - My Bookings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar Exact Match -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i
+                        class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <!-- 🌟 FIXED DASHBOARD LINK TO dashbord.html -->
+                <a href="dashbord.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span class="local-trans" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                </a>
+                <a href="book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span class="local-trans" data-en="Book New Slot" data-hi="नया स्लॉट बुक करें">Book New Slot</span>
+                </a>
+
+                <!-- ACTIVE LINK for My Bookings -->
+                <a href="my%20booking.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span class="local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">My Bookings</span>
+                </a>
+
+                <a href="my%20token.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span class="local-trans" data-en="My Token" data-hi="मेरा टोकन">My Token</span>
+                </a>
+                <a href="live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span class="local-trans" data-en="Live Queue" data-hi="लाइव कतार">Live Queue</span>
+                </a>
+                <a href="procurement%20centers.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-warehouse w-5 mr-2"></i> <span data-i18n="menu_centers" class="local-trans" data-en="Procurement Centers" data-hi="खरीद केंद्र">Procurement Centers</span>
+                </a>
+                <a href="my%20payments.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span class="local-trans" data-en="My Payments" data-hi="मेरे भुगतान">My Payments</span>
+                </a>
+                <a href="profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span class="local-trans" data-en="Profile" data-hi="प्रोफ़ाइल">Profile</span>
+                </a>
+                <a href="support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span class="local-trans" data-en="Support" data-hi="सहायता">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span class="local-trans" data-en="Logout" data-hi="लॉगआउट">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm local-trans" data-en="Need Help?" data-hi="सहायता चाहिए?">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3 local-trans" data-en="Our support team is always with you." data-hi="हमारी सहायता टीम हमेशा आपके साथ है।">हमारी सहायता टीम हमेशा आपके साथ है।</p>
+                <button onclick="window.location.href='support.html'"
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span class="local-trans" data-en="Contact Support" data-hi="सपोर्ट से संपर्क करें">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header with Language Toggles -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i
+                    class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <!-- 🌟 LANGUAGE BUTTONS (Animated) -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">मेरी बुकिंग</h2>
+                        <p class="text-sm text-gray-600 mt-1 local-trans" data-en="View and manage all your bookings here." data-hi="अपनी सभी बुकिंग यहां देखें और प्रबंधित करें।">अपनी सभी बुकिंग यहां देखें और प्रबंधित करें।</p>
+                    </div>
+                    <a href="book%20new%20slot.html"
+                        class="bg-primary hover:bg-primaryDark text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-sm flex items-center transition">
+                        <i class="fa-regular fa-calendar-plus mr-2"></i> <span class="local-trans" data-en="New Slot" data-hi="नया स्लॉट">नया स्लॉट</span>
+                    </a>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex gap-2 mb-5" id="tabBar">
+                    <button data-tab="all"
+                        class="tab-btn px-4 py-2 rounded-full text-xs font-semibold bg-primary text-white transition local-trans"
+                        data-en="All" data-hi="सभी">सभी</button>
+                    <button data-tab="upcoming"
+                        class="tab-btn px-4 py-2 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 transition hover:bg-gray-50 local-trans"
+                        data-en="Upcoming" data-hi="आगामी">आगामी</button>
+                    <button data-tab="completed"
+                        class="tab-btn px-4 py-2 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 transition hover:bg-gray-50 local-trans"
+                        data-en="Completed" data-hi="पूर्ण">पूर्ण</button>
+                    <button data-tab="cancelled"
+                        class="tab-btn px-4 py-2 rounded-full text-xs font-semibold bg-white border border-gray-200 text-gray-600 transition hover:bg-gray-50 local-trans"
+                        data-en="Cancelled" data-hi="रद्द">रद्द</button>
+                </div>
+
+                <!-- Bookings List -->
+                <div id="bookingsList" class="space-y-4"></div>
+
+                <!-- Empty State (No Booking UI) -->
+                <div id="emptyState"
+                    class="hidden bg-white rounded-2xl border border-gray-100 shadow-sm p-12 text-center flex flex-col items-center justify-center mt-8">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-regular fa-calendar-xmark text-4xl text-gray-300"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-800 local-trans" data-en="No Bookings Found" data-hi="कोई बुकिंग नहीं मिली">कोई बुकिंग नहीं मिली</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6 max-w-sm local-trans" data-en="You have no bookings in this category. Book a new slot to get started." data-hi="इस केटेगरी में आपकी कोई बुकिंग नहीं है। नया स्लॉट बुक करके शुरुआत करें।">इस केटेगरी में आपकी कोई बुकिंग नहीं है। नया स्लॉट बुक करके शुरुआत करें।</p>
+                    <a href="book%20new%20slot.html"
+                        class="bg-primary hover:bg-primaryDark text-white px-6 py-2.5 rounded-lg text-sm font-semibold transition shadow-sm local-trans"
+                        data-en="Book Slot Now" data-hi="अभी स्लॉट बुक करें">
+                        अभी स्लॉट बुक करें
+                    </a>
+                </div>
+
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-12 bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            document.querySelectorAll('.local-trans, [data-i18n]').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow
+                
+                if(el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+
+            if(typeof applyLanguage === "function") {
+                try { applyLanguage(lang); } catch(e) {}
+            } else if (typeof changeLanguage === "function") {
+                try { changeLanguage(lang); } catch(e) {}
+            }
+        }
+
+        let currentTab = "all";
+
+        let bookings = [];
+        try {
+            const savedBookings = JSON.parse(localStorage.getItem('kisanBookings'));
+            if (savedBookings) bookings = savedBookings;
+        } catch (e) { }
+
+        // Dynamic badges with translation data attributes
+        const statusBadge = {
+            upcoming: '<span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-100 local-trans" data-en="Upcoming" data-hi="आगामी">आगामी</span>',
+            completed: '<span class="text-[11px] font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-full border border-green-100 local-trans" data-en="Completed" data-hi="पूर्ण">पूर्ण</span>',
+            cancelled: '<span class="text-[11px] font-bold text-red-700 bg-red-50 px-2.5 py-1 rounded-full border border-red-100 local-trans" data-en="Cancelled" data-hi="रद्द">रद्द</span>',
+        };
+
+        function render() {
+            let filteredBookings = bookings;
+            if (currentTab !== "all") {
+                filteredBookings = bookings.filter(b => b.status === currentTab);
+            }
+
+            const el = document.getElementById("bookingsList");
+            const empty = document.getElementById("emptyState");
+
+            if (filteredBookings.length === 0) {
+                el.innerHTML = "";
+                empty.classList.remove("hidden");
+                // Re-apply translation immediately to empty state
+                switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+                return;
+            }
+
+            empty.classList.add("hidden");
+            
+            // Generate list items with local-trans class for dynamic translation
+            el.innerHTML = filteredBookings.map(b => `
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:shadow-md transition">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-primary text-lg shrink-0">
+                            <i class="fa-solid fa-wheat-awn"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-bold text-gray-900 text-sm">
+                                    <span class="local-trans" data-en="${b.crop}" data-hi="${b.crop === 'Wheat' ? 'गेहूं' : b.crop === 'Paddy' ? 'धान' : b.crop === 'Mustard' ? 'सरसों' : b.crop}">${b.crop === 'Wheat' ? 'गेहूं' : b.crop === 'Paddy' ? 'धान' : b.crop === 'Mustard' ? 'सरसों' : b.crop}</span> · ${b.quantity} <span class="local-trans" data-en="Qtl" data-hi="क्विंटल">क्विंटल</span>
+                                </h4>
+                                ${statusBadge[b.status] || ""}
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">${b.centerName}</p>
+                            <p class="text-xs text-gray-400 mt-1"><i class="fa-regular fa-calendar mr-1"></i>${b.date} &nbsp; <i class="fa-regular fa-clock ml-2 mr-1"></i>${b.time} &nbsp; <span class="font-semibold text-gray-600 bg-gray-100 px-2 py-0.5 rounded"><span class="local-trans" data-en="Token" data-hi="टोकन">टोकन</span> ${b.token}</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0 mt-3 md:mt-0 border-t md:border-none pt-3 md:pt-0 border-gray-100">
+                        ${b.status === "upcoming" ? `
+                            <a href="my%20token.html" class="text-xs font-semibold text-primary border border-primary rounded-lg px-3 py-2 hover:bg-green-50 transition"><span class="local-trans" data-en="View Token" data-hi="टोकन देखें">टोकन देखें</span></a>
+                        ` : b.status === "completed" ? `
+                            <a href="my%20payments.html" class="text-xs font-semibold text-primary border border-primary rounded-lg px-3 py-2 hover:bg-green-50 transition"><span class="local-trans" data-en="View Payment" data-hi="भुगतान देखें">भुगतान देखें</span></a>
+                        ` : `<span class="text-xs text-gray-400 local-trans" data-en="No action" data-hi="कोई कार्रवाई नहीं">कोई कार्रवाई नहीं</span>`}
+                    </div>
+                </div>
+            `).join("");
+
+            // Trigger translation update for the newly added HTML
+            switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+        }
+
+        function logout() {
+            let msg = localStorage.getItem("kisanLanguage") === 'en' ? "Are you sure you want to logout?" : "क्या आप वाकई लॉगआउट करना चाहते हैं?";
+            if (confirm(msg)) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+
+        window.onload = function () {
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            if (!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
+
+            document.querySelectorAll(".tab-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    currentTab = btn.dataset.tab;
+                    document.querySelectorAll(".tab-btn").forEach(b => {
+                        b.classList.remove("bg-primary", "text-white");
+                        b.classList.add("bg-white", "border", "border-gray-200", "text-gray-600");
+                    });
+                    btn.classList.add("bg-primary", "text-white");
+                    btn.classList.remove("bg-white", "border", "border-gray-200", "text-gray-600");
+                    render();
+                });
+            });
+            
+            // Initial Render and Language set
+            render();
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+        };
+    </script>
+</body>
+
+</html>

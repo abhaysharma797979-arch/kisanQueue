@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #0f7634;
+        }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar (100% Dashboard Match) -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+
+        <!-- Fixed Logo Section -->
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Menu -->
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <!-- 🌟 FIXED DASHBOARD LINK TO dashbord.html -->
+                <a href="dashbord.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span class="local-trans" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                </a>
+                <a href="book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span class="local-trans" data-en="Book New Slot" data-hi="नया स्लॉट बुक करें">Book New Slot</span>
+                </a>
+                <a href="my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span class="local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">My Bookings</span>
+                </a>
+                <a href="my%20token.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span class="local-trans" data-en="My Token" data-hi="मेरा टोकन">My Token</span>
+                </a>
+                <a href="live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span class="local-trans" data-en="Live Queue" data-hi="लाइव कतार">Live Queue</span>
+                </a>
+                <a href="procurement%20centers.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-warehouse w-5 mr-2"></i> <span data-i18n="menu_centers" class="local-trans" data-en="Procurement Centers" data-hi="खरीद केंद्र">Procurement Centers</span>
+                </a>
+                <a href="my%20payments.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span class="local-trans" data-en="My Payments" data-hi="मेरे भुगतान">My Payments</span>
+                </a>
+
+                <!-- ACTIVE LINK for Profile -->
+                <a href="profile.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span class="local-trans" data-en="Profile" data-hi="प्रोफ़ाइल">Profile</span>
+                </a>
+
+                <a href="support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span class="local-trans" data-en="Support" data-hi="सहायता">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span class="local-trans" data-en="Logout" data-hi="लॉगआउट">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Fixed Support Box -->
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm local-trans" data-en="Need Help?" data-hi="सहायता चाहिए?">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3 local-trans" data-en="Our support team is always with you." data-hi="हमारी सहायता टीम हमेशा आपके साथ है।">हमारी सहायता टीम हमेशा आपके साथ है।</p>
+                <button onclick="window.location.href='support.html'"
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span class="local-trans" data-en="Contact Support" data-hi="सपोर्ट से संपर्क करें">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <!-- 🌟 LANGUAGE BUTTONS (Animated) -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="headerFarmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col">
+            <div class="max-w-4xl mx-auto w-full flex-1">
+                <h2 class="text-2xl font-bold text-gray-900 mb-1 local-trans" data-en="My Profile" data-hi="मेरी प्रोफ़ाइल">मेरी प्रोफ़ाइल</h2>
+                <p class="text-sm text-gray-600 mb-6 local-trans" data-en="Keep your information updated so we can serve you better." data-hi="अपनी जानकारी अपडेट रखें ताकि हम आपकी बेहतर सहायता कर सकें।">अपनी जानकारी अपडेट रखें ताकि हम आपकी बेहतर सहायता कर सकें।</p>
+
+                <div id="savedMsg"
+                    class="hidden bg-green-50 border border-green-200 text-green-800 text-sm rounded-xl p-3 mb-5 flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-circle-check"></i> <span class="local-trans" data-en="Profile saved successfully. You can now view your dashboard." data-hi="प्रोफ़ाइल सफलतापूर्वक सेव हो गई। अब आप डैशबोर्ड देख सकते हैं।">प्रोफ़ाइल सफलतापूर्वक सेव हो गई। अब आप डैशबोर्ड देख सकते हैं।</span>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 mb-12">
+                    <!-- Photo Change Section -->
+                    <div class="flex items-center gap-5 mb-8 border-b border-gray-100 pb-6">
+                        <div class="relative inline-block">
+                            <img id="profileImg"
+                                src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150&auto=format&fit=crop"
+                                class="w-20 h-20 rounded-full object-cover border-4 border-gray-50 shadow-sm">
+                            <button type="button" onclick="document.getElementById('photoInput').click()"
+                                class="absolute bottom-0 right-0 bg-primary hover:bg-primaryDark text-white w-7 h-7 flex items-center justify-center rounded-full text-xs shadow-md border-2 border-white cursor-pointer transition">
+                                <i class="fa-solid fa-camera"></i>
+                            </button>
+                            <input type="file" id="photoInput" class="hidden" accept="image/*"
+                                onchange="uploadPhoto(event)">
+                        </div>
+                        <div>
+                            <p class="text-lg font-bold text-gray-900" id="profileNamePreview">-</p>
+                            <p class="text-sm text-primary font-semibold mt-0.5" id="profileIdPreview">-</p>
+                        </div>
+                    </div>
+
+                    <form id="profileForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-2 local-trans" data-en="Full Name" data-hi="पूरा नाम">पूरा नाम</label>
+                                <input id="fName" type="text" required
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-2 local-trans" data-en="Mobile Number" data-hi="मोबाइल नंबर">मोबाइल नंबर</label>
+                                <input id="fPhone" type="text" required
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-2 local-trans" data-en="Email ID" data-hi="ईमेल आईडी">ईमेल आईडी</label>
+                                <input id="fEmail" type="email" placeholder="example@gmail.com"
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-800 mb-2 local-trans" data-en="Village / Address" data-hi="गांव / पता">गांव / पता</label>
+                                <input id="fVillage" type="text"
+                                    class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary">
+                            </div>
+                        </div>
+
+                        <!-- Crops Selection -->
+                        <div class="border border-gray-100 rounded-xl p-5 bg-[#f8faf9]">
+                            <label class="block text-sm font-semibold text-gray-800 mb-3 local-trans" data-en="Which crops do you grow?" data-hi="आप कौन-सी फसलें उगाते हैं?">आप कौन-सी फसलें उगाते हैं?</label>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Wheat" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Wheat (गेहूं)" data-hi="गेहूं (Wheat)">गेहूं (Wheat)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Rice" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Paddy (धान)" data-hi="धान (Rice)">धान (Rice)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Sugarcane" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Sugarcane (गन्ना)" data-hi="गन्ना (Sugarcane)">गन्ना (Sugarcane)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Mustard" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Mustard (सरसों)" data-hi="सरसों (Mustard)">सरसों (Mustard)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Maize" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Maize (मक्का)" data-hi="मक्का (Maize)">मक्का (Maize)</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-2.5 rounded-lg border border-gray-200 cursor-pointer">
+                                    <input type="checkbox" name="crop" value="Potato" class="h-4 w-4">
+                                    <span class="text-sm text-gray-700 font-medium local-trans" data-en="Potato (आलू)" data-hi="आलू (Potato)">आलू (Potato)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-2 local-trans" data-en="Farmer ID (System Generated)" data-hi="किसान आईडी (सिस्टम द्वारा जनरेटेड)">किसान आईडी (सिस्टम द्वारा जनरेटेड)</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input id="fId" type="text" disabled
+                                    class="w-full border border-gray-200 rounded-lg pl-10 pr-4 py-2.5 text-sm bg-gray-100 text-gray-600 font-bold cursor-not-allowed">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 flex justify-end">
+                            <button type="submit"
+                                class="bg-primary hover:bg-primaryDark text-white text-sm font-semibold px-8 py-3 rounded-xl shadow-md transition flex items-center">
+                                <i class="fa-solid fa-floppy-disk mr-2"></i> <span class="local-trans" data-en="Save Profile" data-hi="प्रोफ़ाइल सेव करें">प्रोफ़ाइल सेव करें</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-auto bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            document.querySelectorAll('.local-trans').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow
+                
+                if(el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // Buttons Active State
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+        }
+
+        // SMART IMAGE COMPRESSOR (Prevents Crash on Large Photos)
+        function uploadPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.onload = function () {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        const MAX_SIZE = 200;
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > height) {
+                            if (width > MAX_SIZE) { height *= MAX_SIZE / width; width = MAX_SIZE; }
+                        } else {
+                            if (height > MAX_SIZE) { width *= MAX_SIZE / height; height = MAX_SIZE; }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+                        try {
+                            localStorage.setItem("farmerPhoto", dataUrl);
+                            document.getElementById("profileImg").src = dataUrl;
+                            document.getElementById("headerProfileImg").src = dataUrl;
+                        } catch (err) {
+                            alert("Storage Full! Please clear browser cache or upload a smaller image.");
+                        }
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadProfile() {
+            let farmerID = localStorage.getItem("farmerID");
+            if (!farmerID) {
+                farmerID = "FRM" + Math.floor(10000 + Math.random() * 90000);
+                localStorage.setItem("farmerID", farmerID);
+            }
+
+            const name = localStorage.getItem("farmerName") || "Abhay Sharma";
+            const phone = localStorage.getItem("farmerPhone") || "9219127363";
+            const email = localStorage.getItem("farmerEmail") || "";
+            const village = localStorage.getItem("farmerVillage") || "";
+            const photo = localStorage.getItem("farmerPhoto") || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150&auto=format&fit=crop";
+
+            document.getElementById("fName").value = name;
+            document.getElementById("fPhone").value = phone;
+            document.getElementById("fEmail").value = email;
+            document.getElementById("fVillage").value = village;
+            document.getElementById("fId").value = farmerID;
+
+            let savedCropsStr = localStorage.getItem("farmerCrops");
+            let savedCrops = [];
+            if (savedCropsStr) {
+                try { savedCrops = JSON.parse(savedCropsStr); } catch (e) { }
+            }
+            document.querySelectorAll('input[name="crop"]').forEach(cb => {
+                cb.checked = savedCrops.includes(cb.value);
+            });
+
+            document.getElementById("profileNamePreview").innerText = name;
+            document.getElementById("profileIdPreview").innerText = "Farmer ID: " + farmerID;
+            document.getElementById("profileImg").src = photo;
+            document.getElementById("headerProfileImg").src = photo;
+            document.getElementById("headerName").innerText = name;
+            document.getElementById("headerFarmerID").innerText = farmerID;
+            
+            // Set Initial Language
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+        }
+
+        window.onload = function () {
+            loadProfile();
+
+            document.getElementById("profileForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const fId = document.getElementById("fId").value;
+                const fName = document.getElementById("fName").value.trim();
+                const fPhone = document.getElementById("fPhone").value.trim();
+                const fEmail = document.getElementById("fEmail").value.trim();
+                const fVillage = document.getElementById("fVillage").value.trim();
+
+                let selectedCrops = [];
+                document.querySelectorAll('input[name="crop"]:checked').forEach(cb => { selectedCrops.push(cb.value); });
+
+                localStorage.setItem("farmerName", fName);
+                localStorage.setItem("farmerPhone", fPhone);
+                localStorage.setItem("farmerEmail", fEmail);
+                localStorage.setItem("farmerVillage", fVillage);
+                localStorage.setItem("farmerCrops", JSON.stringify(selectedCrops));
+
+                fetch("http://localhost:5100/api/updateProfile", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: fId, name: fName, phone: fPhone, email: fEmail, village: fVillage, crops: selectedCrops })
+                }).catch(() => console.log("Backend offline, but data saved locally."));
+
+                loadProfile();
+                const msg = document.getElementById("savedMsg");
+                msg.classList.remove("hidden");
+                setTimeout(() => msg.classList.add("hidden"), 3000);
+            });
+        };
+
+        function logout() {
+            let isEnglish = localStorage.getItem("kisanLanguage") === "en";
+            if (confirm(isEnglish ? "Are you sure you want to logout?" : "क्या आप वाकई लॉगआउट करना चाहते हैं?")) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

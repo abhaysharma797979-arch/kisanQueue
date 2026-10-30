@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - My Token</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .dash {
+            border-top: 2px dashed #d1d5db;
+        }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- 🌟 SIDEBAR -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <!-- 🌟 FIXED DASHBOARD LINK TO dashbord.html -->
+                <a href="dashbord.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span class="local-trans" data-en="Dashboard" data-hi="डैशबोर्ड">Dashboard</span>
+                </a>
+                <a href="book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span class="local-trans" data-en="Book New Slot" data-hi="नया स्लॉट बुक करें">Book New Slot</span>
+                </a>
+                <a href="my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span class="local-trans" data-en="My Bookings" data-hi="मेरी बुकिंग">My Bookings</span>
+                </a>
+
+                <!-- ACTIVE LINK for My Token -->
+                <a href="my%20token.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span class="local-trans" data-en="My Token" data-hi="मेरा टोकन">My Token</span>
+                </a>
+
+                <a href="live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span class="local-trans" data-en="Live Queue" data-hi="लाइव कतार">Live Queue</span>
+                </a>
+                <a href="procurement%20centers.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-warehouse w-5 mr-2"></i> <span data-i18n="menu_centers" class="local-trans" data-en="Procurement Centers" data-hi="खरीद केंद्र">Procurement Centers</span>
+                </a>
+                <a href="my%20payments.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span class="local-trans" data-en="My Payments" data-hi="मेरे भुगतान">My Payments</span>
+                </a>
+                <a href="profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span class="local-trans" data-en="Profile" data-hi="प्रोफ़ाइल">Profile</span>
+                </a>
+                <a href="support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span class="local-trans" data-en="Support" data-hi="सहायता">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span class="local-trans" data-en="Logout" data-hi="लॉगआउट">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm local-trans" data-en="Need Help?" data-hi="सहायता चाहिए?">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3 local-trans" data-en="Our support team is always with you." data-hi="हमारी सहायता टीम हमेशा आपके साथ है।">हमारी सहायता टीम हमेशा आपके साथ है।</p>
+                <button onclick="window.location.href='support.html'"
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span class="local-trans" data-en="Contact Support" data-hi="सपोर्ट से संपर्क करें">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- 🌟 HEADER with Language Toggles -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                <!-- LANGUAGE BUTTONS -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 🌟 MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto p-6 md:p-8 flex flex-col">
+            <div class="max-w-3xl w-full mx-auto flex-1">
+                <h2 class="text-2xl font-bold text-gray-900 mb-1 local-trans" data-en="My Token" data-hi="मेरा टोकन">मेरा टोकन</h2>
+                <p class="text-sm text-gray-600 mb-6 local-trans" data-en="Check-in by showing this QR code at the center." data-hi="केंद्र पर पहुंचकर यह QR कोड दिखाकर चेक-इन करें।">केंद्र पर पहुंचकर यह QR कोड दिखाकर चेक-इन करें।</p>
+
+                <div id="tokenWrap" class="mb-12"></div>
+
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-auto bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            document.querySelectorAll('.local-trans').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow
+                
+                if(el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // Buttons Active State
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+        }
+
+        // 🚀 SMART API ROUTER
+        const LOCAL_BACKEND_PORTS = new Set(['3000', '4173', '5000', '5173', '5500', '5501', '8000', '8080', '8081']);
+        const isLocalPage = window.location.protocol === 'file:' ||
+            ['127.0.0.1', 'localhost'].includes(window.location.hostname) ||
+            LOCAL_BACKEND_PORTS.has(window.location.port);
+        const API_BASE = isLocalPage
+            ? window.location.port === '5100'
+                ? window.location.origin
+                : `http://${['127.0.0.1', 'localhost'].includes(window.location.hostname) || !window.location.hostname ? '127.0.0.1' : window.location.hostname}:5100`
+            : window.location.origin;
+        let syncTimer; 
+
+        function render() {
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+            let booking = bookings.find(b => b.status === "upcoming");
+
+            const wrap = document.getElementById("tokenWrap");
+
+            if (!booking) {
+                wrap.innerHTML = `
+                <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center mt-8">
+                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-qrcode text-4xl text-gray-300"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-700 text-lg local-trans" data-en="No Active Token" data-hi="कोई सक्रिय टोकन नहीं है">कोई सक्रिय टोकन नहीं है</h4>
+                    <p class="text-sm text-gray-500 mt-2 mb-6 local-trans" data-en="Your QR token will appear here when you book a new slot." data-hi="नया स्लॉट बुक करने पर आपका QR टोकन यहां दिखेगा।">नया स्लॉट बुक करने पर आपका QR टोकन यहां दिखेगा।</p>
+                    <a href="book%20new%20slot.html" class="bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-lg hover:bg-primaryDark transition shadow-sm local-trans" data-en="Book Slot Now" data-hi="अभी स्लॉट बुक करें">अभी स्लॉट बुक करें</a>
+                </div>`;
+                if (syncTimer) clearInterval(syncTimer);
+            } else {
+                const farmerName = localStorage.getItem("farmerName") || "Farmer";
+                const farmerID = localStorage.getItem("farmerID") || "";
+                const farmerLocation = localStorage.getItem("farmerLocation") || "";
+                const locationParts = farmerLocation.split(",").map(part => part.trim());
+
+                const qrPayload = {
+                    app: "KisanQueue",
+                    token: booking.token,
+                    farmer: {
+                        id: farmerID,
+                        name: farmerName,
+                        mobile: localStorage.getItem("farmerMobile") || localStorage.getItem("verifiedMobile") || "",
+                        location: farmerLocation,
+                        village: localStorage.getItem("farmerVillage") || locationParts[0] || "",
+                        district: localStorage.getItem("farmerDistrict") || locationParts[1] || ""
+                    },
+                    booking: {
+                        crop: booking.crop,
+                        quantity: booking.quantity,
+                        centerName: booking.centerName,
+                        date: booking.date,
+                        time: booking.time
+                    }
+                };
+                const qrData = encodeURIComponent(JSON.stringify(qrPayload));
+
+                wrap.innerHTML = `
+                <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden relative max-w-xl mx-auto">
+                    
+                    <div class="bg-primary p-6 text-center text-white relative">
+                        <p class="text-xs uppercase tracking-wide opacity-80 local-trans" data-en="Your Token Number" data-hi="आपका टोकन नंबर">आपका टोकन नंबर</p>
+                        <h1 class="text-4xl font-bold mt-1 tracking-wider">${booking.token}</h1>
+                    </div>
+                    
+                    <div class="p-8 flex flex-col items-center relative">
+                        <div id="scanLineAnim" class="absolute w-[220px] h-[3px] bg-green-500 shadow-[0_0_15px_#22c55e] hidden z-10" style="top: 32px; animation: scanAnim 2s infinite linear;"></div>
+                        <style>@keyframes scanAnim { 0% { transform: translateY(0); } 50% { transform: translateY(220px); } 100% { transform: translateY(0); } }</style>
+
+                        <div class="p-2 bg-white border border-gray-100 rounded-xl shadow-sm relative">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${qrData}" alt="QR Token" class="w-[220px] h-[220px]">
+                        </div>
+                        <p class="text-xs font-medium text-gray-500 mt-4 bg-gray-50 px-3 py-1 rounded-full flex items-center"><i class="fa-solid fa-expand mr-1"></i> <span class="local-trans" data-en="Scan this code at the counter" data-hi="केंद्र पर काउंटर पर यह कोड स्कैन करवाएं">केंद्र पर काउंटर पर यह कोड स्कैन करवाएं</span></p>
+                        
+                        <p id="syncStatus" class="text-[10px] font-bold text-amber-500 mt-4 animate-pulse"><i class="fa-solid fa-satellite-dish mr-1"></i> <span class="local-trans" data-en="Waiting for scanner..." data-hi="स्कैनर का इंतज़ार हो रहा है...">स्कैनर का इंतज़ार हो रहा है...</span></p>
+                    </div>
+
+                    <div class="dash mx-8"></div>
+                    <div class="p-8 grid grid-cols-2 gap-y-6 gap-x-4 text-sm">
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Farmer Name" data-hi="किसान का नाम">किसान का नाम</p><p class="font-bold text-gray-800 mt-1">${farmerName}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Farmer ID" data-hi="किसान आईडी">किसान आईडी</p><p class="font-bold text-gray-800 mt-1">${farmerID}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Crop" data-hi="फ़सल">फ़सल</p><p class="font-bold text-gray-800 mt-1"><span class="local-trans" data-en="${booking.crop}" data-hi="${booking.crop === 'Wheat' ? 'गेहूं' : booking.crop === 'Paddy' ? 'धान' : booking.crop === 'Mustard' ? 'सरसों' : booking.crop}">${booking.crop === 'Wheat' ? 'गेहूं' : booking.crop === 'Paddy' ? 'धान' : booking.crop === 'Mustard' ? 'सरसों' : booking.crop}</span> · ${booking.quantity} <span class="local-trans" data-en="Qtl" data-hi="क्विंटल">क्विंटल</span></p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Center" data-hi="खरीद केंद्र">खरीद केंद्र</p><p class="font-bold text-gray-800 mt-1 leading-tight">${booking.centerName}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Date" data-hi="तारीख">तारीख</p><p class="font-bold text-gray-800 mt-1">${booking.date}</p></div>
+                        <div><p class="text-[11px] text-gray-400 uppercase font-semibold tracking-wider local-trans" data-en="Time Slot" data-hi="समय स्लॉट">समय स्लॉट</p><p class="font-bold text-gray-800 mt-1">${booking.time}</p></div>
+                    </div>
+                    <div class="bg-[#f8faf9] p-4 flex items-center justify-between px-8 border-t border-gray-100">
+                        <a href="live%20queue.html" class="text-xs font-bold text-primary hover:underline flex items-center"><i class="fa-solid fa-users-line mr-1.5 text-lg"></i> <span class="local-trans" data-en="View Live Queue" data-hi="लाइव कतार देखें">लाइव कतार देखें</span></a>
+                        <button onclick="cancelToken('${booking.id}')" class="text-xs font-bold text-red-500 hover:text-red-700 hover:underline px-3 py-1.5 rounded transition"><span class="local-trans" data-en="Cancel Booking" data-hi="बुकिंग रद्द करें">बुकिंग रद्द करें</span></button>
+                    </div>
+                </div>`;
+
+                if (!booking.isCheckedIn) {
+                    startAutoSync(booking.token);
+                } else {
+                    document.getElementById('syncStatus').innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> <span class="local-trans" data-en="Scan successful! You are in the queue." data-hi="स्कैन सफल! आप कतार में हैं।">स्कैन सफल! आप कतार में हैं।</span>`;
+                    document.getElementById('syncStatus').className = "text-[12px] font-bold text-green-600 mt-4";
+                }
+            }
+            
+            // Re-apply language immediately after dynamic HTML generation
+            switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+        }
+
+        function startAutoSync(tokenNumber) {
+            if (syncTimer) clearInterval(syncTimer);
+
+            syncTimer = setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_BASE}/api/check-token-status?token=${encodeURIComponent(tokenNumber)}`);
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message || "Token status could not be loaded.");
+
+                    if (data.isScanned) {
+                        clearInterval(syncTimer);
+
+                        let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                        let activeIndex = bookings.findIndex(b => b.token === tokenNumber);
+
+                        if (activeIndex !== -1) {
+                            bookings[activeIndex].isCheckedIn = true;
+                            localStorage.setItem('kisanBookings', JSON.stringify(bookings));
+                        }
+
+                        document.getElementById('syncStatus').innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> <span class="local-trans" data-en="Scan successful! Opening live queue..." data-hi="स्कैन सफल! लाइव कतार खुल रही है...">स्कैन सफल! लाइव कतार खुल रही है...</span>`;
+                        document.getElementById('syncStatus').className = "text-[12px] font-bold text-green-600 mt-4";
+                        document.getElementById('scanLineAnim').style.display = "block";
+                        
+                        switchLocalLanguage(localStorage.getItem("kisanLanguage") || "hi");
+
+                        setTimeout(() => {
+                            let isEng = localStorage.getItem("kisanLanguage") === "en";
+                            alert(isEng ? "✅ Your QR has been scanned by the officer!\n\nYou can now view your live queue status." : "✅ अधिकारी द्वारा आपका QR स्कैन हो गया है!\n\nअब आप अपनी लाइव कतार स्थिति देख सकते हैं।");
+                            window.location.href = "live queue.html";
+                        }, 1000);
+                    }
+                } catch (err) {
+                    console.error("Token status sync failed:", err);
+                }
+            }, 2000);
+        }
+
+        function cancelToken(id) {
+            let isEnglish = localStorage.getItem("kisanLanguage") === "en";
+            let msg = isEnglish ? "Are you sure you want to cancel this booking?" : "क्या आप वाकई इस बुकिंग को रद्द करना चाहते हैं?";
+
+            if (confirm(msg)) {
+                let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+                const index = bookings.findIndex(b => b.id === id);
+                if (index > -1) {
+                    bookings[index].status = "cancelled";
+                    localStorage.setItem("kisanBookings", JSON.stringify(bookings));
+                    render();
+                }
+            }
+        }
+
+        window.onload = function () {
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID") || "";
+
+            render();
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+        };
+
+        function logout() {
+            let isEnglish = localStorage.getItem("kisanLanguage") === "en";
+            if (confirm(isEnglish ? "Are you sure you want to logout?" : "क्या आप वाकई लॉगआउट करना चाहते हैं?")) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+
+</html>

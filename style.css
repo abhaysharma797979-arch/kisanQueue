@@ -1,0 +1,133 @@
+/* ===== NAVBAR SIZE & ALIGNMENT ===== */
+
+nav {
+    width: 100%;
+    height: 56px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    box-sizing: border-box;
+}
+
+nav a.i {
+    height: 56px;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+nav a.i span {
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+/* ===== LOGIN BUTTON ===== */
+
+.login {
+    flex: 0 0 120px;
+    margin-left: 8px;
+    position: relative;
+}
+
+.login > button {
+    width: 100%;
+    height: 48px;
+    margin-top: 0;
+    padding-top: 0;
+    border-radius: 6px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* ===== LOGIN DROPDOWN ===== */
+
+.menu {
+    top: 54px;
+    left: 0;
+    width: 235px;
+    z-index: 1000;
+}
+
+/* ===== LANGUAGE OPTIONS ===== */
+
+.lang {
+    flex: 0 0 auto;
+    margin-left: 10px;
+    padding-left: 12px;
+    gap: 10px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* ===== ACTIVE HOME OPTION ===== */
+
+nav a.act {
+    height: 56px;
+    flex: 0 0 auto;
+}
+
+nav a.act::after {
+    left: 0;
+    right: 0;
+}
+
+/* ===== FULL SCREEN WIDTH ===== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+}
+
+body {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+/* ===== KEEP EXISTING UI DIMENSIONS ===== */
+
+.top,
+.hero,
+.feat,
+.about,
+footer {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ===== LAPTOP SCREEN ADJUSTMENT ===== */
+
+@media screen and (min-width: 1101px) {
+    nav a.i {
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 11px;
+    }
+
+    .login {
+        flex-basis: 115px;
+    }
+
+    .lang {
+        margin-left: 8px;
+        padding-left: 10px;
+        font-size: 11px;
+    }
+}

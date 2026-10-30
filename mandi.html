@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KisanQueue | Procurement Centre</title>
+<style>
+:root{--green:#08783e;--green-dark:#064c35;--green-light:#e6f7ed;--text:#152238;--muted:#68778c;--line:#e4eaf0;--bg:#f5f8fb}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:flex}.sidebar{width:250px;flex-shrink:0;background:linear-gradient(180deg,#064b35,#033d2d);color:white;padding:18px 13px;display:flex;flex-direction:column}
+.brand{display:flex;gap:12px;align-items:center;padding:0 12px 24px;border-bottom:1px solid #ffffff20}.brand-mark{font-size:31px;color:#f3b72e}.brand strong{font-size:20px;display:block}.brand small{opacity:.8}.nav{padding-top:16px;display:grid;gap:7px}.nav button{border:0;background:transparent;color:#e9f5ef;text-align:left;padding:13px 14px;border-radius:9px;display:flex;gap:13px;align-items:center;font-size:14px}.nav button span{width:20px;font-size:18px;text-align:center}.nav button.active,.nav button:hover{background:#dff8e9;color:#075b36}.side-bottom{margin-top:auto;border-top:1px solid #ffffff22;padding:18px 10px 5px;font-size:13px;line-height:1.8}.online{color:#8df1b0}.main{min-width:0;flex:1}.topbar{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 26px;gap:16px}.top-title{font-size:22px;font-weight:750}.top-sub{color:var(--muted);font-size:13px;margin-top:4px}.profile{display:flex;align-items:center;gap:10px;font-size:14px}.avatar{width:39px;height:39px;background:#e4ebf1;border-radius:50%;display:grid;place-items:center;font-size:18px}.content{padding:22px 24px 28px;max-width:1800px;margin:auto}.welcome{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.welcome h1{font-size:23px;margin:0 0 5px}.welcome p{margin:0;color:var(--muted);font-size:14px}.date{font-size:13px;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:17px;display:flex;gap:13px;align-items:center;box-shadow:0 2px 6px #13243a05}.stat-icon{width:54px;height:54px;flex-shrink:0;border-radius:12px;display:grid;place-items:center;font-size:25px}.s-green{background:#ddf7e8;color:#08783e}.s-blue{background:#e1f1ff;color:#0875d1}.s-orange{background:#fff0df;color:#d97706}.s-purple{background:#f1e6ff;color:#7528c9}.stat-label{font-size:12px;color:#53647b}.stat-value{font-size:23px;font-weight:750;margin:5px 0}.stat-note{font-size:11px;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(320px,.9fr);gap:16px;align-items:start}.card{background:white;border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 7px #13243a05;overflow:hidden}.card-head{padding:17px 17px 12px;display:flex;justify-content:space-between;align-items:center;gap:10px}.card-head h2{font-size:17px;margin:0}.btn{border:0;border-radius:8px;padding:11px 14px;font-weight:650;font-size:13px}.btn-primary{background:var(--green);color:white}.btn-primary:hover{background:#056332}.btn-light{background:#edf2f7;color:#26364c}.btn-outline{background:white;border:1px solid #cbd8e4;color:#31445a}.btn-danger{background:#fde8e8;color:#b42318}.search-wrap{padding:0 16px 13px}.search{width:100%;padding:11px 13px;border:1px solid #dbe4ec;border-radius:8px;outline:none}.search:focus,input:focus,select:focus{border-color:#3ca66b;box-shadow:0 0 0 3px #08783e12;outline:none}.tabs{display:flex;gap:22px;padding:0 16px;border-bottom:1px solid var(--line);overflow-x:auto}.tab{padding:11px 2px;border:0;background:transparent;color:#5b6c82;white-space:nowrap;font-size:13px}.tab.active{color:var(--green);border-bottom:3px solid var(--green);font-weight:700}.table-wrap{overflow-x:auto;padding:0 10px 10px}table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:12px}th{background:#f4f7fa;text-align:left;color:#40516a;font-weight:700;padding:12px 10px}td{padding:12px 10px;border-bottom:1px solid #edf1f5}tbody tr:hover{background:#f9fcfa}.pill{display:inline-block;border-radius:6px;padding:5px 9px;font-size:11px;font-weight:700}.pending{background:#fff0c9;color:#ad5700}.paid,.success{background:#dff7e9;color:#08783e}.scanning{background:#e0efff;color:#0865bb}.btn-view{background:#e5f2ff;color:#0866c2;border:0;border-radius:5px;padding:6px 13px;font-size:12px;margin-right:5px}.btn-pay{background:#dff7e9;color:#08783e}.btn-del{background:#fde8e8;color:#b42318}.right-col{display:grid;gap:13px}.scanner-box{margin:0 15px 15px;border-radius:10px;background:linear-gradient(140deg,#17262d,#071311);height:210px;color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:15px;text-align:center;position:relative;overflow:hidden}.scan-frame{width:116px;height:116px;border:4px solid #00db78;border-radius:14px;display:grid;place-items:center;font-size:62px;color:white;box-shadow:0 0 0 999px #00000020}.scanner-box:after{content:"";position:absolute;left:12%;right:12%;top:51%;height:2px;background:#ff3b43;box-shadow:0 0 10px #ff3434;pointer-events:none}#reader{position:absolute;inset:0;width:100%;height:100%;display:none}#reader video{width:100%;height:100%;object-fit:cover}.scanner-box.live #reader{display:block}.scanner-box.live .scan-frame,.scanner-box.live .scanner-note{display:none}.scanner-note{font-size:12px;color:#c8d6d2}.alerts{padding:0 10px 10px;display:grid;gap:7px}.alert{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);border-radius:8px}.alert-icon{width:34px;height:34px;border-radius:9px;background:#e0f8e9;color:var(--green);display:grid;place-items:center;font-size:18px;flex-shrink:0}.alert strong{font-size:12px;display:block}.alert small{font-size:11px;color:var(--muted)}.alert time{margin-left:auto;font-size:10px;color:var(--muted);white-space:nowrap}.form-card{display:none;border:1px solid #9bd9b3;box-shadow:0 8px 25px #12352414}.form-card.show{display:block;animation:slideIn .28s ease-out}@keyframes slideIn{from{opacity:0;transform:translateX(25px)}to{opacity:1;transform:translateX(0)}}.form-body{padding:0 16px 16px}.farmer{display:flex;align-items:center;gap:11px;padding:5px 0 15px}.farmer-avatar{width:48px;height:48px;border-radius:50%;background:#e7edf2;display:grid;place-items:center;font-size:24px}.farmer-name{font-weight:750}.verified{display:inline-block;margin-top:5px;padding:4px 8px;background:#dff7e9;color:var(--green);border-radius:5px;font-size:11px}.details-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 10px}.field label{display:block;font-size:11px;color:#586a80;margin-bottom:6px}.field input,.field select{width:100%;padding:10px;border:1px solid #dbe4ec;border-radius:7px;background:white;font-size:12px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px 0 14px;border-bottom:1px solid var(--line);margin-bottom:13px}.meta small{font-size:10px;color:var(--muted);display:block;margin-bottom:4px}.meta strong{font-size:11px}.total{margin-top:13px;padding:12px;background:#e1f8e9;border-radius:8px;display:flex;justify-content:space-between;align-items:center}.total small{display:block;color:#536c60;font-size:11px}.total strong{font-size:22px;color:var(--green)}.form-actions{display:flex;gap:9px;margin-top:13px}.form-actions button{flex:1}.muted-note{font-size:11px;color:var(--muted);line-height:1.5;padding:0 16px 14px}.toast{position:fixed;right:24px;top:92px;z-index:20;background:#e4f9ec;border:1px solid #9ad8b1;color:#075c35;padding:13px 17px;border-radius:10px;box-shadow:0 8px 30px #0001;display:none;max-width:350px}.toast.show{display:block;animation:slideIn .2s ease}.footer{text-align:center;padding:22px;color:#8390a1;font-size:11px}
+.view{display:none}.view.on{display:block}.set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}.sec{font-size:13px;font-weight:700;margin:18px 0 10px}.empty{text-align:center;padding:24px;color:var(--muted)}.stack .field{margin-bottom:12px}
+@media(max-width:1150px){.sidebar{width:215px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:minmax(0,1fr) minmax(290px,.8fr)}.stat-value{font-size:20px}}
+@media(max-width:850px){.sidebar{width:68px;padding:15px 8px}.brand{justify-content:center;padding:0 0 18px}.brand-copy,.nav-label,.side-bottom .side-text{display:none}.nav button{justify-content:center;padding:13px 8px}.nav button span{font-size:20px}.side-bottom{text-align:center;padding:16px 0}.layout{grid-template-columns:1fr}.right-col{grid-template-columns:1fr 1fr;align-items:start}.form-card{grid-column:1/-1}.topbar{padding:0 16px}.content{padding:16px}.top-title{font-size:18px}}
+@media(max-width:560px){.topbar{height:66px}.profile .profile-copy,.date{display:none}.content{padding:12px}.welcome h1{font-size:19px}.stats{grid-template-columns:1fr 1fr;gap:8px}.stat{padding:11px;gap:8px}.stat-icon{width:38px;height:38px;font-size:19px}.stat-value{font-size:17px}.stat-label{font-size:10px}.stat-note{font-size:9px}.right-col{grid-template-columns:1fr}.card-head{padding:14px}.tabs{gap:14px}.details-grid{gap:10px}.form-actions{flex-direction:column}.brand strong{font-size:0}.brand-mark{font-size:27px}.sidebar{width:56px}.nav button{padding:12px 4px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">🌾</div><div class="brand-copy"><strong>KisanQueue</strong><small id="sbMandi">Mandi</small></div></div>
+    <nav class="nav">
+      <button class="active" data-page="dash"><span>⌂</span><b class="nav-label">Dashboard</b></button>
+      <button data-page="today"><span>♙</span><b class="nav-label">Today's Farmers</b></button>
+      <button id="navScan"><span>▦</span><b class="nav-label">Scan Farmer</b></button>
+      <button data-page="cust"><span>▤</span><b class="nav-label">Customer List</b></button>
+      <button data-page="pay"><span>₹</span><b class="nav-label">Payments</b></button>
+      <button data-page="set"><span>⚙</span><b class="nav-label">Settings</b></button>
+    </nav>
+    <div class="side-bottom"><div class="side-text"><b>🏢 &nbsp; <span id="sbName">Mandi</span></b><br>Daily Slot: <span id="sbSlot">0</span><br>Storage Capacity: <span id="sbCap">0</span> Qtl<br><span class="online">● Online</span></div><span class="side-text">Logout</span></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><div class="top-title"><span id="hdName">Mandi</span> <span class="pill paid">Active</span></div><div class="top-sub">📍 <span id="hdLoc"></span></div></div><div class="profile"><span>🔔</span><div class="avatar" id="avatar">S</div><div class="profile-copy"><b id="hdStaff">Staff</b><div class="top-sub" id="hdRole">Mandi Staff</div></div><span>⌄</span></div></header>
+    <div class="content">
+
+      <!-- DASHBOARD / TODAY'S FARMERS -->
+      <div class="view on" id="v-dash">
+        <div class="welcome"><div><h1>Procurement Dashboard</h1><p>Farmers, procurement, storage and payment overview</p></div><div class="date" id="todayDate"></div></div>
+        <section class="stats">
+          <div class="stat"><div class="stat-icon s-green">♟</div><div><div class="stat-label">Today's Farmers</div><div class="stat-value" id="farmerCount">0 / 0</div><div class="stat-note" id="slotNote">0% of daily slots used</div></div></div>
+          <div class="stat"><div class="stat-icon s-orange">🌾</div><div><div class="stat-label">Total Purchased (Today)</div><div class="stat-value" id="purchased">0 Qtl</div><div class="stat-note">Quantity accepted today</div></div></div>
+          <div class="stat"><div class="stat-icon s-purple">🏚</div><div><div class="stat-label">Current Storage</div><div class="stat-value" id="storage">0 / 0 Qtl</div><div class="stat-note" id="storeNote">0% storage used</div></div></div>
+          <div class="stat"><div class="stat-icon s-blue">₹</div><div><div class="stat-label">Payments Processed</div><div class="stat-value" id="payments">₹ 0</div><div class="stat-note" id="pendingAmount">Pending: ₹ 0</div></div></div>
+        </section>
+        <div class="layout">
+          <section class="card">
+            <div class="card-head"><h2 id="listTitle">Today's Farmer List (0)</h2><button class="btn btn-primary" id="scanButton">▦ &nbsp; Scan Farmer Token</button></div>
+            <div class="search-wrap"><input class="search" id="searchInput" placeholder="⌕  Search by name, token, mobile, crop..."></div>
+            <div class="tabs"><button class="tab active" data-filter="All">All (<span id="allCount">0</span>)</button><button class="tab" data-filter="Scanned">Scanned (<span id="scannedCount">0</span>)</button><button class="tab" data-filter="Pending">Pending Payment (<span id="pendingCount">0</span>)</button><button class="tab" data-filter="Paid">Paid (<span id="paidCount">0</span>)</button></div>
+            <div class="table-wrap"><table><thead><tr><th>#</th><th>Token No.</th><th>Farmer Name</th><th>Crop</th><th>Qty (Qtl)</th><th>Amount (₹)</th><th>Status</th><th>Time</th><th>Action</th></tr></thead><tbody id="farmerRows"></tbody></table></div>
+          </section>
+          <aside class="right-col">
+            <section class="card">
+              <div class="card-head"><h2>Scan Farmer Token</h2><button class="btn btn-outline" id="manualScan">Manual Entry</button></div>
+              <div class="scanner-box" id="scanBox"><div id="reader"></div><div class="scan-frame">▦</div><div class="scanner-note">Scan farmer's QR token or use manual entry</div></div>
+              <div class="muted-note" id="scanHelp">Farmer QR token scan karein. Scan Firebase/backend mein save hoga aur details form khulega. Camera ke liye HTTPS ya localhost zaroori hai.</div>
+            </section>
+            <section class="card"><div class="card-head"><h2>Recent Activity</h2><span class="pill success">Live</span></div><div class="alerts" id="activityList"></div></section>
+            <section class="card form-card" id="farmerFormCard">
+              <div class="card-head"><h2>Enter Farmer Details</h2><button class="btn btn-light" id="closeForm" aria-label="Close form">✕</button></div>
+              <div class="form-body">
+                <div class="farmer"><div class="farmer-avatar">👤</div><div><div class="farmer-name" id="formFarmerName"></div><span class="verified">✓ Verified</span></div></div>
+                <div class="meta"><div><small>Token No.</small><strong id="formToken"></strong></div><div><small>Mobile</small><strong id="formMobile"></strong></div><div><small>Village</small><strong id="formVillage"></strong></div></div>
+                <form id="detailsForm">
+                  <div class="details-grid">
+                    <div class="field"><label for="crop">Crop *</label><select id="crop" required></select></div>
+                    <div class="field"><label for="quantity">Quantity (Qtl) *</label><input id="quantity" type="number" min="0.1" step="0.1" required></div>
+                    <div class="field"><label for="quality">Quality Grade *</label><select id="quality" required><option value="A">A (Good)</option><option value="B">B (Average)</option><option value="C">C (Low)</option></select></div>
+                    <div class="field"><label for="rate">Rate (₹/Qtl) *</label><input id="rate" type="number" min="0" step="1" required></div>
+                  </div>
+                  <div class="total"><div><small>Total Amount</small><strong id="totalAmount">₹ 0</strong></div><span class="pill success">Verified</span></div>
+                  <div class="form-actions"><button type="button" class="btn btn-light" id="cancelForm">Cancel</button><button type="submit" class="btn btn-primary" id="submitBtn">✓ &nbsp; Process to Payment</button></div>
+                </form>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+
+      <!-- CUSTOMER LIST -->
+      <div class="view" id="v-cust">
+        <div class="welcome"><div><h1>Customer List</h1><p>Registered farmers of this mandi</p></div></div>
+        <div class="layout">
+          <section class="card">
+            <div class="card-head"><h2 id="custTitle">All Farmers (0)</h2></div>
+            <div class="search-wrap"><input class="search" id="custSearch" placeholder="⌕  Search by name, token, mobile, village..."></div>
+            <div class="table-wrap"><table><thead><tr><th>#</th><th>Token No.</th><th>Name</th><th>Mobile</th><th>Village</th><th>Visits</th><th>Action</th></tr></thead><tbody id="custRows"></tbody></table></div>
+          </section>
+          <section class="card">
+            <div class="card-head"><h2>Add New Farmer</h2></div>
+            <div class="form-body stack">
+              <form id="farmerForm">
+                <div class="field"><label for="fName">Farmer Name *</label><input id="fName" required></div>
+                <div class="field"><label for="fMobile">Mobile (10 digits) *</label><input id="fMobile" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required></div>
+                <div class="field"><label for="fVillage">Village / Address *</label><input id="fVillage" required></div>
+                <div class="form-actions"><button type="submit" class="btn btn-primary">+ &nbsp; Register Farmer</button></div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div class="view" id="v-pay">
+        <div class="welcome"><div><h1>Payments</h1><p>All procurement payments</p></div></div>
+        <section class="card">
+          <div class="card-head"><h2 id="payTitle">Payments (0)</h2></div>
+          <div class="search-wrap"><input class="search" id="paySearch" placeholder="⌕  Search by name, token, crop..."></div>
+          <div class="tabs"><button class="tab active" data-pf="All">All</button><button class="tab" data-pf="Pending">Pending</button><button class="tab" data-pf="Paid">Paid</button></div>
+          <div class="table-wrap"><table><thead><tr><th>#</th><th>Date</th><th>Token No.</th><th>Farmer Name</th><th>Crop</th><th>Qty (Qtl)</th><th>Amount (₹)</th><th>Status</th><th>Action</th></tr></thead><tbody id="payRows"></tbody></table></div>
+        </section>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="view" id="v-set">
+        <div class="welcome"><div><h1>Settings</h1><p>Mandi, staff and rate configuration</p></div></div>
+        <section class="card"><div class="form-body" style="padding-top:16px">
+          <form id="setForm">
+            <div class="set-grid">
+              <div class="field"><label>Mandi Name</label><input id="sMandi" required></div>
+              <div class="field"><label>Location</label><input id="sLoc"></div>
+              <div class="field"><label>Staff Name</label><input id="sStaff" required></div>
+              <div class="field"><label>Staff Role</label><input id="sRole"></div>
+              <div class="field"><label>Daily Slots</label><input id="sSlots" type="number" min="1" required></div>
+              <div class="field"><label>Storage Capacity (Qtl)</label><input id="sCap" type="number" min="1" required></div>
+              <div class="field"><label>Opening Stock (Qtl)</label><input id="sOpen" type="number" min="0" step="0.1"></div>
+            </div>
+            <div class="sec">Default Rates (₹ / Qtl)</div>
+            <div class="set-grid" id="rateGrid"></div>
+            <div class="form-actions" style="max-width:420px"><button type="submit" class="btn btn-primary">✓ &nbsp; Save Settings</button><button type="button" class="btn btn-danger" id="resetAll">Reset All Data</button></div>
+          </form>
+        </div></section>
+      </div>
+
+      <div class="footer">KisanQueue · Procurement Centre Portal</div>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script>
+const KEY="kisanqueue_v1",CROPS=["Wheat","Paddy","Mustard","Maize","Potato","Other"];
+const DEF={farmers:[],entries:[],activity:[],seq:0,eseq:0,settings:{mandi:"My Mandi",loc:"",staff:"Staff",role:"Mandi Staff",slots:250,cap:5000,open:0,rates:{Wheat:0,Paddy:0,Mustard:0,Maize:0,Potato:0,Other:0}}};
+const LOCAL_BACKEND_PORTS=new Set(["3000","4173","5000","5173","5500","5501","8000","8080","8081"]);
+const isLocalPage=location.protocol==="file:"||["localhost","127.0.0.1"].includes(location.hostname)||LOCAL_BACKEND_PORTS.has(location.port);
+const API_BASE=isLocalPage?(location.port==="5100"?location.origin:`http://${["localhost","127.0.0.1"].includes(location.hostname)||!location.hostname?"127.0.0.1":location.hostname}:5100`):location.origin;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=n=>"₹ "+Number(n).toLocaleString("en-IN");
+const num=n=>Number(n).toLocaleString("en-IN");
+const localDateKey=value=>{
+  const date=new Date(value||"");
+  return Number.isNaN(date.getTime())?String(value||"").slice(0,10):`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+};
+const today=()=>localDateKey(new Date());
+const nowTime=()=>new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"});
+function load(){
+  try{const s=JSON.parse(localStorage.getItem(KEY));if(s)return{...DEF,...s,settings:{...DEF.settings,...s.settings,rates:{...DEF.settings.rates,...((s.settings||{}).rates||{})}}}}catch(e){}
+  return JSON.parse(JSON.stringify(DEF));
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){showToast("Could not save local mandi settings.")}}
+let D=load(),filter="All",payFilter="All",editing=null,curFarmer=null,curRemoteScan=null,remoteScans=[],qrScanner=null,scanning=false,scanBusy=false;
+
+function showToast(m){$("toast").textContent=m;$("toast").classList.add("show");clearTimeout(showToast.t);showToast.t=setTimeout(()=>$("toast").classList.remove("show"),3800)}
+function log(title,detail,icon){D.activity.unshift({icon:icon||"▦",title,detail,time:nowTime()});D.activity=D.activity.slice(0,20);save()}
+const todayEntries=()=>[
+  ...D.entries.filter(e=>e.date===today()),
+  ...remoteScans.filter(s=>localDateKey(s.scannedAt||s.updatedAt||s.date)===today()).map(scanToEntry)
+];
+function scanToEntry(scan){
+  const farmer=scan.farmer||{},booking=scan.booking||{};
+  const farmerName=farmer.name||farmer.fullName||farmer.farmerName||scan.farmerName||scan.name||"";
+  return {
+    id:`scan-${scan.token}`,token:scan.token||scan.tokenNumber||scan.bookingToken||"—",name:farmerName&&farmerName!=="Farmer"?farmerName:"Farmer details unavailable",mobile:farmer.mobile||farmer.phone||scan.mobile||scan.phone||"",
+    village:farmer.village||farmer.location||"",crop:scan.crop||booking.crop||"",
+    qty:Number(scan.quantity)||0,quality:scan.quality||"",amount:Number(scan.amount)||0,
+    rate:Number(scan.rate)||0,status:scan.status||"Scanned",
+    date:localDateKey(scan.scannedAt||scan.updatedAt||scan.date),
+    time:new Date(scan.updatedAt||scan.scannedAt||Date.now()).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}),
+    remote:true
+  };
+}
+async function syncScans(render=true){
+  try{
+    const response=await fetch(`${API_BASE}/api/mandi/scans`);
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.message||"Could not load mandi scans");
+    remoteScans=Array.isArray(data.scans)?data.scans:[];
+    if(render)renderAll();
+  }catch(error){console.error("Mandi sync failed:",error);showToast("Firebase mandi data sync failed. Check backend connection.")}
+}
+
+/* ---------- header / stats ---------- */
+function renderHeader(){
+  const s=D.settings;
+  $("sbMandi").textContent=s.mandi;$("sbName").textContent=s.mandi;$("hdName").textContent=s.mandi;
+  $("sbSlot").textContent=s.slots;$("sbCap").textContent=num(s.cap);$("hdLoc").textContent=s.loc||"Location not set";
+  $("hdStaff").textContent=s.staff;$("hdRole").textContent=s.role;$("avatar").textContent=(s.staff[0]||"S").toUpperCase();
+}
+function renderStats(){
+  const s=D.settings,te=todayEntries();
+  const n=new Set(te.map(e=>e.token)).size,qty=te.reduce((a,e)=>a+(Number(e.qty)||0),0);
+  const stored=Number(s.open||0)+te.reduce((a,e)=>a+(Number(e.qty)||0),0);
+  const paidToday=[...D.entries.filter(e=>e.status==="Paid"&&e.paidDate===today()),...remoteScans.filter(e=>e.status==="Paid"&&String(e.paidAt||"").slice(0,10)===today())].reduce((a,e)=>a+(Number(e.amount)||0),0);
+  const pend=[...D.entries.filter(e=>e.status==="Pending"),...remoteScans.filter(e=>e.status==="Pending")].reduce((a,e)=>a+(Number(e.amount)||0),0);
+  $("farmerCount").textContent=n+" / "+s.slots;$("slotNote").textContent=Math.round(n/s.slots*100)+"% of daily slots used";
+  $("purchased").textContent=num(+qty.toFixed(2))+" Qtl";
+  $("storage").textContent=num(+stored.toFixed(2))+" / "+num(s.cap)+" Qtl";$("storeNote").textContent=Math.round(stored/s.cap*100)+"% storage used";
+  $("payments").textContent=money(paidToday);$("pendingAmount").textContent="Pending: "+money(pend);
+  $("allCount").textContent=te.length;$("scannedCount").textContent=te.length;
+  $("pendingCount").textContent=te.filter(e=>e.status==="Pending").length;$("paidCount").textContent=te.filter(e=>e.status==="Paid").length;
+}
+function renderRows(){
+  const q=$("searchInput").value.toLowerCase();
+  const list=todayEntries().filter(e=>(filter==="All"||e.status===filter)&&[e.token,e.name,e.crop,e.mobile,e.village].some(v=>String(v).toLowerCase().includes(q)));
+  $("farmerRows").innerHTML=list.map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.token)}</td><td>${esc(e.name)}</td><td>${esc(e.crop||"—")}</td><td>${e.qty||"—"}</td><td>${num(e.amount||0)}</td><td><span class="pill ${e.status==="Paid"?"paid":e.status==="Scanned"?"scanning":"pending"}">${esc(e.status)}</span></td><td>${esc(e.time||"")}</td><td><button class="btn-view" data-act="view" data-id="${esc(e.id)}" data-token="${esc(e.token)}" data-remote="${Boolean(e.remote)}">View</button></td></tr>`).join("")||'<tr><td colspan="9" class="empty">No farmers found</td></tr>';
+  $("listTitle").textContent=`Today's Farmer List (${list.length})`;
+}
+function renderActivity(){
+  const live=remoteScans.map(s=>{
+    const farmer=s.farmer||{};
+    const title=s.status==="Paid"?"Payment Marked Paid":s.status==="Pending"?"Procurement Recorded":"Token Scanned";
+    const detail=`${s.token} • ${farmer.name||"Farmer"}${s.quantity?` • ${s.quantity} Qtl`:""}`;
+    return{icon:s.status==="Paid"?"₹":"▦",title,detail,time:new Date(s.updatedAt||s.scannedAt||Date.now()).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}),sortAt:s.updatedAt||s.scannedAt||""};
+  });
+  const items=[...D.activity.map(e=>({...e,sortAt:e.createdAt||""})),...live].sort((a,b)=>String(b.sortAt).localeCompare(String(a.sortAt))).slice(0,6);
+  $("activityList").innerHTML=items.map(e=>`<div class="alert"><div class="alert-icon">${esc(e.icon)}</div><div><strong>${esc(e.title)}</strong><small>${esc(e.detail)}</small></div><time>${esc(e.time)}</time></div>`).join("")||'<div class="empty" style="padding:12px">No activity yet</div>';
+}
+function renderCust(){
+  const q=$("custSearch").value.toLowerCase();
+  const remoteFarmers=remoteScans.map(s=>{const f=s.farmer||{};return{token:s.token,name:f.name||"Farmer",mobile:f.mobile||"",village:f.village||f.location||"",remote:true}});
+  const farmers=[...D.farmers,...remoteFarmers.filter(r=>!D.farmers.some(f=>f.token===r.token))];
+  const list=farmers.filter(f=>[f.token,f.name,f.mobile,f.village].some(v=>String(v||"").toLowerCase().includes(q)));
+  $("custRows").innerHTML=list.map((f,i)=>`<tr><td>${i+1}</td><td>${esc(f.token)}</td><td>${esc(f.name)}</td><td>${esc(f.mobile)}</td><td>${esc(f.village)}</td><td>${remoteScans.filter(s=>s.token===f.token&&s.status!=="Scanned").length+D.entries.filter(e=>e.token===f.token).length}</td><td><button class="btn-view" data-act="proc" data-token="${esc(f.token)}">Procure</button>${f.remote?"":`<button class="btn-view btn-del" data-act="del" data-token="${esc(f.token)}">Delete</button>`}</td></tr>`).join("")||'<tr><td colspan="7" class="empty">No farmers registered yet</td></tr>';
+  $("custTitle").textContent=`All Farmers (${list.length})`;
+}
+function renderPay(){
+  const q=$("paySearch").value.toLowerCase();
+  const list=[...D.entries,...remoteScans.filter(s=>s.status==="Pending"||s.status==="Paid").map(scanToEntry)].filter(e=>(payFilter==="All"||e.status===payFilter)&&[e.token,e.name,e.crop].some(v=>String(v||"").toLowerCase().includes(q)));
+  $("payRows").innerHTML=list.map((e,i)=>`<tr><td>${i+1}</td><td>${esc(e.date||"")}</td><td>${esc(e.token)}</td><td>${esc(e.name)}</td><td>${esc(e.crop)}</td><td>${e.qty}</td><td>${num(e.amount)}</td><td><span class="pill ${e.status==="Paid"?"paid":"pending"}">${esc(e.status)}</span></td><td>${e.status==="Pending"?`<button class="btn-view btn-pay" data-act="pay" data-id="${esc(e.id)}" data-token="${esc(e.token)}" data-remote="${Boolean(e.remote)}">Mark Paid</button>`:"—"}</td></tr>`).join("")||'<tr><td colspan="9" class="empty">No payments found</td></tr>';
+  $("payTitle").textContent=`Payments (${list.length})`;
+}
+function renderAll(){renderHeader();renderStats();renderRows();renderActivity();renderCust();renderPay()}
+
+/* ---------- navigation ---------- */
+function show(page){
+  const view=page==="today"?"dash":page;
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+view));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  if(page==="today"||page==="dash"){filter="All";syncTabs()}
+  if(page==="set")fillSettings();
+  renderAll();
+}
+function syncTabs(){document.querySelectorAll(".tab[data-filter]").forEach(t=>t.classList.toggle("active",t.dataset.filter===filter))}
+document.querySelectorAll(".nav button[data-page]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.page)));
+document.querySelectorAll(".tab[data-filter]").forEach(t=>t.addEventListener("click",()=>{filter=t.dataset.filter;syncTabs();renderRows()}));
+document.querySelectorAll(".tab[data-pf]").forEach(t=>t.addEventListener("click",()=>{payFilter=t.dataset.pf;document.querySelectorAll(".tab[data-pf]").forEach(x=>x.classList.toggle("active",x===t));renderPay()}));
+$("searchInput").addEventListener("input",renderRows);$("custSearch").addEventListener("input",renderCust);$("paySearch").addEventListener("input",renderPay);
+
+/* ---------- scan / lookup / form ---------- */
+$("crop").innerHTML=CROPS.map(c=>`<option>${c}</option>`).join("");
+function lookup(token){
+  token=String(token).trim().toUpperCase();
+  const scan=remoteScans.find(x=>String(x.token).toUpperCase()===token);
+  const f=D.farmers.find(x=>x.token===token)||(scan?{token:scan.token,...scan.farmer,remote:true}:null);
+  if(!f){showToast("Token "+token+" not found. Scan the QR using the admin scanner first.");return}
+  if(!scan)log("Token Scanned Successfully",f.token+" • "+f.name,"▦");
+  openFarmer(f.token);showToast("Farmer verified: "+f.name);
+}
+function openFarmer(token,entry){
+  const remoteScan=remoteScans.find(x=>x.token===token)||null;
+  const f=D.farmers.find(x=>x.token===token)||(remoteScan?{token:remoteScan.token,...remoteScan.farmer,remote:true}:null);if(!f)return;
+  curFarmer=f;curRemoteScan=remoteScan;editing=entry&&!entry.remote?entry:null;
+  const booking=remoteScan?.booking||{};
+  $("formFarmerName").textContent=f.name||"Farmer";$("formToken").textContent=f.token;$("formMobile").textContent=f.mobile||"—";$("formVillage").textContent=f.village||f.location||"—";
+  const crop=entry?.crop||remoteScan?.crop||booking.crop||CROPS[0];
+  $("crop").value=CROPS.includes(crop)?crop:CROPS[0];$("quantity").value=entry?.qty||remoteScan?.quantity||booking.quantity||"";$("quality").value=entry?.quality||remoteScan?.quality||"A";
+  $("rate").value=entry?.rate||remoteScan?.rate||((entry?.amount&&entry?.qty)?Math.round(entry.amount/entry.qty):(D.settings.rates[$("crop").value]||""));
+  $("submitBtn").innerHTML=remoteScan?.status==="Pending"||remoteScan?.status==="Paid"?"✓ &nbsp; Update Entry":"✓ &nbsp; Process to Payment";
+  calcTotal();$("farmerFormCard").classList.add("show");
+  if(window.innerWidth<850)$("farmerFormCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function closeFarmer(){$("farmerFormCard").classList.remove("show");editing=null;curRemoteScan=null}
+function calcTotal(){$("totalAmount").textContent=money((Number($("quantity").value)||0)*(Number($("rate").value)||0))}
+$("quantity").addEventListener("input",calcTotal);$("rate").addEventListener("input",calcTotal);
+$("crop").addEventListener("change",()=>{if(!editing){$("rate").value=D.settings.rates[$("crop").value]||"";calcTotal()}});
+$("closeForm").addEventListener("click",closeFarmer);$("cancelForm").addEventListener("click",closeFarmer);
+
+function parseFarmerQr(rawValue){
+  const text=String(rawValue||"").trim();let payload={};
+  try{payload=JSON.parse(text)}catch(error){try{payload=JSON.parse(decodeURIComponent(text))}catch(parseError){}}
+  if(!payload||typeof payload!=="object")payload={};
+  const data=payload.payload||payload.qrData||payload.data||payload;
+  const farmer=data.farmer||data.farmerDetails||data.farmerInfo||data.user||data.userData||data.profile||{};
+  const booking=data.booking||data.bookingDetails||data.bookingInfo||{};
+  let token=data.token||data.tokenNumber||data.bookingToken||data.tokenId||"";
+  if(!token&&/^https?:\/\//i.test(text)){try{const url=new URL(text);token=url.searchParams.get("token")||url.searchParams.get("tokenNumber")||""}catch(error){}}
+  if(!token){const match=text.match(/(?:^|\|)\s*Token(?:\s*(?:Number|No\.?))?:\s*([^|]+)/i);if(match)token=match[1].trim()}
+  if(!token&&/^[A-Za-z0-9_-]{3,64}$/.test(text))token=text;
+  const idMatch=text.match(/(?:^|\|)\s*ID:\s*([^|]+)/i);
+  const nameMatch=text.match(/(?:^|\|)\s*(?:Farmer\s*)?Name:\s*([^|]+)/i);
+  const mobileMatch=text.match(/(?:^|\|)\s*(?:Mobile|Phone):\s*([^|]+)/i);
+  const cropMatch=text.match(/(?:^|\|)\s*Crop:\s*([^|]+)/i);
+  const quantityMatch=text.match(/(?:^|\|)\s*(?:Quantity|Qty):\s*([^|]+)/i);
+  const centerMatch=text.match(/(?:^|\|)\s*Center:\s*([^|]+)/i);
+  const dateMatch=text.match(/(?:^|\|)\s*Date:\s*([^|]+)/i);
+  const timeMatch=text.match(/(?:^|\|)\s*Time:\s*([^|]+)/i);
+  return {
+    token:String(token||"").trim(),
+    farmer:{...farmer,id:farmer.id||farmer.farmerId||data.farmerId||idMatch?.[1]?.trim()||"",name:farmer.name||farmer.fullName||farmer.farmerName||data.farmerName||nameMatch?.[1]?.trim()||"",mobile:farmer.mobile||farmer.phone||data.mobile||data.phone||mobileMatch?.[1]?.trim()||""},
+    booking:{...booking,crop:booking.crop||booking.cropName||cropMatch?.[1]?.trim()||"",quantity:booking.quantity||booking.qty||Number(quantityMatch?.[1]?.match(/[\d.]+/)?.[0])||null,centerName:booking.centerName||booking.center||centerMatch?.[1]?.trim()||"",date:booking.date||dateMatch?.[1]?.trim()||"",time:booking.time||timeMatch?.[1]?.trim()||""}
+  };
+}
+function manual(){const t=prompt("Enter farmer token number (example: TKN-1234)");if(t)lookup(t)}
+async function handleMandiQr(decodedText){
+  if(scanBusy)return;
+  const payload=parseFarmerQr(decodedText),token=String(payload.token||"").trim();
+  if(!token){showToast("QR mein valid farmer token nahi mila.");return}
+  scanBusy=true;stopScan();
+  try{
+    const response=await fetch(`${API_BASE}/api/admin/scan`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token,farmer:payload.farmer||{},booking:payload.booking||{}})});
+    const result=await response.json();
+    if(!response.ok&&response.status!==409)throw new Error(result.message||"Token scan save nahi hua.");
+    const record=result.data||result.tokenStatus;
+    if(!response.ok&&String(record?.token||"")!==token)throw new Error(result.message||`Token mismatch: QR ${token}, saved record ${record?.token||"unknown"}.`);
+    if(record?.token&&record.token!==token)throw new Error(`Token mismatch: QR ${token}, saved record ${record.token}.`);
+    if(record)remoteScans=[record,...remoteScans.filter(scan=>scan.token!==token)];
+    renderAll();
+    await syncScans(false);
+    lookup(token);
+  }catch(error){console.error("Mandi scan failed:",error);showToast(error.message||"Backend se connect nahi ho paya.")}
+  finally{scanBusy=false}
+}
+async function startScan(){
+  show("dash");
+  if(scanning){stopScan();return}
+  if(!window.Html5Qrcode){showToast("QR scanner load nahi hua. Internet connection check karke page reload karein.");return}
+  try{
+    qrScanner=new Html5Qrcode("reader");
+    await qrScanner.start({facingMode:"environment"},{fps:10,qrbox:{width:180,height:180}},handleMandiQr,()=>{});
+    $("scanBox").classList.add("live");scanning=true;$("scanHelp").textContent="QR camera active hai. Token ko frame mein rakhein.";
+  }catch(error){
+    console.error("Mandi camera start failed:",error);qrScanner=null;
+    $("scanHelp").textContent=location.protocol!=="https:"&&!["localhost","127.0.0.1"].includes(location.hostname)
+      ?"Camera ke liye HTTPS link kholein (ya localhost par chalayein)."
+      :"Camera permission allow karein, phir Scan Farmer Token par dobara click karein.";
+    showToast($("scanHelp").textContent);
+  }
+}
+function stopScan(){
+  scanning=false;$("scanBox").classList.remove("live");
+  if(qrScanner){const current=qrScanner;qrScanner=null;if(current.isScanning)current.stop().then(()=>current.clear()).catch(error=>console.error("Camera stop failed:",error));else current.clear()}
+}
+$("scanButton").addEventListener("click",startScan);$("navScan").addEventListener("click",startScan);$("manualScan").addEventListener("click",()=>{stopScan();manual()});
+
+$("detailsForm").addEventListener("submit",async e=>{
+  e.preventDefault();if(!curFarmer)return;
+  const qty=Number($("quantity").value),rate=Number($("rate").value),amount=Math.round(qty*rate*100)/100;
+  if(!(qty>0)){showToast("Valid quantity daalein.");return}
+  if(curRemoteScan){
+    const submit=$("submitBtn");submit.disabled=true;
+    try{
+      const response=await fetch(`${API_BASE}/api/mandi/procure`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:curFarmer.token,crop:$("crop").value,quantity:qty,quality:$("quality").value,rate})});
+      const result=await response.json();if(!response.ok)throw new Error(result.message||"Procurement could not be saved");
+      await syncScans(false);renderAll();closeFarmer();showToast("Quality and quantity saved. Payment added to the pending list.");
+    }catch(error){console.error("Procurement save failed:",error);showToast(error.message)}
+    finally{submit.disabled=false}
+    return;
+  }
+  const s=D.settings;
+  if(!editing){
+    const todays=new Set(todayEntries().map(x=>x.token));
+    if(!todays.has(curFarmer.token)&&todays.size>=s.slots){showToast("Aaj ke daily slots full ho gaye hain.");return}
+  }
+  const stored=Number(s.open||0)+D.entries.reduce((a,x)=>a+x.qty,0)-(editing?editing.qty:0);
+  if(stored+qty>s.cap&&!confirm("Storage capacity se zyada ho jayega. Phir bhi aage badhein?"))return;
+  if(editing){
+    Object.assign(editing,{crop:$("crop").value,qty,quality:$("quality").value,amount});
+    log("Entry Updated",curFarmer.token+" • "+curFarmer.name,"✎");
+  }else{
+    D.entries.unshift({id:++D.eseq,token:curFarmer.token,name:curFarmer.name,mobile:curFarmer.mobile,village:curFarmer.village,crop:$("crop").value,qty,quality:$("quality").value,amount,rate,status:"Pending",date:today(),time:nowTime()});
+    log("Procurement Recorded",curFarmer.token+" • "+qty+" Qtl • "+money(amount),"🌾");
+  }
+  save();renderAll();closeFarmer();showToast("Quality & quantity verified. Payment pending list me add ho gaya.");
+});
+
+/* ---------- farmers (customers) ---------- */
+$("farmerForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("fName").value.trim(),mobile=$("fMobile").value.trim(),village=$("fVillage").value.trim();
+  if(!/^\d{10}$/.test(mobile)){showToast("Mobile number 10 digit ka hona chahiye.");return}
+  if(D.farmers.some(f=>f.mobile===mobile)){showToast("Is mobile number se farmer pehle se registered hai.");return}
+  const token="FL-"+String(++D.seq).padStart(4,"0");
+  D.farmers.push({token,name,mobile,village});
+  log("Farmer Registered",token+" • "+name,"☎");save();renderAll();$("farmerForm").reset();
+  showToast("Farmer registered. Token: "+token);
+});
+
+/* ---------- table button actions ---------- */
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b)return;
+  const act=b.dataset.act,id=b.dataset.id,token=b.dataset.token;
+  if(act==="view"){const en=b.dataset.remote==="true"?scanToEntry(remoteScans.find(s=>s.token===token)||{}):D.entries.find(x=>String(x.id)===id);if(en)openFarmer(en.token,en)}
+  if(act==="proc"){show("dash");openFarmer(token)}
+  if(act==="del"){
+    const f=D.farmers.find(x=>x.token===token);
+    if(f&&confirm(f.name+" ko Customer List se hatana hai? Purane entries bane rahenge.")){D.farmers=D.farmers.filter(x=>x.token!==token);log("Farmer Removed",f.token+" • "+f.name,"✕");save();renderAll()}
+  }
+  if(act==="pay"){
+    if(b.dataset.remote==="true"){
+      fetch(`${API_BASE}/api/mandi/pay/${encodeURIComponent(token)}`,{method:"POST"}).then(async response=>{const data=await response.json();if(!response.ok)throw new Error(data.message||"Could not update payment");await syncScans();showToast("Payment marked as paid.")}).catch(error=>{console.error("Payment update failed:",error);showToast(error.message)});
+      return;
+    }
+    const en=D.entries.find(x=>String(x.id)===id);
+    if(en){en.status="Paid";en.paidDate=today();log("Payment Marked Paid",en.token+" • "+money(en.amount),"₹");save();renderAll();showToast("Payment marked as paid.")}
+  }
+});
+
+/* ---------- settings ---------- */
+function fillSettings(){
+  const s=D.settings;
+  $("sMandi").value=s.mandi;$("sLoc").value=s.loc;$("sStaff").value=s.staff;$("sRole").value=s.role;$("sSlots").value=s.slots;$("sCap").value=s.cap;$("sOpen").value=s.open;
+  $("rateGrid").innerHTML=CROPS.map(c=>`<div class="field"><label>${c}</label><input type="number" min="0" step="1" data-rate="${c}" value="${s.rates[c]}"></div>`).join("");
+}
+$("setForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const s=D.settings;
+  Object.assign(s,{mandi:$("sMandi").value.trim(),loc:$("sLoc").value.trim(),staff:$("sStaff").value.trim(),role:$("sRole").value.trim(),slots:Number($("sSlots").value),cap:Number($("sCap").value),open:Number($("sOpen").value)||0});
+  document.querySelectorAll("[data-rate]").forEach(i=>s.rates[i.dataset.rate]=Number(i.value)||0);
+  save();renderAll();showToast("Settings saved.");
+});
+$("resetAll").addEventListener("click",()=>{
+  if(confirm("Saare farmers, entries aur settings delete ho jayenge. Pakka?")){localStorage.removeItem(KEY);D=load();fillSettings();renderAll();closeFarmer();showToast("All data reset.")}
+});
+
+$("todayDate").textContent=new Date().toLocaleDateString("en-IN",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});
+renderAll();
+syncScans().then(()=>{
+  const token=new URLSearchParams(location.search).get("token");
+  if(token)lookup(token);
+});
+setInterval(()=>syncScans(),5000);
+</script>
+</body>
+</html>

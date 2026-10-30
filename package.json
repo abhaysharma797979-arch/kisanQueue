@@ -1,0 +1,10 @@
+{
+  "name": "kisanqueue",
+  "private": true,
+  "scripts": {
+    "start": "node \"farmer platfrom/server.js\""
+  },
+  "dependencies": {
+    "firebase-admin": "^14.5.0"
+  }
+}

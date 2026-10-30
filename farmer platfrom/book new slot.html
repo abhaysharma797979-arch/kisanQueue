@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KisanQueue - Book New Slot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="responsive.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Selected slot styling */
+        .slot-radio:checked+label {
+            background-color: #0f7634;
+            color: white;
+            border-color: #0f7634;
+        }
+
+        /* 🌟 Text Fade & Slide Animation for Language Switch */
+        @keyframes textSwitchAnim {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .lang-anim { animation: textSwitchAnim 0.4s ease-out forwards; }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { primary: '#0f7634', primaryDark: '#0a5223', textDark: '#1e3a29' } } } }
+    </script>
+</head>
+
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Scrollable Sidebar Exact Match -->
+    <aside class="w-[260px] bg-white border-r border-gray-200 flex flex-col hidden md:flex shrink-0 h-screen">
+        <div class="h-20 flex items-center px-6 border-b border-gray-100 shrink-0">
+            <div class="flex items-center space-x-3">
+                <div class="bg-orange-100 text-orange-500 p-2 rounded-full text-lg"><i
+                        class="fa-solid fa-wheat-awn"></i></div>
+                <div>
+                    <h1 class="text-lg font-bold text-textDark leading-tight">KisanQueue</h1>
+                    <p class="text-[10px] text-gray-500">Smart Procurement</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-2">
+            <nav class="p-4 space-y-1.5">
+                <a href="./dashbord.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-house w-5 mr-2"></i> <span data-i18n="menu_dashboard">Dashboard</span>
+                </a>
+
+                <!-- ACTIVE LINK -->
+                <a href="./book%20new%20slot.html"
+                    class="flex items-center px-4 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold shadow-sm shadow-green-200">
+                    <i class="fa-regular fa-calendar-plus w-5 mr-2"></i> <span data-i18n="menu_book_slot">Book New
+                        Slot</span>
+                </a>
+
+                <a href="./my%20booking.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-list-check w-5 mr-2"></i> <span data-i18n="menu_my_bookings">My
+                        Bookings</span>
+                </a>
+                <a href="./my%20token.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-qrcode w-5 mr-2"></i> <span data-i18n="menu_my_token">My Token</span>
+                </a>
+                <a href="./live%20queue.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-users-line w-5 mr-2"></i> <span data-i18n="menu_live_queue">Live Queue</span>
+                </a>
+                <a href="./procurement%20centers.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-warehouse w-5 mr-2"></i> <span data-i18n="menu_centers" class="local-trans" data-en="Procurement Centers" data-hi="खरीद केंद्र">Procurement Centers</span>
+                </a>
+                <a href="./my%20payments.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-wallet w-5 mr-2"></i> <span data-i18n="menu_payments">My Payments</span>
+                </a>
+                <a href="./profile.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-regular fa-user w-5 mr-2"></i> <span data-i18n="menu_profile">Profile</span>
+                </a>
+                <a href="./support.html"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-primary rounded-lg text-sm font-medium transition">
+                    <i class="fa-solid fa-headset w-5 mr-2"></i> <span data-i18n="menu_support">Support</span>
+                </a>
+                <a href="#" onclick="logout()"
+                    class="flex items-center px-4 py-2.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg text-sm font-medium transition mt-4">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-2"></i> <span
+                        data-i18n="menu_logout">Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="p-5 shrink-0 border-t border-gray-50">
+            <div class="bg-[#f8faf9] rounded-xl border border-gray-100 overflow-hidden text-center pb-4">
+                <img src="support.png" class="w-full h-24 object-cover" onerror="this.src='https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=300&auto=format&fit=crop';">
+                <h4 class="font-bold text-gray-800 mt-3 text-sm" data-i18n="support_title">सहायता चाहिए?</h4>
+                <p class="text-[11px] text-gray-500 mt-1 mb-3 px-3" data-i18n="support_desc">हमारी सहायता टीम हमेशा आपके
+                    साथ है।</p>
+                <button onclick="window.location.href='support.html'"
+                    class="border border-primary text-primary hover:bg-green-50 text-xs font-semibold py-2 px-4 rounded-md transition mx-auto flex items-center">
+                    <i class="fa-solid fa-headset mr-2"></i> <span data-i18n="support_btn">Contact Support</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <!-- Top Header -->
+        <header class="h-20 bg-white border-b border-gray-200 flex justify-between items-center px-6 shrink-0">
+            <button class="text-gray-500 hover:text-gray-800 md:hidden"><i
+                    class="fa-solid fa-bars text-xl"></i></button>
+            <div class="hidden md:block"></div>
+
+            <div class="flex items-center space-x-4">
+                
+                <!-- 🌟 LANGUAGE BUTTONS (Animated active state) -->
+                <div class="bg-gray-100 rounded-lg p-1 flex space-x-1 relative">
+                    <button id="langBtn-hi" onclick="switchLocalLanguage('hi')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary">अ</button>
+                    <button id="langBtn-en" onclick="switchLocalLanguage('en')" class="text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600">A</button>
+                </div>
+
+                <button class="relative text-gray-500 hover:text-primary transition ml-2">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span
+                        class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">0</span>
+                </button>
+
+                <div class="flex items-center space-x-3 border-l border-gray-200 pl-4 ml-2 cursor-pointer">
+                    <img id="headerProfileImg"
+                        src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop"
+                        class="w-10 h-10 rounded-full object-cover border border-gray-200">
+                    <div class="hidden sm:block">
+                        <h3 class="text-sm font-bold text-gray-800" id="headerName">Loading...</h3>
+                        <p class="text-xs text-gray-500">ID: <span id="farmerID">FRM10245</span></p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-8">
+            <div class="max-w-4xl mx-auto relative">
+
+                <!-- Warning if already booked -->
+                <div id="alreadyBooked"
+                    class="hidden bg-amber-50 border border-amber-200 text-amber-800 text-sm rounded-xl p-4 mb-6 flex items-start gap-3">
+                    <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+                    <div data-i18n="already_booked_msg">आपका पहले से एक स्लॉट बुक है। नई बुकिंग करने पर पुरानी बुकिंग
+                        स्वतः रद्द हो जाएगी।</div>
+                </div>
+
+                <!-- STEP 1: Basic Info & Search -->
+                <div id="step1">
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="search_slot_title">नया स्लॉट खोजें</h2>
+                    <p class="text-sm text-gray-600 mt-1 mb-6" data-i18n="search_slot_desc">अपनी फ़सल और नज़दीकी मंडी
+                        चुनें, हम आपके लिए खाली स्लॉट खोजेंगे।</p>
+
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-800 mb-2" data-i18n="select_crop">फ़सल
+                                चुनें</label>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-3" id="cropOptions"></div>
+                        </div>
+
+                        <div>
+                            <label for="quantity" class="block text-sm font-semibold text-gray-800 mb-2"
+                                data-i18n="quantity_label">मात्रा (क्विंटल में)</label>
+                            <input type="number" id="quantity" min="1" max="500" required placeholder="जैसे 40"
+                                class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary">
+                        </div>
+
+                        <div>
+                            <label for="center" class="block text-sm font-semibold text-gray-800 mb-2">
+                                <span data-i18n="nearest_mandi">आपकी नज़दीकी मंडी</span> (जिला: <span id="userDistrict"
+                                    class="text-primary">Loading...</span>)
+                            </label>
+                            <select id="center" required
+                                class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary"></select>
+                            <p id="centerStatus" class="text-xs text-gray-500 mt-1"></p>
+                        </div>
+
+                        <div class="pt-4 text-right">
+                            <button onclick="searchSlots()"
+                                class="bg-primary hover:bg-primaryDark text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-sm inline-flex items-center transition">
+                                <i class="fa-solid fa-magnifying-glass mr-2"></i> <span data-i18n="find_slots_btn">खाली
+                                    स्लॉट खोजें</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: Show Available Slots -->
+                <div id="step2" class="hidden">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900" data-i18n="available_slots_title">उपलब्ध स्लॉट
+                            </h2>
+                            <p class="text-sm text-gray-600 mt-1" data-i18n="available_slots_desc">अपने अनुकूल दिन और
+                                समय का चयन करें।</p>
+                        </div>
+                        <button onclick="goBackToStep1()"
+                            class="text-sm font-semibold text-gray-500 hover:text-gray-800 bg-white border border-gray-200 px-4 py-2 rounded-lg transition">
+                            <i class="fa-solid fa-arrow-left mr-2"></i> <span data-i18n="go_back">वापस जाएं</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 md:p-8 space-y-6">
+                        <div id="slotsContainer" class="space-y-6">
+                            <!-- Dynamic Slots will be injected here -->
+                        </div>
+
+                        <div class="pt-6 border-t border-gray-100 mt-6 text-right">
+                            <button onclick="confirmBooking()"
+                                class="bg-primary hover:bg-primaryDark text-white text-sm font-semibold px-6 py-3 rounded-xl shadow-sm inline-flex items-center transition w-full md:w-auto justify-center">
+                                <i class="fa-regular fa-calendar-check mr-2"></i> <span data-i18n="book_slot_btn">स्लॉट
+                                    बुक करें</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 🌟 FOOTER 🌟 -->
+                <footer class="mt-8 bg-white rounded-xl p-6 md:p-8 text-gray-500 shadow-sm border border-gray-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-100 pb-8">
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Home" data-hi="होम">Home</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="About Us" data-hi="हमारे बारे बारे में">About Us</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Services" data-hi="सेवाएं">Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Contact" data-hi="संपर्क करें">Contact</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Privacy Policy" data-hi="गोपनीयता नीति">Privacy Policy</a>
+                        </div>
+                        <div class="space-y-3">
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Kisan Services" data-hi="किसान सेवाएं">Kisan Services</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Procurement App" data-hi="खरीद ऐप">Procurement App</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Mandi Rates" data-hi="मंडी भाव">Mandi Rates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Weather Updates" data-hi="मौसम अपडेट">Weather Updates</a>
+                            <a href="#" class="block text-sm hover:text-primary transition duration-300 local-trans" data-en="Support & FAQ" data-hi="सहायता और सामान्य प्रश्न">Support & FAQ</a>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-800 font-bold mb-4 tracking-wide local-trans" data-en="Follow Us" data-hi="हमें फॉलो करें">Follow Us</h4>
+                            <div class="flex space-x-5 text-xl text-gray-400">
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-facebook-f"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-linkedin-in"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="#" class="hover:text-primary transition duration-300 transform hover:scale-110"><i class="fa-brands fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-6 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+                        <p class="local-trans" data-en="© 2026 KisanQueue. All rights reserved." data-hi="© 2026 किसानकतार। सर्वाधिकार सुरक्षित।">© 2026 KisanQueue. All rights reserved.</p>
+                        <p class="mt-2 md:mt-0 flex items-center local-trans" data-en="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India" data-hi="Made with <i class='fa-solid fa-heart text-red-500 mx-1'></i> in India">Made with <i class="fa-solid fa-heart text-red-500 mx-1"></i> in India</p>
+                    </div>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- External Language Script -->
+    <script src="language.js"></script>
+
+    <script>
+        // 🌟 CUSTOM LANGUAGE SWITCHER WITH ANIMATIONS
+        function switchLocalLanguage(lang) {
+            localStorage.setItem("kisanLanguage", lang);
+            
+            // Text Fade & Slide Animation Trigger for both [data-i18n] and .local-trans
+            document.querySelectorAll('[data-i18n], .local-trans').forEach(el => {
+                el.classList.remove('lang-anim');
+                void el.offsetWidth; // Trigger reflow to restart animation
+                
+                if(el.classList.contains('local-trans') && el.hasAttribute(`data-${lang}`)) {
+                    el.innerHTML = el.getAttribute(`data-${lang}`);
+                }
+                
+                el.classList.add('lang-anim');
+            });
+
+            // Buttons Visual State Switch
+            const hiBtn = document.getElementById('langBtn-hi');
+            const enBtn = document.getElementById('langBtn-en');
+            if (hiBtn && enBtn) {
+                if (lang === 'hi') {
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                } else {
+                    enBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 bg-white shadow-sm text-primary";
+                    hiBtn.className = "text-xs font-bold px-3 py-1.5 rounded transition-all duration-300 hover:bg-gray-200 text-gray-600";
+                }
+            }
+
+            // Trigger the main translation logic if it exists in language.js
+            if(typeof applyLanguage === "function") {
+                try { applyLanguage(lang); } catch(e) {}
+            } else if (typeof changeLanguage === "function") {
+                try { changeLanguage(lang); } catch(e) {}
+            }
+        }
+
+        let selectedCrop = null;
+        let finalSelectedDate = null;
+        let finalSelectedTime = null;
+
+        const MAX_SLOT_CAPACITY = 10;
+        const cropList = ["गेहूं", "धान", "मक्का", "बाजरा", "चना"];
+
+        const allCenters = [
+            { id: "C1", name: "Lucknow Procurement Center", district: "Lucknow", address: "Gomti Nagar, Lucknow", open: "08:00 AM", close: "05:00 PM", status: "Active" },
+            { id: "C2", name: "Mohanlalganj Mandi", district: "Lucknow", address: "Mohanlalganj, Lucknow", open: "08:00 AM", close: "05:00 PM", status: "Active" },
+            { id: "C3", name: "Kanpur Mandi", district: "Kanpur", address: "Kalyanpur, Kanpur", open: "07:00 AM", close: "04:00 PM", status: "Active" },
+            { id: "C4", name: "Ballia Krishi Mandi", district: "Ballia", address: "Ballia City", open: "08:00 AM", close: "05:00 PM", status: "Active" },
+            { id: "C5", name: "Nagra Procurement Center", district: "Ballia", address: "Nagra, Ballia", open: "08:00 AM", close: "04:00 PM", status: "Active" }
+        ];
+
+        const allTimeSlots = [
+            "07:00 AM - 08:00 AM", "08:00 AM - 09:00 AM", "09:00 AM - 10:00 AM",
+            "10:00 AM - 11:00 AM", "11:00 AM - 12:00 PM", "02:00 PM - 03:00 PM", "03:00 PM - 04:00 PM"
+        ];
+
+        function initData() {
+            const savedName = localStorage.getItem("farmerName") || "Abhay Sharma";
+            document.getElementById("headerName").innerText = savedName;
+
+            const savedPhoto = localStorage.getItem("farmerPhoto");
+            if (savedPhoto) { document.getElementById("headerProfileImg").src = savedPhoto; }
+
+            if (!localStorage.getItem("farmerID")) { localStorage.setItem("farmerID", "FRM" + Math.floor(Math.random() * 90000 + 10000)); }
+            document.getElementById("farmerID").innerText = localStorage.getItem("farmerID");
+
+            const cropEl = document.getElementById("cropOptions");
+            cropEl.innerHTML = cropList.map(c => `
+                <button type="button" data-crop="${c}" class="crop-btn border border-gray-200 rounded-lg py-3 text-sm font-semibold text-gray-700 hover:border-primary hover:text-primary transition bg-gray-50">
+                    ${c}
+                </button>`).join("");
+
+            document.querySelectorAll(".crop-btn").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    document.querySelectorAll(".crop-btn").forEach(b => b.classList.remove("border-primary", "bg-green-50", "text-primary"));
+                    btn.classList.add("border-primary", "bg-green-50", "text-primary");
+                    selectedCrop = btn.dataset.crop;
+                });
+            });
+
+            const userDistrict = localStorage.getItem("farmerDistrict") || "Ballia";
+            document.getElementById("userDistrict").innerText = userDistrict;
+
+            const filteredCenters = allCenters.filter(c => c.district.toLowerCase() === userDistrict.toLowerCase());
+            const centerEl = document.getElementById("center");
+
+            if (filteredCenters.length > 0) {
+                centerEl.innerHTML = filteredCenters.map(c => `<option value="${c.id}">${c.name} — ${c.status}</option>`).join("");
+            } else {
+                centerEl.innerHTML = allCenters.map(c => `<option value="${c.id}">${c.name} — ${c.status} (${c.district})</option>`).join("");
+            }
+
+            updateCenterStatus();
+            centerEl.addEventListener("change", updateCenterStatus);
+        }
+
+        function updateCenterStatus() {
+            const val = document.getElementById("center").value;
+            const c = allCenters.find(x => x.id === val);
+            if (c) {
+                document.getElementById("centerStatus").textContent = `${c.address} · खुलने का समय ${c.open} - ${c.close}`;
+            }
+        }
+
+        function searchSlots() {
+            if (!selectedCrop) { alert("कृपया फ़सल चुनें।"); return; }
+            const quantity = parseFloat(document.getElementById("quantity").value);
+            if (!quantity || quantity <= 0) { alert("कृपया सही मात्रा भरें।"); return; }
+
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
+
+            generateSlotGrid();
+        }
+
+        function goBackToStep1() {
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step1").classList.remove("hidden");
+            finalSelectedDate = null;
+            finalSelectedTime = null;
+        }
+
+        function generateSlotGrid() {
+            const container = document.getElementById("slotsContainer");
+            container.innerHTML = "";
+            const centerObj = allCenters.find(x => x.id === document.getElementById("center").value);
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+
+            let slotsHTML = "";
+            for (let i = 1; i <= 3; i++) {
+                let targetDate = new Date();
+                targetDate.setDate(targetDate.getDate() + i);
+
+                let dateStr = targetDate.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+                let dayName = targetDate.toLocaleDateString("en-IN", { weekday: 'long' });
+
+                let slotCounts = {};
+                bookings.forEach(b => {
+                    if (b.date === dateStr && b.centerName === centerObj.name && b.status === "upcoming") {
+                        slotCounts[b.time] = (slotCounts[b.time] || 0) + 1;
+                    }
+                });
+
+                let timeButtonsHTML = "";
+                allTimeSlots.forEach(slot => {
+                    const count = slotCounts[slot] || 0;
+                    if (count < MAX_SLOT_CAPACITY) {
+                        const radioId = `slot_${i}_${slot.replace(/\s+/g, '')}`;
+                        timeButtonsHTML += `
+                            <div>
+                                <input type="radio" name="selectedSlotGroup" id="${radioId}" class="hidden slot-radio" 
+                                    onchange="selectSlot('${dateStr}', '${slot}')">
+                                <label for="${radioId}" class="cursor-pointer block border border-gray-200 rounded-lg py-2 px-3 text-xs font-semibold text-center text-gray-700 hover:border-primary transition">
+                                    ${slot}<br><span class="font-normal text-[10px] text-gray-500">${MAX_SLOT_CAPACITY - count} left</span>
+                                </label>
+                            </div>
+                        `;
+                    }
+                });
+
+                if (timeButtonsHTML !== "") {
+                    slotsHTML += `
+                        <div class="mb-5">
+                            <h4 class="text-sm font-bold text-gray-800 mb-3 bg-gray-50 px-3 py-1.5 rounded-lg inline-block border border-gray-100">
+                                <i class="fa-regular fa-calendar text-primary mr-1"></i> ${dateStr} <span class="text-gray-400 font-medium">(${dayName})</span>
+                            </h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                ${timeButtonsHTML}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            if (slotsHTML === "") {
+                container.innerHTML = `<div class="p-6 text-center text-red-500 font-semibold bg-red-50 rounded-xl">अगले 3 दिनों के लिए कोई स्लॉट उपलब्ध नहीं है। कृपया कल पुनः प्रयास करें।</div>`;
+            } else {
+                container.innerHTML = slotsHTML;
+            }
+        }
+
+        function selectSlot(date, time) {
+            finalSelectedDate = date;
+            finalSelectedTime = time;
+        }
+
+        function confirmBooking() {
+            if (!finalSelectedDate || !finalSelectedTime) {
+                alert("कृपया अपना स्लॉट (दिन और समय) चुनें।");
+                return;
+            }
+
+            const quantity = parseFloat(document.getElementById("quantity").value);
+            const centerObj = allCenters.find(x => x.id === document.getElementById("center").value);
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+
+            bookings = bookings.filter(b => b.status !== "upcoming");
+            const newToken = createBookingToken(bookings);
+
+            const newBooking = {
+                id: "BKG" + Math.floor(Math.random() * 90000 + 10000),
+                crop: selectedCrop,
+                quantity: quantity,
+                centerName: centerObj.name,
+                date: finalSelectedDate,
+                time: finalSelectedTime,
+                token: newToken,
+                status: "upcoming"
+            };
+
+            bookings.push(newBooking);
+            localStorage.setItem('kisanBookings', JSON.stringify(bookings));
+            window.location.href = "my token.html";
+        }
+
+        function createBookingToken(bookings) {
+            const existing = new Set(bookings.map(booking => String(booking.token || "").toUpperCase()));
+            let token;
+            do {
+                const random = window.crypto?.getRandomValues
+                    ? Array.from(window.crypto.getRandomValues(new Uint8Array(5)), value => value.toString(16).padStart(2, "0")).join("").toUpperCase()
+                    : Math.random().toString(36).slice(2, 12).toUpperCase();
+                token = `KQ-${Date.now().toString(36).toUpperCase()}-${random}`;
+            } while (existing.has(token));
+            return token;
+        }
+
+        window.onload = function () {
+            initData();
+            let bookings = JSON.parse(localStorage.getItem('kisanBookings')) || [];
+            if (bookings.some(b => b.status === "upcoming")) {
+                document.getElementById("alreadyBooked").classList.remove("hidden");
+            }
+
+            let initialLang = localStorage.getItem("kisanLanguage") || "hi";
+            switchLocalLanguage(initialLang);
+        };
+
+        function logout() {
+            if (confirm("Are you sure you want to logout? / क्या आप वाकई लॉगआउट करना चाहते हैं?")) {
+                sessionStorage.clear();
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+
+</html>
